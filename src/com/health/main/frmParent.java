@@ -65,6 +65,7 @@ public class frmParent extends javax.swing.JFrame {
         jButton12 = new javax.swing.JButton();
         jButton13 = new javax.swing.JButton();
         jDesktopPane1 = new javax.swing.JDesktopPane();
+        chatForm1 = new com.health.chat.ChatForm();
 
         jMenuItem16.setText("jMenuItem16");
 
@@ -270,6 +271,7 @@ public class frmParent extends javax.swing.JFrame {
 
         jDesktopPane1.setBackground(new java.awt.Color(204, 204, 204));
         jPanel3.add(jDesktopPane1, java.awt.BorderLayout.CENTER);
+        jPanel3.add(chatForm1, java.awt.BorderLayout.LINE_END);
 
         getContentPane().add(jPanel3, java.awt.BorderLayout.CENTER);
 
@@ -317,6 +319,7 @@ public class frmParent extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
+    private com.health.chat.ChatForm chatForm1;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;

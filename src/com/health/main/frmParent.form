@@ -356,6 +356,13 @@
             <Property name="useNullLayout" type="boolean" value="true"/>
           </Layout>
         </Container>
+        <Component class="com.health.chat.ChatForm" name="chatForm1">
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
+              <BorderConstraints direction="After"/>
+            </Constraint>
+          </Constraints>
+        </Component>
       </SubComponents>
     </Container>
   </SubComponents>
