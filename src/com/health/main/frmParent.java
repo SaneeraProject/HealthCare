@@ -5,6 +5,7 @@
  */
 package com.health.main;
 
+import com.database.User;
 import com.health.clinic.Clinic;
 import com.health.clinic.ClinicScreen;
 import com.health.doctor.frmPhysician;
@@ -14,6 +15,7 @@ import com.health.pharmacy.PharmacyScreen;
 import com.health.token.TokenScreen;
 import java.awt.Dimension;
 import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
 
 /**
  *
@@ -24,9 +26,13 @@ public class frmParent extends javax.swing.JFrame {
     /**
      * Creates new form frmParent
      */
-    public frmParent() {
-        initComponents();
+    private User user = null;
 
+    public frmParent(User user) {
+        this.user = user;
+        initComponents();
+        lblUser.setText(user.getUserName());
+        chatForm1.setVisible(false);
         setMinimumSize(new Dimension(600, 600));
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setIconImage(new javax.swing.ImageIcon(getClass().getResource("/icons/logo.png")).getImage());
@@ -52,7 +58,7 @@ public class frmParent extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
+        lblUser = new javax.swing.JLabel();
         jButton5 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jToolBar1 = new javax.swing.JToolBar();
@@ -63,6 +69,7 @@ public class frmParent extends javax.swing.JFrame {
         jButton10 = new javax.swing.JButton();
         jButton11 = new javax.swing.JButton();
         jButton12 = new javax.swing.JButton();
+        jSeparator1 = new javax.swing.JToolBar.Separator();
         jButton13 = new javax.swing.JButton();
         jDesktopPane1 = new javax.swing.JDesktopPane();
         chatForm1 = new com.health.chat.ChatForm();
@@ -99,10 +106,16 @@ public class frmParent extends javax.swing.JFrame {
         jPanel1.add(jLabel3, gridBagConstraints);
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Picture12.png"))); // NOI18N
+        jButton2.setToolTipText("Home");
         jButton2.setBorderPainted(false);
         jButton2.setContentAreaFilled(false);
         jButton2.setFocusPainted(false);
         jButton2.setMargin(new java.awt.Insets(1, 1, 1, 1));
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -112,10 +125,16 @@ public class frmParent extends javax.swing.JFrame {
         jPanel1.add(jButton2, gridBagConstraints);
 
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Picture10.png"))); // NOI18N
+        jButton3.setToolTipText("Chat");
         jButton3.setBorderPainted(false);
         jButton3.setContentAreaFilled(false);
         jButton3.setFocusPainted(false);
         jButton3.setMargin(new java.awt.Insets(1, 1, 1, 1));
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
@@ -125,6 +144,7 @@ public class frmParent extends javax.swing.JFrame {
         jPanel1.add(jButton3, gridBagConstraints);
 
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Picture11.png"))); // NOI18N
+        jButton4.setToolTipText("My Profile");
         jButton4.setBorderPainted(false);
         jButton4.setContentAreaFilled(false);
         jButton4.setFocusPainted(false);
@@ -137,21 +157,21 @@ public class frmParent extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 10);
         jPanel1.add(jButton4, gridBagConstraints);
 
-        jLabel2.setBackground(new java.awt.Color(51, 51, 51));
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Not logged in");
-        jLabel2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        lblUser.setBackground(new java.awt.Color(51, 51, 51));
+        lblUser.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblUser.setText("Not logged in");
+        lblUser.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weighty = 0.2;
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel1.add(jLabel2, gridBagConstraints);
+        jPanel1.add(lblUser, gridBagConstraints);
 
         jButton5.setBackground(new java.awt.Color(102, 102, 255));
         jButton5.setForeground(new java.awt.Color(255, 255, 255));
-        jButton5.setText("Login");
+        jButton5.setText("Logout");
         jButton5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jButton5.setFocusable(false);
         jButton5.setMaximumSize(new java.awt.Dimension(100, 23));
@@ -173,13 +193,14 @@ public class frmParent extends javax.swing.JFrame {
         getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_START);
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel3.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 0, 1, 2, new java.awt.Color(221, 221, 221)));
+        jPanel3.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 0, 2, 0, new java.awt.Color(204, 204, 204)));
         jPanel3.setLayout(new java.awt.BorderLayout());
 
-        jToolBar1.setOrientation(javax.swing.SwingConstants.VERTICAL);
         jToolBar1.setRollover(true);
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/small/Picture2.png"))); // NOI18N
+        jButton1.setText("Patients");
+        jButton1.setToolTipText("Patients");
         jButton1.setFocusable(false);
         jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -191,6 +212,8 @@ public class frmParent extends javax.swing.JFrame {
         jToolBar1.add(jButton1);
 
         jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/small/Picture3.png"))); // NOI18N
+        jButton7.setText("Clinics");
+        jButton7.setToolTipText("Clinics");
         jButton7.setFocusable(false);
         jButton7.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton7.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -202,6 +225,8 @@ public class frmParent extends javax.swing.JFrame {
         jToolBar1.add(jButton7);
 
         jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/small/Picture4.png"))); // NOI18N
+        jButton8.setText("Appointments");
+        jButton8.setToolTipText("Appointments");
         jButton8.setFocusable(false);
         jButton8.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton8.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -213,6 +238,8 @@ public class frmParent extends javax.swing.JFrame {
         jToolBar1.add(jButton8);
 
         jButton9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/small/Picture5.png"))); // NOI18N
+        jButton9.setText("Pharmacy");
+        jButton9.setToolTipText("Pharmacy");
         jButton9.setFocusable(false);
         jButton9.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton9.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -224,6 +251,8 @@ public class frmParent extends javax.swing.JFrame {
         jToolBar1.add(jButton9);
 
         jButton10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/small/Picture6.png"))); // NOI18N
+        jButton10.setText("Physicians");
+        jButton10.setToolTipText("Physicians");
         jButton10.setFocusable(false);
         jButton10.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton10.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -235,6 +264,8 @@ public class frmParent extends javax.swing.JFrame {
         jToolBar1.add(jButton10);
 
         jButton11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/small/Picture7.png"))); // NOI18N
+        jButton11.setText("Token Manager ");
+        jButton11.setToolTipText("Token Manager ");
         jButton11.setFocusable(false);
         jButton11.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton11.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -246,6 +277,8 @@ public class frmParent extends javax.swing.JFrame {
         jToolBar1.add(jButton11);
 
         jButton12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/small/Picture8.png"))); // NOI18N
+        jButton12.setText("Payments");
+        jButton12.setToolTipText("Payments");
         jButton12.setFocusable(false);
         jButton12.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton12.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -255,8 +288,11 @@ public class frmParent extends javax.swing.JFrame {
             }
         });
         jToolBar1.add(jButton12);
+        jToolBar1.add(jSeparator1);
 
         jButton13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/small/Picture9.png"))); // NOI18N
+        jButton13.setText("Settings");
+        jButton13.setToolTipText("Settings");
         jButton13.setFocusable(false);
         jButton13.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton13.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -267,9 +303,10 @@ public class frmParent extends javax.swing.JFrame {
         });
         jToolBar1.add(jButton13);
 
-        jPanel3.add(jToolBar1, java.awt.BorderLayout.LINE_START);
+        jPanel3.add(jToolBar1, java.awt.BorderLayout.PAGE_START);
 
-        jDesktopPane1.setBackground(new java.awt.Color(204, 204, 204));
+        jDesktopPane1.setBackground(new java.awt.Color(255, 255, 255));
+        jDesktopPane1.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 0, 0, 0, new java.awt.Color(204, 204, 204)));
         jPanel3.add(jDesktopPane1, java.awt.BorderLayout.CENTER);
         jPanel3.add(chatForm1, java.awt.BorderLayout.LINE_END);
 
@@ -279,13 +316,11 @@ public class frmParent extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        new frmLogin(this, true).setVisible(true);
-
-// TODO add your handling code here:
+        System.exit(0);
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        jDesktopPane1.add(new Clinic(this,true));        // TODO add your handling code here:
+        jDesktopPane1.add(new Clinic(this, true));        // TODO add your handling code here:
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -316,6 +351,18 @@ public class frmParent extends javax.swing.JFrame {
         new TokenScreen(getIconImage()).setVisible(true);        // TODO add your handling code here:
     }//GEN-LAST:event_jButton11ActionPerformed
 
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        chatForm1.setVisible(!chatForm1.isVisible());        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+
+        for (JInternalFrame frame : jDesktopPane1.getAllFrames()) {
+            frame.dispose();
+        }
+
+    }//GEN-LAST:event_jButton2ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
@@ -334,13 +381,14 @@ public class frmParent extends javax.swing.JFrame {
     private javax.swing.JButton jButton9;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JMenu jMenu6;
     private javax.swing.JMenuItem jMenuItem16;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JToolBar.Separator jSeparator1;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JToolBar jToolBar2;
+    private javax.swing.JLabel lblUser;
     // End of variables declaration//GEN-END:variables
 }

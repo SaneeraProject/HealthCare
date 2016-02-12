@@ -5,6 +5,10 @@
  */
 package com.health.main;
 
+import com.database.DBConfig;
+import com.database.User;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Ajeet
@@ -17,6 +21,8 @@ public class frmLogin extends javax.swing.JDialog {
     public frmLogin(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        setIconImage(new javax.swing.ImageIcon(getClass().getResource("/icons/logo.png")).getImage());
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -29,20 +35,24 @@ public class frmLogin extends javax.swing.JDialog {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
+        jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jPasswordField1 = new javax.swing.JPasswordField();
-        jComboBox1 = new javax.swing.JComboBox();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jLabel4 = new javax.swing.JLabel();
+        tftUserName = new javax.swing.JTextField();
+        tftPassword = new javax.swing.JPasswordField();
+        cmbType = new javax.swing.JComboBox();
+        jPanel3 = new CustomHeader();
+        jLabel5 = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
+        lblForget = new javax.swing.JLabel();
+        btnLogin = new javax.swing.JButton();
+        btnExit = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Login to HealthCare");
-        getContentPane().setLayout(new java.awt.GridBagLayout());
+        setLocationByPlatform(true);
 
         jPanel1.setMaximumSize(new java.awt.Dimension(175, 100));
         jPanel1.setMinimumSize(new java.awt.Dimension(175, 100));
@@ -56,6 +66,7 @@ public class frmLogin extends javax.swing.JDialog {
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 0.2;
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
         jPanel1.add(jLabel1, gridBagConstraints);
 
@@ -67,6 +78,7 @@ public class frmLogin extends javax.swing.JDialog {
         gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 0.2;
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
         jPanel1.add(jLabel2, gridBagConstraints);
 
@@ -77,108 +89,134 @@ public class frmLogin extends javax.swing.JDialog {
         gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 0.2;
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
         jPanel1.add(jLabel3, gridBagConstraints);
+
+        tftUserName.setText("superuser");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridwidth = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 0.8;
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel1.add(jTextField1, gridBagConstraints);
+        jPanel1.add(tftUserName, gridBagConstraints);
+
+        tftPassword.setText("superuser");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.gridwidth = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 0.8;
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel1.add(jPasswordField1, gridBagConstraints);
+        jPanel1.add(tftPassword, gridBagConstraints);
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Super User", "Admin", "Receptionist", "Physician", "Accountant", "Pharmacist", "Token manager", "Cashier" }));
+        cmbType.setEditable(true);
+        cmbType.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Super User", "Admin", "Receptionist", "Physician", "Accountant", "Pharmacist", "Token manager", "Cashier" }));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.gridwidth = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 0.8;
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel1.add(jComboBox1, gridBagConstraints);
+        jPanel1.add(cmbType, gridBagConstraints);
 
-        jButton1.setText("Exit");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jTabbedPane1.addTab("Login Setting", jPanel1);
+
+        getContentPane().add(jTabbedPane1, java.awt.BorderLayout.CENTER);
+
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/logo.png"))); // NOI18N
+        jLabel5.setText(" Health Care");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 351, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        getContentPane().add(jPanel3, java.awt.BorderLayout.PAGE_START);
+
+        lblForget.setForeground(new java.awt.Color(51, 51, 255));
+        lblForget.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblForget.setText("Forget password? ");
+        jPanel4.add(lblForget);
+
+        btnLogin.setText("Login");
+        btnLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnLoginActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 5;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel1.add(jButton1, gridBagConstraints);
+        jPanel4.add(btnLogin);
 
-        jButton2.setText("Login");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnExit.setText("Exit");
+        btnExit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnExitActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel1.add(jButton2, gridBagConstraints);
+        jPanel4.add(btnExit);
 
-        jLabel4.setForeground(new java.awt.Color(51, 51, 255));
-        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel4.setText("Forget password? ");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.gridwidth = 4;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel1.add(jLabel4, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.ipadx = 126;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(78, 90, 78, 90);
-        getContentPane().add(jPanel1, gridBagConstraints);
+        getContentPane().add(jPanel4, java.awt.BorderLayout.PAGE_END);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        dispose();
-        new frmParent().setVisible(true);
-// TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        String userName = tftUserName.getText();
+        String userPass = tftPassword.getText();
+        String userType = cmbType.getSelectedItem().toString();
+
+        DBConfig config = new DBConfig();
+
+        User user = config.getUser(userName, userPass, userType);
+        if (user != null) {
+            JOptionPane.showMessageDialog(rootPane, "Welcome to health care app.", "Health care login", JOptionPane.INFORMATION_MESSAGE);
+            dispose();
+            new frmParent(user).setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "Incorrect username and password!.");
+        }
+
+    }//GEN-LAST:event_btnLoginActionPerformed
+
+    private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
         System.exit(0);        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnExitActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JComboBox jComboBox1;
+    private javax.swing.JButton btnExit;
+    private javax.swing.JButton btnLogin;
+    private javax.swing.JComboBox cmbType;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JLabel lblForget;
+    private javax.swing.JPasswordField tftPassword;
+    private javax.swing.JTextField tftUserName;
     // End of variables declaration//GEN-END:variables
 }
