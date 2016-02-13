@@ -6,7 +6,7 @@
 package com.database;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 import javax.swing.ImageIcon;
 
 /**
@@ -212,6 +212,11 @@ public class Doctor implements Serializable{
 
     public void setPass(String pass) {
         this.pass = pass;
+    }
+
+    @Override
+    public String toString() {
+        return fullName;
     }
 
 }

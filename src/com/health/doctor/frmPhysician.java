@@ -6,9 +6,15 @@
 package com.health.doctor;
 
 import com.database.DBConfig;
+import com.database.Doctor;
 import com.database.Qualification;
 import com.database.Speciality;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 /**
@@ -26,6 +32,7 @@ public class frmPhysician extends javax.swing.JDialog {
         pnlPhysician.setVisible(false);
         loadQualification();
         loadSpeciality();
+        setLocationRelativeTo(parent);
     }
 
     /**
@@ -40,10 +47,18 @@ public class frmPhysician extends javax.swing.JDialog {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        tftSearch = new javax.swing.JTextField();
         btnSearch = new javax.swing.JButton();
         btnNew = new javax.swing.JButton();
         pnlPhysician = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        btnSave = new javax.swing.JButton();
+        btnUpdate = new javax.swing.JButton();
+        btnAppointment = new javax.swing.JButton();
+        jLabel24 = new javax.swing.JLabel();
+        btnPayment = new javax.swing.JButton();
+        btnClose = new javax.swing.JButton();
+        jPanel6 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -55,51 +70,44 @@ public class frmPhysician extends javax.swing.JDialog {
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
-        jTextField5 = new javax.swing.JTextField();
-        jTextField6 = new javax.swing.JTextField();
+        tftId = new javax.swing.JTextField();
+        tftFullName = new javax.swing.JTextField();
+        tftDob = new javax.swing.JTextField();
+        tftAddress = new javax.swing.JTextField();
+        tftEmail = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox();
-        jComboBox2 = new javax.swing.JComboBox();
+        cmbGender = new javax.swing.JComboBox();
+        cmbMarried = new javax.swing.JComboBox();
         cmbQualification = new javax.swing.JComboBox();
-        jTextField14 = new javax.swing.JTextField();
-        jTextField15 = new javax.swing.JTextField();
-        jTextField16 = new javax.swing.JTextField();
+        tftCouncil = new javax.swing.JTextField();
+        tftEmployer = new javax.swing.JTextField();
+        tftFees = new javax.swing.JTextField();
         jLabel21 = new javax.swing.JLabel();
         cmbSpeciality = new javax.swing.JComboBox();
         jButton10 = new javax.swing.JButton();
         jButton11 = new javax.swing.JButton();
-        jPanel5 = new javax.swing.JPanel();
-        jLabel17 = new javax.swing.JLabel();
-        jLabel18 = new javax.swing.JLabel();
-        jLabel19 = new javax.swing.JLabel();
-        jTextField11 = new javax.swing.JTextField();
-        jTextField12 = new javax.swing.JTextField();
-        jTextField13 = new javax.swing.JTextField();
+        jLabel20 = new javax.swing.JLabel();
+        btnIcon = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
-        jTextField7 = new javax.swing.JTextField();
-        jTextField8 = new javax.swing.JTextField();
-        jTextField9 = new javax.swing.JTextField();
-        jTextField10 = new javax.swing.JTextField();
-        btnIcon = new javax.swing.JButton();
-        jLabel20 = new javax.swing.JLabel();
+        tftChome = new javax.swing.JTextField();
+        tftCwork = new javax.swing.JTextField();
+        tftCmobile = new javax.swing.JTextField();
+        tftCemer = new javax.swing.JTextField();
+        jPanel5 = new javax.swing.JPanel();
+        jLabel17 = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
+        tftBank = new javax.swing.JTextField();
+        tftBranch = new javax.swing.JTextField();
+        tftAccount = new javax.swing.JTextField();
         jLabel22 = new javax.swing.JLabel();
+        tftUser = new javax.swing.JTextField();
         jLabel23 = new javax.swing.JLabel();
-        jTextField17 = new javax.swing.JTextField();
-        jPasswordField1 = new javax.swing.JPasswordField();
-        jPanel2 = new javax.swing.JPanel();
-        btnSave = new javax.swing.JButton();
-        btnUpdate = new javax.swing.JButton();
-        btnAppointment = new javax.swing.JButton();
-        jLabel24 = new javax.swing.JLabel();
-        btnPayment = new javax.swing.JButton();
-        btnClose = new javax.swing.JButton();
+        tftPass = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Physician Manager");
@@ -122,9 +130,14 @@ public class frmPhysician extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 0.2;
         gridBagConstraints.insets = new java.awt.Insets(5, 1, 5, 1);
-        jPanel1.add(jTextField1, gridBagConstraints);
+        jPanel1.add(tftSearch, gridBagConstraints);
 
         btnSearch.setText("Search");
+        btnSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
@@ -148,6 +161,75 @@ public class frmPhysician extends javax.swing.JDialog {
         jPanel1.add(btnNew, gridBagConstraints);
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_START);
+
+        pnlPhysician.setLayout(new java.awt.BorderLayout());
+
+        jPanel2.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 0, 0, 0, new java.awt.Color(204, 204, 204)));
+        jPanel2.setLayout(new java.awt.GridBagLayout());
+
+        btnSave.setText("Save");
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(10, 1, 10, 1);
+        jPanel2.add(btnSave, gridBagConstraints);
+
+        btnUpdate.setText("Update");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(10, 1, 10, 1);
+        jPanel2.add(btnUpdate, gridBagConstraints);
+
+        btnAppointment.setText("View Appointments");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(10, 1, 10, 1);
+        jPanel2.add(btnAppointment, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(10, 1, 10, 1);
+        jPanel2.add(jLabel24, gridBagConstraints);
+
+        btnPayment.setText("Payment History");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(10, 1, 10, 1);
+        jPanel2.add(btnPayment, gridBagConstraints);
+
+        btnClose.setText("Close");
+        btnClose.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCloseActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(10, 1, 10, 1);
+        jPanel2.add(btnClose, gridBagConstraints);
+
+        pnlPhysician.add(jPanel2, java.awt.BorderLayout.PAGE_END);
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Personal detail"));
         jPanel3.setLayout(new java.awt.GridBagLayout());
@@ -252,9 +334,9 @@ public class frmPhysician extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
         jPanel3.add(jLabel11, gridBagConstraints);
 
-        jTextField2.setEditable(false);
-        jTextField2.setText("#");
-        jTextField2.setToolTipText("");
+        tftId.setEditable(false);
+        tftId.setText("#");
+        tftId.setToolTipText("");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -264,9 +346,9 @@ public class frmPhysician extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 0.2;
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel3.add(jTextField2, gridBagConstraints);
+        jPanel3.add(tftId, gridBagConstraints);
 
-        jTextField3.setToolTipText("");
+        tftFullName.setToolTipText("");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
@@ -276,9 +358,9 @@ public class frmPhysician extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 0.2;
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel3.add(jTextField3, gridBagConstraints);
+        jPanel3.add(tftFullName, gridBagConstraints);
 
-        jTextField4.setToolTipText("");
+        tftDob.setToolTipText("");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 4;
@@ -288,9 +370,9 @@ public class frmPhysician extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 0.2;
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel3.add(jTextField4, gridBagConstraints);
+        jPanel3.add(tftDob, gridBagConstraints);
 
-        jTextField5.setToolTipText("");
+        tftAddress.setToolTipText("");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 6;
@@ -300,9 +382,9 @@ public class frmPhysician extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 0.2;
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel3.add(jTextField5, gridBagConstraints);
+        jPanel3.add(tftAddress, gridBagConstraints);
 
-        jTextField6.setToolTipText("");
+        tftEmail.setToolTipText("");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 8;
@@ -312,7 +394,7 @@ public class frmPhysician extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 0.2;
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel3.add(jTextField6, gridBagConstraints);
+        jPanel3.add(tftEmail, gridBagConstraints);
 
         jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel16.setText("Cunsltante fees : ");
@@ -324,7 +406,7 @@ public class frmPhysician extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
         jPanel3.add(jLabel16, gridBagConstraints);
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Male", "Female" }));
+        cmbGender.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Male", "Female" }));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 10;
@@ -332,9 +414,9 @@ public class frmPhysician extends javax.swing.JDialog {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel3.add(jComboBox1, gridBagConstraints);
+        jPanel3.add(cmbGender, gridBagConstraints);
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Married", "Unmaried" }));
+        cmbMarried.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Married", "Unmaried" }));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 12;
@@ -342,7 +424,7 @@ public class frmPhysician extends javax.swing.JDialog {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel3.add(jComboBox2, gridBagConstraints);
+        jPanel3.add(cmbMarried, gridBagConstraints);
 
         cmbQualification.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "MBBS", "Other" }));
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -354,7 +436,7 @@ public class frmPhysician extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
         jPanel3.add(cmbQualification, gridBagConstraints);
 
-        jTextField14.setToolTipText("");
+        tftCouncil.setToolTipText("");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 16;
@@ -364,9 +446,9 @@ public class frmPhysician extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 0.2;
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel3.add(jTextField14, gridBagConstraints);
+        jPanel3.add(tftCouncil, gridBagConstraints);
 
-        jTextField15.setToolTipText("");
+        tftEmployer.setToolTipText("");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 18;
@@ -376,9 +458,9 @@ public class frmPhysician extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 0.2;
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel3.add(jTextField15, gridBagConstraints);
+        jPanel3.add(tftEmployer, gridBagConstraints);
 
-        jTextField16.setToolTipText("");
+        tftFees.setToolTipText("");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 20;
@@ -388,7 +470,7 @@ public class frmPhysician extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 0.2;
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel3.add(jTextField16, gridBagConstraints);
+        jPanel3.add(tftFees, gridBagConstraints);
 
         jLabel21.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel21.setText("Speciality : ");
@@ -429,62 +511,10 @@ public class frmPhysician extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
         jPanel3.add(jButton11, gridBagConstraints);
 
-        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("Bank detail"));
-        jPanel5.setLayout(new java.awt.GridBagLayout());
+        jLabel20.setText("Picture : ");
 
-        jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel17.setText("Bank name : ");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel5.add(jLabel17, gridBagConstraints);
-
-        jLabel18.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel18.setText("Branch : ");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel5.add(jLabel18, gridBagConstraints);
-
-        jLabel19.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel19.setText("Account no : ");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel5.add(jLabel19, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 0.2;
-        gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel5.add(jTextField11, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 0.2;
-        gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel5.add(jTextField12, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 0.2;
-        gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel5.add(jTextField13, gridBagConstraints);
+        btnIcon.setBackground(new java.awt.Color(204, 255, 204));
+        btnIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/patient.png"))); // NOI18N
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Contact detail"));
         jPanel4.setLayout(new java.awt.GridBagLayout());
@@ -535,7 +565,7 @@ public class frmPhysician extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 0.2;
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel4.add(jTextField7, gridBagConstraints);
+        jPanel4.add(tftChome, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 2;
@@ -543,7 +573,7 @@ public class frmPhysician extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 0.2;
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel4.add(jTextField8, gridBagConstraints);
+        jPanel4.add(tftCwork, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 4;
@@ -551,7 +581,7 @@ public class frmPhysician extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 0.2;
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel4.add(jTextField9, gridBagConstraints);
+        jPanel4.add(tftCmobile, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 6;
@@ -559,106 +589,107 @@ public class frmPhysician extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 0.2;
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel4.add(jTextField10, gridBagConstraints);
+        jPanel4.add(tftCemer, gridBagConstraints);
 
-        btnIcon.setBackground(new java.awt.Color(204, 255, 204));
-        btnIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/patient.png"))); // NOI18N
+        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("Bank detail"));
+        jPanel5.setLayout(new java.awt.GridBagLayout());
 
-        jLabel20.setText("Picture : ");
+        jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel17.setText("Bank name : ");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
+        jPanel5.add(jLabel17, gridBagConstraints);
+
+        jLabel18.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel18.setText("Branch : ");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
+        jPanel5.add(jLabel18, gridBagConstraints);
+
+        jLabel19.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel19.setText("Account no : ");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
+        jPanel5.add(jLabel19, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 0.2;
+        gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
+        jPanel5.add(tftBank, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 0.2;
+        gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
+        jPanel5.add(tftBranch, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 0.2;
+        gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
+        jPanel5.add(tftAccount, gridBagConstraints);
 
         jLabel22.setText("Username : ");
 
         jLabel23.setText("Password : ");
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 0, 0, 0, new java.awt.Color(204, 204, 204)));
-        jPanel2.setLayout(new java.awt.GridBagLayout());
-
-        btnSave.setText("Save");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(10, 1, 10, 1);
-        jPanel2.add(btnSave, gridBagConstraints);
-
-        btnUpdate.setText("Update");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(10, 1, 10, 1);
-        jPanel2.add(btnUpdate, gridBagConstraints);
-
-        btnAppointment.setText("View Appointments");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(10, 1, 10, 1);
-        jPanel2.add(btnAppointment, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(10, 1, 10, 1);
-        jPanel2.add(jLabel24, gridBagConstraints);
-
-        btnPayment.setText("Payment History");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(10, 1, 10, 1);
-        jPanel2.add(btnPayment, gridBagConstraints);
-
-        btnClose.setText("Close");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 5;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(10, 1, 10, 1);
-        jPanel2.add(btnClose, gridBagConstraints);
-
-        javax.swing.GroupLayout pnlPhysicianLayout = new javax.swing.GroupLayout(pnlPhysician);
-        pnlPhysician.setLayout(pnlPhysicianLayout);
-        pnlPhysicianLayout.setHorizontalGroup(
-            pnlPhysicianLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlPhysicianLayout.createSequentialGroup()
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(pnlPhysicianLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlPhysicianLayout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel6Layout.createSequentialGroup()
                         .addComponent(jLabel22)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField17, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(tftUser, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel23)
-                        .addGap(0, 3, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(pnlPhysicianLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlPhysicianLayout.createSequentialGroup()
-                        .addGap(0, 3, Short.MAX_VALUE)
-                        .addGroup(pnlPhysicianLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlPhysicianLayout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                                 .addComponent(jLabel20)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jPasswordField1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(tftPass, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
-        pnlPhysicianLayout.setVerticalGroup(
-            pnlPhysicianLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlPhysicianLayout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addGroup(pnlPhysicianLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(pnlPhysicianLayout.createSequentialGroup()
-                        .addGroup(pnlPhysicianLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(pnlPhysicianLayout.createSequentialGroup()
+                            .addGroup(jPanel6Layout.createSequentialGroup()
                                 .addGap(32, 32, 32)
                                 .addComponent(jLabel20)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -667,14 +698,15 @@ public class frmPhysician extends javax.swing.JDialog {
                         .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(pnlPhysicianLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel22)
                     .addComponent(jLabel23)
-                    .addComponent(jTextField17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, Short.MAX_VALUE)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tftUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tftPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        pnlPhysician.add(jPanel6, java.awt.BorderLayout.PAGE_START);
 
         getContentPane().add(pnlPhysician, java.awt.BorderLayout.CENTER);
 
@@ -682,7 +714,9 @@ public class frmPhysician extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
-        pnlPhysician.setVisible(true);        // TODO add your handling code here:
+        pnlPhysician.setVisible(true);
+        btnSave.setEnabled(true);
+        btnUpdate.setEnabled(false);
     }//GEN-LAST:event_btnNewActionPerformed
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
@@ -703,6 +737,177 @@ public class frmPhysician extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_jButton11ActionPerformed
 
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+        try {
+            String fullName = tftFullName.getText();
+            DateFormat format = new SimpleDateFormat("dd/MM/yyyy",
+                    Locale.ENGLISH);
+            Date dob = format.parse(tftDob.getText());
+            String address = tftAddress.getText();
+            String email = tftEmail.getText();
+            String gender = cmbGender.getSelectedItem().toString();
+            String married = cmbMarried.getSelectedItem().toString();
+            Qualification qualification = (Qualification) cmbQualification.getSelectedItem();
+            String council = tftCouncil.getText();
+            String employer = tftEmployer.getText();
+            Speciality speciality = (Speciality) cmbSpeciality.getSelectedItem();
+            double consultFees = Double.parseDouble(tftFees.getText().trim());
+            ImageIcon icon = (ImageIcon) btnIcon.getIcon();
+            String chome = tftChome.getText();
+            String cwork = tftCwork.getText();
+            String cmobile = tftCmobile.getText();
+            String cemer = tftCemer.getText();
+            String bank = tftBank.getText();
+            String branch = tftBranch.getText();
+            String account = tftAccount.getText();
+            String userName = tftUser.getText();
+            String userPassword = tftPass.getText();
+            Doctor doc = new Doctor();
+            doc.setFullName(fullName);
+            doc.setDob(dob);
+            doc.setAddress(address);
+            doc.setEmail(email);
+            doc.setGender(gender);
+            doc.setMarried(married);
+            doc.setQuali(qualification);
+            doc.setCouncil(council);
+            doc.setEmployer(employer);
+            doc.setEmployer(employer);
+            doc.setSpeciality(speciality);
+            doc.setFees(consultFees);
+            doc.setChome(chome);
+            doc.setCwork(cwork);
+            doc.setCmobile(cmobile);
+            doc.setCemergency(cemer);
+            doc.setBank(bank);
+            doc.setBranch(branch);
+            doc.setAccount(account);
+            doc.setUser(userName);
+            doc.setPass(userPassword);
+            doc.setImage(icon);
+
+            DBConfig config = new DBConfig();
+            int i = config.saveDoctor(doc, false);
+            if (i == 1) {
+                JOptionPane.showMessageDialog(frmPhysician.this, "Physician has been added successfully!", "Information", JOptionPane.INFORMATION_MESSAGE);
+                btnSave.setEnabled(false);
+                btnUpdate.setEnabled(true);
+            } else {
+                JOptionPane.showMessageDialog(frmPhysician.this, "Please correct all fields first!", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(frmPhysician.this, "Please correct all fields first!", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+    }//GEN-LAST:event_btnSaveActionPerformed
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        try {
+            String fullName = tftFullName.getText();
+            DateFormat format = new SimpleDateFormat("dd/MM/yyyy",
+                    Locale.ENGLISH);
+            Date dob = format.parse(tftDob.getText());
+            String address = tftAddress.getText();
+            String email = tftEmail.getText();
+            String gender = cmbGender.getSelectedItem().toString();
+            String married = cmbMarried.getSelectedItem().toString();
+            Qualification qualification = (Qualification) cmbQualification.getSelectedItem();
+            String council = tftCouncil.getText();
+            String employer = tftEmployer.getText();
+            Speciality speciality = (Speciality) cmbSpeciality.getSelectedItem();
+            double consultFees = Double.parseDouble(tftFees.getText().trim());
+            ImageIcon icon = (ImageIcon) btnIcon.getIcon();
+            String chome = tftChome.getText();
+            String cwork = tftCwork.getText();
+            String cmobile = tftCmobile.getText();
+            String cemer = tftCemer.getText();
+            String bank = tftBank.getText();
+            String branch = tftBranch.getText();
+            String account = tftAccount.getText();
+            String userName = tftUser.getText();
+            String userPassword = tftPass.getText();
+            Doctor doc = new Doctor();
+            doc.setId(Integer.parseInt(tftId.getText().trim()));
+            doc.setFullName(fullName);
+            doc.setDob(dob);
+            doc.setAddress(address);
+            doc.setEmail(email);
+            doc.setGender(gender);
+            doc.setMarried(married);
+            doc.setQuali(qualification);
+            doc.setCouncil(council);
+            doc.setEmployer(employer);
+            doc.setEmployer(employer);
+            doc.setSpeciality(speciality);
+            doc.setFees(consultFees);
+            doc.setChome(chome);
+            doc.setCwork(cwork);
+            doc.setCmobile(cmobile);
+            doc.setCemergency(cemer);
+            doc.setBank(bank);
+            doc.setBranch(branch);
+            doc.setAccount(account);
+            doc.setUser(userName);
+            doc.setPass(userPassword);
+            doc.setImage(icon);
+
+            DBConfig config = new DBConfig();
+            int i = config.saveDoctor(doc, true);
+            if (i == 1) {
+                JOptionPane.showMessageDialog(frmPhysician.this, "Physician has been updated successfully!", "Information", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(frmPhysician.this, "Please correct all fields first!", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(frmPhysician.this, "Please correct all fields first!", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+
+        try {
+            Doctor doc = new DBConfig().getDoctorByID(Integer.parseInt(tftSearch.getText()));
+            if (doc == null) {
+                JOptionPane.showMessageDialog(frmPhysician.this, "Doctor is not avialable.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            pnlPhysician.setVisible(true);
+            tftId.setText("" + doc.getId());
+            tftFullName.setText(doc.getFullName());
+            DateFormat format = new SimpleDateFormat("dd/MM/yyyy",
+                    Locale.ENGLISH);
+            tftDob.setText(format.format(doc.getDob()));
+            tftEmail.setText(doc.getEmail());
+            tftAddress.setText(doc.getAddress());
+            cmbGender.setSelectedItem(doc.getGender());
+            cmbMarried.setSelectedItem(doc.getMarried());
+            cmbQualification.setSelectedItem(doc.getQuali());
+            tftCouncil.setText(doc.getCouncil());
+            tftEmployer.setText(doc.getEmployer());
+            cmbSpeciality.setSelectedItem(doc.getSpeciality());
+            tftFees.setText(""+doc.getFees());
+            tftUser.setText(doc.getUser());
+            tftPass.setText(doc.getPass());
+            tftChome.setText(doc.getChome());
+            tftCwork.setText(doc.getCwork());
+            tftCmobile.setText(doc.getCmobile());
+            tftCemer.setText(doc.getCemergency());
+            tftBank.setText(doc.getBank());
+            tftBranch.setText(doc.getBranch());
+            tftAccount.setText(doc.getAccount());                    
+            btnSave.setEnabled(false);
+            btnUpdate.setEnabled(true);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+
+    }//GEN-LAST:event_btnSearchActionPerformed
+
+    private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
+        dispose();
+    }//GEN-LAST:event_btnCloseActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAppointment;
@@ -713,12 +918,12 @@ public class frmPhysician extends javax.swing.JDialog {
     private javax.swing.JButton btnSave;
     private javax.swing.JButton btnSearch;
     private javax.swing.JButton btnUpdate;
+    private javax.swing.JComboBox cmbGender;
+    private javax.swing.JComboBox cmbMarried;
     private javax.swing.JComboBox cmbQualification;
     private javax.swing.JComboBox cmbSpeciality;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
-    private javax.swing.JComboBox jComboBox1;
-    private javax.swing.JComboBox jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -748,25 +953,26 @@ public class frmPhysician extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
-    private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField10;
-    private javax.swing.JTextField jTextField11;
-    private javax.swing.JTextField jTextField12;
-    private javax.swing.JTextField jTextField13;
-    private javax.swing.JTextField jTextField14;
-    private javax.swing.JTextField jTextField15;
-    private javax.swing.JTextField jTextField16;
-    private javax.swing.JTextField jTextField17;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
-    private javax.swing.JTextField jTextField7;
-    private javax.swing.JTextField jTextField8;
-    private javax.swing.JTextField jTextField9;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel pnlPhysician;
+    private javax.swing.JTextField tftAccount;
+    private javax.swing.JTextField tftAddress;
+    private javax.swing.JTextField tftBank;
+    private javax.swing.JTextField tftBranch;
+    private javax.swing.JTextField tftCemer;
+    private javax.swing.JTextField tftChome;
+    private javax.swing.JTextField tftCmobile;
+    private javax.swing.JTextField tftCouncil;
+    private javax.swing.JTextField tftCwork;
+    private javax.swing.JTextField tftDob;
+    private javax.swing.JTextField tftEmail;
+    private javax.swing.JTextField tftEmployer;
+    private javax.swing.JTextField tftFees;
+    private javax.swing.JTextField tftFullName;
+    private javax.swing.JTextField tftId;
+    private javax.swing.JPasswordField tftPass;
+    private javax.swing.JTextField tftSearch;
+    private javax.swing.JTextField tftUser;
     // End of variables declaration//GEN-END:variables
 
     private void loadQualification() {

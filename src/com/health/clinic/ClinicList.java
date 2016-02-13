@@ -12,13 +12,13 @@ import javax.swing.JFrame;
  *
  * @author Ajeet
  */
-public class Clinic extends javax.swing.JInternalFrame {
+public class ClinicList extends javax.swing.JInternalFrame {
 
     /**
-     * Creates new form Clinic
+     * Creates new form ClinicList
      */
     private JFrame parent;
-    public Clinic(JFrame parent, boolean modal) {
+    public ClinicList(JFrame parent, boolean modal) {
         super("Clinic", true, true, true, true);
         this.parent=parent;
         initComponents();
@@ -67,6 +67,9 @@ public class Clinic extends javax.swing.JInternalFrame {
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
         jPanel1.add(jTextField1, gridBagConstraints);
 
+        jButton4.setBackground(new java.awt.Color(0, 0, 102));
+        jButton4.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jButton4.setForeground(new java.awt.Color(255, 255, 255));
         jButton4.setText("Search");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
@@ -76,6 +79,7 @@ public class Clinic extends javax.swing.JInternalFrame {
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
         jPanel1.add(jButton4, gridBagConstraints);
 
+        jComboBox1.setEditable(true);
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Doc id", "Speciality" }));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;

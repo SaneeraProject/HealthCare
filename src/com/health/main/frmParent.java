@@ -6,14 +6,16 @@
 package com.health.main;
 
 import com.database.User;
-import com.health.clinic.Clinic;
+import com.health.clinic.ClinicList;
 import com.health.clinic.ClinicScreen;
 import com.health.doctor.frmPhysician;
 import com.health.patient.PatientScreen;
 import com.health.payment.PaymentScreen;
 import com.health.pharmacy.PharmacyScreen;
 import com.health.token.TokenScreen;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 
@@ -173,6 +175,7 @@ public class frmParent extends javax.swing.JFrame {
         jButton5.setForeground(new java.awt.Color(255, 255, 255));
         jButton5.setText("Logout");
         jButton5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jButton5.setBorderPainted(false);
         jButton5.setFocusable(false);
         jButton5.setMaximumSize(new java.awt.Dimension(100, 23));
         jButton5.setMinimumSize(new java.awt.Dimension(100, 23));
@@ -196,11 +199,12 @@ public class frmParent extends javax.swing.JFrame {
         jPanel3.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 0, 2, 0, new java.awt.Color(204, 204, 204)));
         jPanel3.setLayout(new java.awt.BorderLayout());
 
-        jToolBar1.setRollover(true);
+        jToolBar1.setBackground(new java.awt.Color(204, 204, 255));
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/small/Picture2.png"))); // NOI18N
-        jButton1.setText("Patients");
         jButton1.setToolTipText("Patients");
+        jButton1.setBorderPainted(false);
+        jButton1.setContentAreaFilled(false);
         jButton1.setFocusable(false);
         jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -212,8 +216,9 @@ public class frmParent extends javax.swing.JFrame {
         jToolBar1.add(jButton1);
 
         jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/small/Picture3.png"))); // NOI18N
-        jButton7.setText("Clinics");
         jButton7.setToolTipText("Clinics");
+        jButton7.setBorderPainted(false);
+        jButton7.setContentAreaFilled(false);
         jButton7.setFocusable(false);
         jButton7.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton7.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -225,8 +230,9 @@ public class frmParent extends javax.swing.JFrame {
         jToolBar1.add(jButton7);
 
         jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/small/Picture4.png"))); // NOI18N
-        jButton8.setText("Appointments");
         jButton8.setToolTipText("Appointments");
+        jButton8.setBorderPainted(false);
+        jButton8.setContentAreaFilled(false);
         jButton8.setFocusable(false);
         jButton8.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton8.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -238,8 +244,9 @@ public class frmParent extends javax.swing.JFrame {
         jToolBar1.add(jButton8);
 
         jButton9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/small/Picture5.png"))); // NOI18N
-        jButton9.setText("Pharmacy");
         jButton9.setToolTipText("Pharmacy");
+        jButton9.setBorderPainted(false);
+        jButton9.setContentAreaFilled(false);
         jButton9.setFocusable(false);
         jButton9.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton9.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -251,8 +258,9 @@ public class frmParent extends javax.swing.JFrame {
         jToolBar1.add(jButton9);
 
         jButton10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/small/Picture6.png"))); // NOI18N
-        jButton10.setText("Physicians");
         jButton10.setToolTipText("Physicians");
+        jButton10.setBorderPainted(false);
+        jButton10.setContentAreaFilled(false);
         jButton10.setFocusable(false);
         jButton10.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton10.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -264,8 +272,9 @@ public class frmParent extends javax.swing.JFrame {
         jToolBar1.add(jButton10);
 
         jButton11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/small/Picture7.png"))); // NOI18N
-        jButton11.setText("Token Manager ");
         jButton11.setToolTipText("Token Manager ");
+        jButton11.setBorderPainted(false);
+        jButton11.setContentAreaFilled(false);
         jButton11.setFocusable(false);
         jButton11.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton11.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -277,8 +286,9 @@ public class frmParent extends javax.swing.JFrame {
         jToolBar1.add(jButton11);
 
         jButton12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/small/Picture8.png"))); // NOI18N
-        jButton12.setText("Payments");
         jButton12.setToolTipText("Payments");
+        jButton12.setBorderPainted(false);
+        jButton12.setContentAreaFilled(false);
         jButton12.setFocusable(false);
         jButton12.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton12.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -291,8 +301,9 @@ public class frmParent extends javax.swing.JFrame {
         jToolBar1.add(jSeparator1);
 
         jButton13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/small/Picture9.png"))); // NOI18N
-        jButton13.setText("Settings");
         jButton13.setToolTipText("Settings");
+        jButton13.setBorderPainted(false);
+        jButton13.setContentAreaFilled(false);
         jButton13.setFocusable(false);
         jButton13.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton13.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -307,6 +318,7 @@ public class frmParent extends javax.swing.JFrame {
 
         jDesktopPane1.setBackground(new java.awt.Color(255, 255, 255));
         jDesktopPane1.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 0, 0, 0, new java.awt.Color(204, 204, 204)));
+        jDesktopPane1.setLayout(new java.awt.BorderLayout());
         jPanel3.add(jDesktopPane1, java.awt.BorderLayout.CENTER);
         jPanel3.add(chatForm1, java.awt.BorderLayout.LINE_END);
 
@@ -320,18 +332,30 @@ public class frmParent extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        jDesktopPane1.add(new Clinic(this, true));        // TODO add your handling code here:
+        for (JInternalFrame frame : jDesktopPane1.getAllFrames()) {
+            frame.dispose();
+        }
+        jDesktopPane1.add(new ClinicList(this, true));        // TODO add your handling code here:
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        for (JInternalFrame frame : jDesktopPane1.getAllFrames()) {
+            frame.dispose();
+        }
         jDesktopPane1.add(new PatientScreen(this));
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        for (JInternalFrame frame : jDesktopPane1.getAllFrames()) {
+            frame.dispose();
+        }
         jDesktopPane1.add(new ClinicScreen(this));
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
+        for (JInternalFrame frame : jDesktopPane1.getAllFrames()) {
+            frame.dispose();
+        }
         jDesktopPane1.add(new PaymentScreen(this));
     }//GEN-LAST:event_jButton12ActionPerformed
 
@@ -340,10 +364,16 @@ public class frmParent extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        for (JInternalFrame frame : jDesktopPane1.getAllFrames()) {
+            frame.dispose();
+        }
         jDesktopPane1.add(new PharmacyScreen(this));
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
+        for (JInternalFrame frame : jDesktopPane1.getAllFrames()) {
+            frame.dispose();
+        }
         jDesktopPane1.add(new SettingScreen(this));
     }//GEN-LAST:event_jButton13ActionPerformed
 
