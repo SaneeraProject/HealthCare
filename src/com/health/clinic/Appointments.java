@@ -5,6 +5,17 @@
  */
 package com.health.clinic;
 
+import com.database.Clinic;
+import com.database.DBConfig;
+import com.database.Token;
+import com.health.main.frmParent;
+import com.health.patient.frmPatient;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Ajeet
@@ -14,9 +25,16 @@ public class Appointments extends javax.swing.JDialog {
     /**
      * Creates new form NewClinic
      */
-    public Appointments(java.awt.Frame parent, boolean modal) {
+    private Clinic c;
+    private JFrame parent;
+
+    public Appointments(JFrame parent, boolean modal, Clinic c) {
         super(parent, modal);
+        this.c = c;
+        this.parent = parent;
         initComponents();
+        loadData();
+        setLocationRelativeTo(parent);
     }
 
     /**
@@ -35,17 +53,17 @@ public class Appointments extends javax.swing.JDialog {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
-        jTextField5 = new javax.swing.JTextField();
+        tftId = new javax.swing.JTextField();
+        tftRoom = new javax.swing.JTextField();
+        tftDoc = new javax.swing.JTextField();
+        tftTime = new javax.swing.JTextField();
+        tftStatus = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnClose = new javax.swing.JButton();
+        btnPrint = new javax.swing.JButton();
+        btnView = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Token List");
@@ -107,6 +125,8 @@ public class Appointments extends javax.swing.JDialog {
         gridBagConstraints.weightx = 0.2;
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
         jPanel1.add(jLabel5, gridBagConstraints);
+
+        tftId.setEditable(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -114,7 +134,9 @@ public class Appointments extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 0.8;
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel1.add(jTextField1, gridBagConstraints);
+        jPanel1.add(tftId, gridBagConstraints);
+
+        tftRoom.setEditable(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
@@ -122,7 +144,9 @@ public class Appointments extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 0.8;
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel1.add(jTextField2, gridBagConstraints);
+        jPanel1.add(tftRoom, gridBagConstraints);
+
+        tftDoc.setEditable(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 4;
@@ -130,7 +154,9 @@ public class Appointments extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 0.8;
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel1.add(jTextField3, gridBagConstraints);
+        jPanel1.add(tftDoc, gridBagConstraints);
+
+        tftTime.setEditable(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 6;
@@ -138,7 +164,9 @@ public class Appointments extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 0.8;
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel1.add(jTextField4, gridBagConstraints);
+        jPanel1.add(tftTime, gridBagConstraints);
+
+        tftStatus.setEditable(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 8;
@@ -146,7 +174,7 @@ public class Appointments extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 0.8;
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel1.add(jTextField5, gridBagConstraints);
+        jPanel1.add(tftStatus, gridBagConstraints);
 
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -163,11 +191,21 @@ public class Appointments extends javax.swing.JDialog {
         jTable1.setAutoscrolls(false);
         jScrollPane1.setViewportView(jTable1);
 
-        jButton1.setText("Close");
+        btnClose.setText("Close");
+        btnClose.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCloseActionPerformed(evt);
+            }
+        });
 
-        jButton2.setText("Print");
+        btnPrint.setText("Print");
 
-        jButton3.setText("View Patient");
+        btnView.setText("View Patient");
+        btnView.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnViewActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -175,11 +213,11 @@ public class Appointments extends javax.swing.JDialog {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton3)
+                .addComponent(btnView)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton2)
+                .addComponent(btnPrint)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
+                .addComponent(btnClose)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -187,9 +225,9 @@ public class Appointments extends javax.swing.JDialog {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
+                    .addComponent(btnClose)
+                    .addComponent(btnPrint)
+                    .addComponent(btnView))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -219,11 +257,27 @@ public class Appointments extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    
+    private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
+        dispose();
+    }//GEN-LAST:event_btnCloseActionPerformed
+
+    private void btnViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewActionPerformed
+
+        if (jTable1.getSelectedRow() >= 0) {
+            int token = Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
+            frmPatient p = new frmPatient(parent, true,token);
+            p.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(Appointments.this, "Please select a patient from table", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+    }//GEN-LAST:event_btnViewActionPerformed
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton btnClose;
+    private javax.swing.JButton btnPrint;
+    private javax.swing.JButton btnView;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -233,10 +287,36 @@ public class Appointments extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
+    private javax.swing.JTextField tftDoc;
+    private javax.swing.JTextField tftId;
+    private javax.swing.JTextField tftRoom;
+    private javax.swing.JTextField tftStatus;
+    private javax.swing.JTextField tftTime;
     // End of variables declaration//GEN-END:variables
+
+    private void loadData() {
+        tftId.setText("" + c.getId());
+        tftRoom.setText(c.getRoom());
+        tftDoc.setText(c.getDocname());
+        tftTime.setText(c.getStarttime());
+        tftStatus.setText(c.getStatus());
+
+        ArrayList<Token> tList = new DBConfig().getTokenByCID(c.getId());
+
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("Token No");
+        model.addColumn("Patient ID");
+        model.addColumn("Patient Name");
+        model.addColumn("Date & Time");
+        SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy HH:MM");
+        for (Token t : tList) {
+            if (t.getCtoken().equals("Active")) {
+                model.insertRow(model.getRowCount(), new Object[]{t.getId(), t.getPid(), t.getPname(), fmt.format(t.getTiming())});
+            }
+        }
+        jTable1.setModel(model);
+        jTable1.getColumnModel().getColumn(2).setMinWidth(200);
+        jTable1.getColumnModel().getColumn(3).setMinWidth(150);
+
+    }
 }

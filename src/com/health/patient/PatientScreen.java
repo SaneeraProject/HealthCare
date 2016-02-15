@@ -5,7 +5,13 @@
  */
 package com.health.patient;
 
+import com.database.Clinic;
+import com.database.DBConfig;
+import com.database.Patient;
+import com.health.clinic.Appointments;
+import com.health.clinic.ClinicScreen;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -17,8 +23,9 @@ public class PatientScreen extends javax.swing.JInternalFrame {
      * Creates new form PatientScreen
      */
     private JFrame parent;
+
     public PatientScreen(JFrame parent) {
-        this.parent=parent;
+        this.parent = parent;
         initComponents();
         setVisible(true);
     }
@@ -34,9 +41,9 @@ public class PatientScreen extends javax.swing.JInternalFrame {
         java.awt.GridBagConstraints gridBagConstraints;
 
         jPanel1 = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        tftId = new javax.swing.JTextField();
+        btnAdd = new javax.swing.JButton();
+        btnSearch = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -47,15 +54,15 @@ public class PatientScreen extends javax.swing.JInternalFrame {
 
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
-        jTextField1.setBackground(new java.awt.Color(79, 129, 189));
-        jTextField1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jTextField1.setForeground(new java.awt.Color(255, 255, 255));
-        jTextField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField1.setText("Patient ID or NIC");
-        jTextField1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(56, 93, 138), 2));
-        jTextField1.setMaximumSize(new java.awt.Dimension(300, 21));
-        jTextField1.setMinimumSize(new java.awt.Dimension(300, 21));
-        jTextField1.setPreferredSize(new java.awt.Dimension(300, 21));
+        tftId.setBackground(new java.awt.Color(79, 129, 189));
+        tftId.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tftId.setForeground(new java.awt.Color(255, 255, 255));
+        tftId.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        tftId.setText("Patient ID or NIC");
+        tftId.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(56, 93, 138), 2));
+        tftId.setMaximumSize(new java.awt.Dimension(300, 21));
+        tftId.setMinimumSize(new java.awt.Dimension(300, 21));
+        tftId.setPreferredSize(new java.awt.Dimension(300, 21));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -63,12 +70,12 @@ public class PatientScreen extends javax.swing.JInternalFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel1.add(jTextField1, gridBagConstraints);
+        jPanel1.add(tftId, gridBagConstraints);
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/small/newPatient.png"))); // NOI18N
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/small/newPatient.png"))); // NOI18N
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnAddActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -77,12 +84,12 @@ public class PatientScreen extends javax.swing.JInternalFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel1.add(jButton1, gridBagConstraints);
+        jPanel1.add(btnAdd, gridBagConstraints);
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/small/search.png"))); // NOI18N
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/small/search.png"))); // NOI18N
+        btnSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnSearchActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -91,7 +98,7 @@ public class PatientScreen extends javax.swing.JInternalFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel1.add(jButton2, gridBagConstraints);
+        jPanel1.add(btnSearch, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -103,19 +110,31 @@ public class PatientScreen extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        new NewPatient(parent,true).setVisible(true);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        new NewPatient(parent, true).setVisible(true);
+    }//GEN-LAST:event_btnAddActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-       new frmPatient(parent,true).setVisible(true);
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+
+        try {
+            int cid = Integer.parseInt(tftId.getText());
+            Patient c = new DBConfig().getPatientById(cid);
+            if (c != null) {
+                new NewPatient(parent, true, c).setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(PatientScreen.this, "Patient not exists!", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(PatientScreen.this, "Wrong patient id!", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+    }//GEN-LAST:event_btnSearchActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnSearch;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField tftId;
     // End of variables declaration//GEN-END:variables
 }

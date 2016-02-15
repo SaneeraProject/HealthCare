@@ -134,6 +134,11 @@ public class NewClinic extends javax.swing.JDialog {
         });
 
         btnUpdate.setText("Update");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
 
         btnClose.setText("Close");
         btnClose.addActionListener(new java.awt.event.ActionListener() {
@@ -195,13 +200,37 @@ public class NewClinic extends javax.swing.JDialog {
         int i = config.saveClinic(c, false);
         if (i == 1) {
             JOptionPane.showMessageDialog(NewClinic.this, "Clinic has been added successfully!", "Information", JOptionPane.INFORMATION_MESSAGE);
-            btnSave.setEnabled(false);
-            btnUpdate.setEnabled(true);
+            dispose();
         } else {
             JOptionPane.showMessageDialog(NewClinic.this, "Please correct all fields first!", "Error", JOptionPane.ERROR_MESSAGE);
         }
 
     }//GEN-LAST:event_btnSaveActionPerformed
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        int cid=Integer.parseInt(tftCid.getText());
+        int pid = ((Doctor) cmbPhysician.getSelectedItem()).getId();
+        String room = tftRoom.getText();
+        String time = tftStart.getText();
+        String status = cmbStatus.getSelectedItem().toString();
+
+        Clinic c = new Clinic();
+        c.setId(cid);
+        c.setPid(pid);
+        c.setRoom(room);
+        c.setStarttime(time);
+        c.setStatus(status);
+
+        DBConfig config = new DBConfig();
+        int i = config.saveClinic(c, true);
+        if (i == 1) {
+            JOptionPane.showMessageDialog(NewClinic.this, "Clinic has been updated successfully!", "Information", JOptionPane.INFORMATION_MESSAGE);
+            btnSave.setEnabled(false);
+            btnUpdate.setEnabled(true);
+        } else {
+            JOptionPane.showMessageDialog(NewClinic.this, "Please correct all fields first!", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void loadDoctors() {
         DBConfig db = new DBConfig();

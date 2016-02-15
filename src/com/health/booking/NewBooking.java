@@ -5,7 +5,19 @@
  */
 package com.health.booking;
 
+import com.database.Clinic;
+import com.database.DBConfig;
+import com.database.Doctor;
+import com.database.Patient;
+import com.database.Payment;
+import com.database.Token;
+import com.health.preview.Preview;
+import com.health.preview.PreviewData;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -13,13 +25,36 @@ import javax.swing.JFrame;
  */
 public class NewBooking extends javax.swing.JDialog {
 
+    private Payment payment;
+
     /**
      * Creates new form NewBooking
      */
-    public NewBooking(JFrame parent) {
-        super(parent,true);
+    public NewBooking(JFrame parent, String b) {
+        super(parent, true);
+        setModal(true);
         initComponents();
+        loadClinics();
+        btnSave.setEnabled(false);
+        btnPrint.setEnabled(false);
+
+        if (b != null) {
+            tftPid.setText(b);
+            btnSave.setEnabled(true);
+        }
+        setLocationRelativeTo(parent);
         setVisible(true);
+    }
+
+    private void loadClinics() {
+        ArrayList<Clinic> cList = new DBConfig().getClinics();
+        DefaultComboBoxModel model = new DefaultComboBoxModel();
+        model.addElement("Select");
+        for (Clinic c : cList) {
+            model.addElement(c);
+        }
+        cmbClinic.setModel(model);
+
     }
 
     /**
@@ -33,43 +68,30 @@ public class NewBooking extends javax.swing.JDialog {
         java.awt.GridBagConstraints gridBagConstraints;
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox();
-        jComboBox2 = new javax.swing.JComboBox();
-        jTextField2 = new javax.swing.JTextField();
+        cmbClinic = new javax.swing.JComboBox();
+        tftPid = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        tftToken = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
-        jTextField5 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jTextField6 = new javax.swing.JTextField();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
+        tftHfee = new javax.swing.JTextField();
+        tftPFee = new javax.swing.JTextField();
+        btnFind = new javax.swing.JButton();
+        tftCToken = new javax.swing.JTextField();
+        tftDocName = new javax.swing.JTextField();
+        btnSave = new javax.swing.JButton();
+        btnClose = new javax.swing.JButton();
+        btnPrint = new javax.swing.JButton();
+        jSeparator1 = new javax.swing.JSeparator();
 
         setTitle("Booking Manager");
 
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("New Appointment"));
         jPanel1.setLayout(new java.awt.GridBagLayout());
-
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel1.setText("Booking ID : ");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 0.1;
-        gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel1.add(jLabel1, gridBagConstraints);
 
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel2.setText("Clinic : ");
@@ -103,17 +125,12 @@ public class NewBooking extends javax.swing.JDialog {
         gridBagConstraints.weightx = 0.1;
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
         jPanel1.add(jLabel4, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 0.5;
-        gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel1.add(jTextField1, gridBagConstraints);
 
-        jComboBox1.setEditable(true);
+        cmbClinic.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cmbClinicItemStateChanged(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
@@ -122,18 +139,7 @@ public class NewBooking extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 0.5;
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel1.add(jComboBox1, gridBagConstraints);
-
-        jComboBox2.setEditable(true);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 0.5;
-        gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel1.add(jComboBox2, gridBagConstraints);
+        jPanel1.add(cmbClinic, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 3;
@@ -141,7 +147,7 @@ public class NewBooking extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 0.5;
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel1.add(jTextField2, gridBagConstraints);
+        jPanel1.add(tftPid, gridBagConstraints);
 
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel5.setText("Token Number : ");
@@ -153,6 +159,8 @@ public class NewBooking extends javax.swing.JDialog {
         gridBagConstraints.weightx = 0.1;
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
         jPanel1.add(jLabel5, gridBagConstraints);
+
+        tftToken.setEditable(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 4;
@@ -160,7 +168,7 @@ public class NewBooking extends javax.swing.JDialog {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel1.add(jTextField3, gridBagConstraints);
+        jPanel1.add(tftToken, gridBagConstraints);
 
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel6.setText("Hospital Fee : ");
@@ -194,6 +202,8 @@ public class NewBooking extends javax.swing.JDialog {
         gridBagConstraints.weightx = 0.1;
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
         jPanel1.add(jLabel8, gridBagConstraints);
+
+        tftHfee.setText("0.0");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 5;
@@ -202,7 +212,9 @@ public class NewBooking extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 0.5;
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel1.add(jTextField4, gridBagConstraints);
+        jPanel1.add(tftHfee, gridBagConstraints);
+
+        tftPFee.setText("0.0");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 6;
@@ -211,86 +223,215 @@ public class NewBooking extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 0.5;
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel1.add(jTextField5, gridBagConstraints);
+        jPanel1.add(tftPFee, gridBagConstraints);
 
-        jButton1.setText("Find");
+        btnFind.setText("Find");
+        btnFind.setMaximumSize(new java.awt.Dimension(53, 20));
+        btnFind.setMinimumSize(new java.awt.Dimension(53, 20));
+        btnFind.setPreferredSize(new java.awt.Dimension(53, 20));
+        btnFind.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFindActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel1.add(jButton1, gridBagConstraints);
+        jPanel1.add(btnFind, gridBagConstraints);
 
-        jButton2.setText("New Patient");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel1.add(jButton2, gridBagConstraints);
+        tftCToken.setEditable(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel1.add(jTextField6, gridBagConstraints);
+        jPanel1.add(tftCToken, gridBagConstraints);
 
-        jButton3.setText("Save");
+        tftDocName.setEditable(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
+        jPanel1.add(tftDocName, gridBagConstraints);
 
-        jButton4.setText("Close");
+        btnSave.setText("Save");
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveActionPerformed(evt);
+            }
+        });
 
-        jButton5.setText("Update");
+        btnClose.setText("Close");
+        btnClose.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCloseActionPerformed(evt);
+            }
+        });
 
-        jButton6.setText("Print");
+        btnPrint.setText("Print");
+        btnPrint.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPrintActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jSeparator1)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 426, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton4)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(btnSave)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnPrint)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnClose)
+                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(54, 54, 54)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 369, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(56, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(43, 43, 43)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(47, 47, 47)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4)
-                    .addComponent(jButton5)
-                    .addComponent(jButton6))
+                    .addComponent(btnSave)
+                    .addComponent(btnClose)
+                    .addComponent(btnPrint))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
+        dispose();
+    }//GEN-LAST:event_btnCloseActionPerformed
+
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+        try {
+            Object obj = cmbClinic.getSelectedItem();
+            if (obj instanceof Clinic) {
+                Clinic c = ((Clinic) obj);
+                Doctor d = new DBConfig().getDoctorByID(c.getPid());
+                Patient p = new DBConfig().getPatientById(Integer.parseInt(tftPid.getText()));
+                int cid = c.getId();
+                int did = c.getPid();
+                double fees = d.getFees();
+                Token token = new Token();
+                token.setCid(cid);
+                token.setDid(did);
+                token.setPfee(fees);
+                token.setPid(p.getId());
+                token.setHfee(Double.parseDouble(tftHfee.getText()));
+                int i = new DBConfig().saveToken(token, false);
+                if (i > 0) {
+                    tftToken.setText(String.valueOf(i));
+                    payment = new Payment();
+                    payment.setPid(p.getId());
+                    payment.setPname(p.getName());
+                    payment.setPtype("Appointment");
+                    payment.setTorp(i);
+                    payment.setAmount(token.getPfee() + token.getHfee());
+                    payment.setStatus("Active");
+
+                    int paymentQueue = new DBConfig().savePaymentQueue(payment, false);
+
+                    tftCToken.setText(String.valueOf(paymentQueue));
+                    btnSave.setEnabled(false);
+                    btnPrint.setEnabled(true);
+                    JOptionPane.showMessageDialog(NewBooking.this, "Token has been generated!", "Success", JOptionPane.INFORMATION_MESSAGE);
+
+                } else {
+                    JOptionPane.showMessageDialog(NewBooking.this, "Fill all fields!", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+
+        } catch (Exception e) {
+
+        }
+
+    }//GEN-LAST:event_btnSaveActionPerformed
+
+    private void btnFindActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFindActionPerformed
+        try {
+            int cid = Integer.parseInt(tftPid.getText());
+            Patient c = new DBConfig().getPatientById(cid);
+            if (c != null) {
+                btnSave.setEnabled(true);
+            } else {
+                JOptionPane.showMessageDialog(NewBooking.this, "Patient not exists!", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(NewBooking.this, "Wrong patient id!", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnFindActionPerformed
+
+    private void cmbClinicItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbClinicItemStateChanged
+
+        Object obj = cmbClinic.getSelectedItem();
+        if (obj instanceof Clinic) {
+            Clinic c = ((Clinic) obj);
+            tftDocName.setText(c.getDocname());
+            Doctor d = new DBConfig().getDoctorByID(c.getPid());
+            tftPFee.setText(String.valueOf(d.getFees()));
+            btnSave.setEnabled(true);
+        } else {
+            tftDocName.setText("");
+            tftPFee.setText("0.0");
+            btnSave.setEnabled(false);
+        }
+
+
+    }//GEN-LAST:event_cmbClinicItemStateChanged
+
+    private void btnPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrintActionPerformed
+
+        PreviewData data = new PreviewData();
+        data.setTitle("Appointment Invoice");
+        LinkedHashMap<String, String> myMap = new LinkedHashMap<String, String>();
+        Clinic c = ((Clinic) cmbClinic.getSelectedItem());
+        Token t = new DBConfig().getTokenByID(Integer.parseInt(tftToken.getText()));
+        myMap.put("Patient ID", t.getPid() + "");
+        myMap.put("Patient Name", t.getPname() + "");
+        myMap.put("Clinic ID", c.getId() + "-" + c.getRoom());
+        myMap.put("Physician Name", c.getDocname() + "");
+        myMap.put("Appointment/Token ID", t.getId() + "");
+        myMap.put("Cashier queue No", tftCToken.getText());
+        myMap.put("Hospital Fee", tftHfee.getText());
+        myMap.put("Physician Fee", tftPFee.getText());
+//        myMap.put("Tax Amount", t.getId()+"");
+
+        LinkedHashMap<String, String> footerMap = new LinkedHashMap<String, String>();
+        footerMap.put("Total Amount", payment.getAmount() + "");
+
+        data.setHeaderMap(myMap);
+        data.setFooterMap(footerMap);
+
+        Preview p = new Preview(this, "Invoice", data);
+
+
+    }//GEN-LAST:event_btnPrintActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JComboBox jComboBox1;
-    private javax.swing.JComboBox jComboBox2;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton btnClose;
+    private javax.swing.JButton btnFind;
+    private javax.swing.JButton btnPrint;
+    private javax.swing.JButton btnSave;
+    private javax.swing.JComboBox cmbClinic;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -299,11 +440,12 @@ public class NewBooking extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JTextField tftCToken;
+    private javax.swing.JTextField tftDocName;
+    private javax.swing.JTextField tftHfee;
+    private javax.swing.JTextField tftPFee;
+    private javax.swing.JTextField tftPid;
+    private javax.swing.JTextField tftToken;
     // End of variables declaration//GEN-END:variables
 }

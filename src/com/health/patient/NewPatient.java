@@ -5,6 +5,12 @@
  */
 package com.health.patient;
 
+import com.database.DBConfig;
+import com.database.Patient;
+import com.health.booking.NewBooking;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Ajeet
@@ -14,9 +20,27 @@ public class NewPatient extends javax.swing.JDialog {
     /**
      * Creates new form NewPatient
      */
-    public NewPatient(java.awt.Frame parent, boolean modal) {
+    private JFrame parent;
+    public NewPatient(JFrame parent, boolean modal) {
+        super(parent, modal);
+        this.parent=parent;
+        initComponents();
+        btnUpdate.setEnabled(false);
+        btnDelete.setEnabled(false);
+        btnGenerateToken.setEnabled(false);
+        setLocationRelativeTo(parent);
+    }
+    
+    
+        public NewPatient(java.awt.Frame parent, boolean modal,Patient p) {
         super(parent, modal);
         initComponents();
+        btnSave.setEnabled(false);
+        btnUpdate.setEnabled(true);
+        btnDelete.setEnabled(true);
+        btnGenerateToken.setEnabled(true);
+        loadPatint(p);
+        setLocationRelativeTo(parent);
     }
 
     /**
@@ -36,16 +60,25 @@ public class NewPatient extends javax.swing.JDialog {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
-        jTextField6 = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        tftId = new javax.swing.JTextField();
+        tftName = new javax.swing.JTextField();
+        tftAge = new javax.swing.JTextField();
+        tftContact = new javax.swing.JTextField();
+        tftBlood = new javax.swing.JTextField();
+        cmbMarried = new javax.swing.JComboBox();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        tftAccount = new javax.swing.JTextField();
+        tftHeight = new javax.swing.JTextField();
+        cmbFinancial = new javax.swing.JComboBox();
+        tftWeight = new javax.swing.JTextField();
+        btnSave = new javax.swing.JButton();
+        btnUpdate = new javax.swing.JButton();
+        btnDelete = new javax.swing.JButton();
+        btnClose = new javax.swing.JButton();
+        btnGenerateToken = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("New Patient");
@@ -54,7 +87,7 @@ public class NewPatient extends javax.swing.JDialog {
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel1.setText("Registration no : ");
+        jLabel1.setText("Patient ID : ");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -119,7 +152,7 @@ public class NewPatient extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
         jPanel1.add(jLabel6, gridBagConstraints);
 
-        jTextField1.setEditable(false);
+        tftId.setEditable(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -127,7 +160,7 @@ public class NewPatient extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 0.8;
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel1.add(jTextField1, gridBagConstraints);
+        jPanel1.add(tftId, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
@@ -135,7 +168,7 @@ public class NewPatient extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 0.8;
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel1.add(jTextField2, gridBagConstraints);
+        jPanel1.add(tftName, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 4;
@@ -143,7 +176,7 @@ public class NewPatient extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 0.8;
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel1.add(jTextField3, gridBagConstraints);
+        jPanel1.add(tftAge, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 6;
@@ -151,7 +184,7 @@ public class NewPatient extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 0.8;
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel1.add(jTextField4, gridBagConstraints);
+        jPanel1.add(tftContact, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 10;
@@ -159,24 +192,108 @@ public class NewPatient extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 0.8;
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel1.add(jTextField6, gridBagConstraints);
+        jPanel1.add(tftBlood, gridBagConstraints);
 
-        jComboBox1.setEditable(true);
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Married", "Unmarried" }));
+        cmbMarried.setEditable(true);
+        cmbMarried.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Married", "Unmarried" }));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 8;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel1.add(jComboBox1, gridBagConstraints);
+        jPanel1.add(cmbMarried, gridBagConstraints);
 
-        jButton1.setText("Save");
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel7.setText("Height : ");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 11;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
+        jPanel1.add(jLabel7, gridBagConstraints);
 
-        jButton2.setText("Update");
+        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel8.setText("Weight : ");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 12;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
+        jPanel1.add(jLabel8, gridBagConstraints);
 
-        jButton3.setText("Delete");
+        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel9.setText("Financial Status : ");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 13;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
+        jPanel1.add(jLabel9, gridBagConstraints);
 
-        jButton4.setText("Close");
+        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel10.setText("Account No : ");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 14;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
+        jPanel1.add(jLabel10, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 14;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
+        jPanel1.add(tftAccount, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 11;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
+        jPanel1.add(tftHeight, gridBagConstraints);
+
+        cmbFinancial.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Strong", "Medium", "Week" }));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 13;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
+        jPanel1.add(cmbFinancial, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 12;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
+        jPanel1.add(tftWeight, gridBagConstraints);
+
+        btnSave.setText("Save");
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveActionPerformed(evt);
+            }
+        });
+
+        btnUpdate.setText("Update");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
+
+        btnDelete.setText("Delete");
+
+        btnClose.setText("Close");
+        btnClose.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCloseActionPerformed(evt);
+            }
+        });
+
+        btnGenerateToken.setText("Generate Token");
+        btnGenerateToken.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGenerateTokenActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -185,53 +302,175 @@ public class NewPatient extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 468, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton1)
+                        .addComponent(btnSave)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2)
+                        .addComponent(btnUpdate)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton3)
+                        .addComponent(btnDelete)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnGenerateToken)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton4)))
+                        .addComponent(btnClose)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4))
+                    .addComponent(btnSave)
+                    .addComponent(btnUpdate)
+                    .addComponent(btnDelete)
+                    .addComponent(btnClose)
+                    .addComponent(btnGenerateToken))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    
+    private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
+        dispose();
+    }//GEN-LAST:event_btnCloseActionPerformed
+
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+
+        try {
+
+            String pid = tftId.getText();
+            String name = tftName.getText();
+            String age = tftAge.getText();
+            String contact = tftContact.getText();
+            String married = cmbMarried.getSelectedItem().toString();
+            String blood = tftBlood.getText();
+            String height = tftHeight.getText();
+            String weight = tftWeight.getText();
+            String financial = cmbFinancial.getSelectedItem().toString();
+            String account = tftAccount.getText();
+            Patient p = new Patient();
+            p.setName(name);
+            p.setAge(age);
+            p.setContact(contact);
+            p.setMarried(married);
+            p.setBlood(blood);
+            p.setHeight(height);
+            p.setWeight(weight);
+            p.setFinancial(financial);
+            p.setAccount(account);
+
+            int i = new DBConfig().savePatient(p, false);
+            if (i > 0) {
+                tftId.setText(String.valueOf(i));
+                btnSave.setEnabled(false);
+                btnUpdate.setEnabled(true);
+                btnDelete.setEnabled(true);
+                btnGenerateToken.setEnabled(true);
+                JOptionPane.showMessageDialog(NewPatient.this, "Patient has been added successfully!", "Information", JOptionPane.INFORMATION_MESSAGE);
+
+            } else {
+                JOptionPane.showMessageDialog(NewPatient.this, "Please correct all fields!", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+
+        } catch (Exception ex) {
+
+        }
+
+
+    }//GEN-LAST:event_btnSaveActionPerformed
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        try {
+            String pid = tftId.getText();
+            String name = tftName.getText();
+            String age = tftAge.getText();
+            String contact = tftContact.getText();
+            String married = cmbMarried.getSelectedItem().toString();
+            String blood = tftBlood.getText();
+            String height = tftHeight.getText();
+            String weight = tftWeight.getText();
+            String financial = cmbFinancial.getSelectedItem().toString();
+            String account = tftAccount.getText();
+            Patient p = new Patient();
+            p.setId(Integer.parseInt(pid));
+            p.setName(name);
+            p.setAge(age);
+            p.setContact(contact);
+            p.setMarried(married);
+            p.setBlood(blood);
+            p.setHeight(height);
+            p.setWeight(weight);
+            p.setFinancial(financial);
+            p.setAccount(account);
+
+            int i = new DBConfig().savePatient(p, true);
+            if (i > 0) {
+                btnSave.setEnabled(false);
+                btnUpdate.setEnabled(true);
+                btnDelete.setEnabled(true);
+                btnGenerateToken.setEnabled(true);
+                JOptionPane.showMessageDialog(NewPatient.this, "Patient has been updated successfully!", "Information", JOptionPane.INFORMATION_MESSAGE);
+
+            } else {
+                JOptionPane.showMessageDialog(NewPatient.this, "Please correct all fields!", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+
+        } catch (Exception ex) {
+
+        }
+
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void btnGenerateTokenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerateTokenActionPerformed
+        
+        String pid=tftId.getText();
+        NewBooking b=new NewBooking(parent,pid);
+        
+    }//GEN-LAST:event_btnGenerateTokenActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JComboBox jComboBox1;
+    private javax.swing.JButton btnClose;
+    private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnGenerateToken;
+    private javax.swing.JButton btnSave;
+    private javax.swing.JButton btnUpdate;
+    private javax.swing.JComboBox cmbFinancial;
+    private javax.swing.JComboBox cmbMarried;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField6;
+    private javax.swing.JTextField tftAccount;
+    private javax.swing.JTextField tftAge;
+    private javax.swing.JTextField tftBlood;
+    private javax.swing.JTextField tftContact;
+    private javax.swing.JTextField tftHeight;
+    private javax.swing.JTextField tftId;
+    private javax.swing.JTextField tftName;
+    private javax.swing.JTextField tftWeight;
     // End of variables declaration//GEN-END:variables
+
+    private void loadPatint(Patient p) {
+        tftId.setText(String.valueOf(p.getId()));
+        tftName.setText(p.getName());
+        tftAge.setText(p.getAge());
+        tftContact.setText(p.getContact());
+        cmbMarried.setSelectedItem(p.getMarried());
+        tftBlood.setText(p.getBlood());
+        tftHeight.setText(p.getHeight());
+        tftWeight.setText(p.getWeight());
+        cmbFinancial.setSelectedItem(p.getFinancial());
+        tftAccount.setText(p.getAccount());
+    }
 }

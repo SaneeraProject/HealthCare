@@ -5,25 +5,42 @@
  */
 package com.health.token;
 
+import com.database.DBConfig;
+import com.database.Payment;
+import com.database.Token;
 import java.awt.Dimension;
 import java.awt.Image;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import static java.lang.Thread.sleep;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author Ajeet
  */
-public class TokenScreen extends javax.swing.JFrame {
+public class TokenScreen extends javax.swing.JFrame implements Runnable, WindowListener {
 
     /**
      * Creates new form TokenManager
      */
+    public Thread t;
+
     public TokenScreen(Image img) {
         initComponents();
         setIconImage(img);
-        
+
         setMinimumSize(new Dimension(600, 600));
         setExtendedState(JFrame.MAXIMIZED_BOTH);
+        t = new Thread(this);
+        t.start();
+
     }
 
     /**
@@ -158,4 +175,101 @@ public class TokenScreen extends javax.swing.JFrame {
     private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
     // End of variables declaration//GEN-END:variables
+
+    private void loadTokens() {
+        ArrayList<Token> tList = new DBConfig().getTokens();
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("Room No");
+        model.addColumn("Physician");
+        model.addColumn("Patient ID");
+        model.addColumn("Patient Name");
+        model.addColumn("Token No");
+        Map<String, String> a = new HashMap<String, String>();
+        for (Token t : tList) {
+            if (t.getCtoken().equals("Active")) {
+                if (!a.containsKey(t.getRoom())) {
+                    model.insertRow(model.getRowCount(), new Object[]{t.getRoom(), t.getDocname(), t.getPid(), t.getPname(), t.getId()});
+                    a.put(t.getRoom(), "");
+                }
+            }
+        }
+        jTable1.setModel(model);
+
+        loadPQTokens();
+    }
+
+    private void loadPQTokens() {
+        ArrayList<Payment> tList = new DBConfig().getPaymentQueue();
+
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("Queue ID");
+        model.addColumn("Patient ID");
+        model.addColumn("Patient Name");
+        for (Payment t : tList) {
+            if (t.getStatus().equals("Active")) {
+                model.insertRow(model.getRowCount(), new Object[]{t.getId(), t.getPid(), t.getPname()});
+            }
+        }
+        jTable2.setModel(model);
+//
+//        model = new DefaultTableModel();
+//        model.addColumn("Token No");
+//        model.addColumn("Patient ID");
+//        model.addColumn("Patient Name");
+//        for (Token t : tList) {
+//            if (t.getBtoken().equals("Active")) {
+//                model.insertRow(model.getRowCount(), new Object[]{t.getId(), t.getPid(), t.getPname()});
+//            }
+//        }
+//        jTable3.setModel(model);
+    }
+
+    @Override
+    public void run() {
+        while (true) {
+            loadTokens();
+            try {
+                sleep(60*1000);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(TokenScreen.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    @Override
+    public void windowOpened(WindowEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void windowClosing(WindowEvent e) {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        t.destroy();
+    }
+
+    @Override
+    public void windowClosed(WindowEvent e) {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void windowIconified(WindowEvent e) {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void windowDeiconified(WindowEvent e) {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void windowActivated(WindowEvent e) {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void windowDeactivated(WindowEvent e) {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

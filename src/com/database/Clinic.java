@@ -15,6 +15,10 @@ public class Clinic {
     private String room;
     private String starttime;
     private String status;
+    private String docname;
+    private String sname;
+    private int token;
+    
 
     public int getId() {
         return id;
@@ -55,5 +59,36 @@ public class Clinic {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    public String getDocname() {
+        return docname;
+    }
+
+    public void setDocname(String docname) {
+        this.docname = docname;
+    }
+
+    public int getToken() {
+        return token;
+    }
+
+    public void setToken(int token) {
+        this.token = token;
+    }
+
+    public String getSname() {
+        return sname;
+    }
+
+    public void setSname(String sname) {
+        this.sname = sname;
+    }
+
+    @Override
+    public String toString() {
+        return String.valueOf(id); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    
     
 }

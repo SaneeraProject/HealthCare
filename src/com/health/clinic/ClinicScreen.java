@@ -5,7 +5,10 @@
  */
 package com.health.clinic;
 
+import com.database.Clinic;
+import com.database.DBConfig;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -17,8 +20,9 @@ public class ClinicScreen extends javax.swing.JInternalFrame {
      * Creates new form ClinicScreen
      */
     private JFrame parent;
+
     public ClinicScreen(JFrame parent) {
-        this.parent=parent;
+        this.parent = parent;
         initComponents();
         setVisible(true);
     }
@@ -34,7 +38,7 @@ public class ClinicScreen extends javax.swing.JInternalFrame {
         java.awt.GridBagConstraints gridBagConstraints;
 
         jPanel1 = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
+        tftId = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
@@ -47,15 +51,15 @@ public class ClinicScreen extends javax.swing.JInternalFrame {
 
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
-        jTextField1.setBackground(new java.awt.Color(79, 129, 189));
-        jTextField1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jTextField1.setForeground(new java.awt.Color(255, 255, 255));
-        jTextField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField1.setText("Clinic ID or NIC");
-        jTextField1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(56, 93, 138), 2));
-        jTextField1.setMaximumSize(new java.awt.Dimension(300, 21));
-        jTextField1.setMinimumSize(new java.awt.Dimension(300, 21));
-        jTextField1.setPreferredSize(new java.awt.Dimension(300, 21));
+        tftId.setBackground(new java.awt.Color(79, 129, 189));
+        tftId.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tftId.setForeground(new java.awt.Color(255, 255, 255));
+        tftId.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        tftId.setText("Clinic ID or NIC");
+        tftId.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(56, 93, 138), 2));
+        tftId.setMaximumSize(new java.awt.Dimension(300, 21));
+        tftId.setMinimumSize(new java.awt.Dimension(300, 21));
+        tftId.setPreferredSize(new java.awt.Dimension(300, 21));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -63,7 +67,7 @@ public class ClinicScreen extends javax.swing.JInternalFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel1.add(jTextField1, gridBagConstraints);
+        jPanel1.add(tftId, gridBagConstraints);
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/small/Picture3.png"))); // NOI18N
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -104,11 +108,22 @@ public class ClinicScreen extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
         new NewClinic(parent, true).setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        new Appointments(parent, true).setVisible(true);
+        try {
+            int cid = Integer.parseInt(tftId.getText());
+            Clinic c = new DBConfig().getClinicById(cid);
+            if (c != null) {
+                new Appointments(parent, true,c).setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(ClinicScreen.this, "Clinic not exists!", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(ClinicScreen.this, "Wrong clinic id!", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
 
@@ -116,6 +131,6 @@ public class ClinicScreen extends javax.swing.JInternalFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField tftId;
     // End of variables declaration//GEN-END:variables
 }

@@ -54,9 +54,10 @@ public class frmLogin extends javax.swing.JDialog {
         setTitle("Login to HealthCare");
         setLocationByPlatform(true);
 
-        jPanel1.setMaximumSize(new java.awt.Dimension(175, 100));
-        jPanel1.setMinimumSize(new java.awt.Dimension(175, 100));
-        jPanel1.setPreferredSize(new java.awt.Dimension(175, 100));
+        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel1.setMaximumSize(new java.awt.Dimension(200, 125));
+        jPanel1.setMinimumSize(new java.awt.Dimension(200, 125));
+        jPanel1.setPreferredSize(new java.awt.Dimension(200, 125));
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -101,7 +102,7 @@ public class frmLogin extends javax.swing.JDialog {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 0.8;
-        gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
+        gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 100);
         jPanel1.add(tftUserName, gridBagConstraints);
 
         tftPassword.setText("superuser");
@@ -112,10 +113,9 @@ public class frmLogin extends javax.swing.JDialog {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 0.8;
-        gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
+        gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 100);
         jPanel1.add(tftPassword, gridBagConstraints);
 
-        cmbType.setEditable(true);
         cmbType.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Super User", "Admin", "Receptionist", "Physician", "Accountant", "Pharmacist", "Token manager", "Cashier" }));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -124,7 +124,7 @@ public class frmLogin extends javax.swing.JDialog {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 0.8;
-        gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
+        gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 100);
         jPanel1.add(cmbType, gridBagConstraints);
 
         jTabbedPane1.addTab("Login Setting", jPanel1);
@@ -140,7 +140,7 @@ public class frmLogin extends javax.swing.JDialog {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 351, Short.MAX_VALUE)
+                .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 413, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -152,6 +152,8 @@ public class frmLogin extends javax.swing.JDialog {
         );
 
         getContentPane().add(jPanel3, java.awt.BorderLayout.PAGE_START);
+
+        jPanel4.setPreferredSize(new java.awt.Dimension(217, 50));
 
         lblForget.setForeground(new java.awt.Color(51, 51, 255));
         lblForget.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);

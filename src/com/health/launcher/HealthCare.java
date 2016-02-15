@@ -19,7 +19,7 @@ public class HealthCare {
      */
     public static void main(String[] args) {
         MetalLookAndFeel lf=new MetalLookAndFeel();
-        lf.setCurrentTheme(new CMOSTheme());
+//        lf.setCurrentTheme(new CMOSTheme());
         lf.initialize();
         
         new frmLogin(null, true).setVisible(true);

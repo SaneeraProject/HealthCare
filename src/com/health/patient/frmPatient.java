@@ -5,8 +5,19 @@
  */
 package com.health.patient;
 
+import com.database.DBConfig;
+import com.database.DiagnosysData;
+import com.database.Document;
+import com.database.Patient;
+import com.database.Prescription;
+import com.database.Token;
+import com.health.diagnosis.Diagnosis;
 import java.awt.Frame;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -17,9 +28,87 @@ public class frmPatient extends javax.swing.JDialog {
     /**
      * Creates new form Patient
      */
-    public frmPatient(java.awt.Frame parent, boolean modal) {
+    private int tokenid;
+    private Token token;
+    private Patient patient;
+    private JFrame parent;
+
+    public frmPatient(JFrame parent, boolean modal, int tokenid) {
         super(parent, modal);
+        this.parent = parent;
+        this.tokenid = tokenid;
         initComponents();
+        DBConfig config = new DBConfig();
+        token = config.getTokenByID(tokenid);
+        patient = config.getPatientById(token.getPid());
+        loadData();
+        setLocationRelativeTo(parent);
+    }
+
+    private void loadData() {
+        tftToken.setText(token.getId() + "");
+        tftPName.setText(patient.getName());
+        tftAge.setText(patient.getAge());
+        tftContact.setText(patient.getContact());
+        tftMarried.setText(patient.getMarried());
+        tftBlood.setText(patient.getBlood());
+        tftAccount.setText(patient.getAccount());
+        tftFinancial.setText(patient.getFinancial());
+        loadDocuments();
+        loadDiagnosys();
+        loadPrescriptions();
+//        tftRegDate.setText(new SimpleDateFormat("dd/MM/yyyy HH:MM").format(patient.get));
+    }
+
+    private void loadPrescriptions() {
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("ID");
+        model.addColumn("Date & Time");
+        model.addColumn("Ordering Physician");
+        model.addColumn("Details");
+        SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy HH:MM");
+        ArrayList<Prescription> dList = new DBConfig().getPrescription(token.getId());
+
+        for (Prescription d : dList) {
+            model.insertRow(model.getRowCount(), new Object[]{d.getPrescriptionid(), fmt.format(d.getDated()), d.getPhysicianname(), d.getStatus()});
+        }
+
+        tblPrescription.setModel(model);
+    }
+
+    private void loadDocuments() {
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("Document No");
+        model.addColumn("Type");
+        model.addColumn("Date & Time");
+        model.addColumn("View");
+        SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy HH:MM");
+        ArrayList<Document> dList = new DBConfig().getDocumentByPID(patient.getId());
+
+        for (Document d : dList) {
+            model.insertRow(model.getRowCount(), new Object[]{d.getId(), d.getType(), fmt.format(d.getDate()), "View"});
+        }
+
+        tblDocument.setModel(model);
+    }
+
+    private void loadDiagnosys() {
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("ID");
+        model.addColumn("Date & Time");
+        model.addColumn("Diagnosis");
+        model.addColumn("Code");
+        model.addColumn("Short name");
+        model.addColumn("Physician");
+        model.addColumn("Status");
+        SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy HH:MM");
+        ArrayList<DiagnosysData> dList = new DBConfig().getDiagnosysData(patient.getId());
+
+        for (DiagnosysData d : dList) {
+            model.insertRow(model.getRowCount(), new Object[]{d.getId(), fmt.format(d.getDated()), d.getDname(), d.getId(), d.getShortcode(), d.getPname(), d.getStatus()});
+        }
+
+        tblDiagnosys.setModel(model);
     }
 
     /**
@@ -39,27 +128,19 @@ public class frmPatient extends javax.swing.JDialog {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
-        jTextField5 = new javax.swing.JTextField();
-        jTextField6 = new javax.swing.JTextField();
+        tftToken = new javax.swing.JTextField();
+        tftPName = new javax.swing.JTextField();
+        tftAge = new javax.swing.JTextField();
+        tftContact = new javax.swing.JTextField();
+        tftMarried = new javax.swing.JTextField();
+        tftBlood = new javax.swing.JTextField();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblDiagnosys = new javax.swing.JTable();
         jPanel9 = new javax.swing.JPanel();
         jButton6 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
         jButton8 = new javax.swing.JButton();
-        jPanel4 = new javax.swing.JPanel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
-        jButton3 = new javax.swing.JButton();
-        jButton12 = new javax.swing.JButton();
-        jButton13 = new javax.swing.JButton();
-        jButton15 = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         jTable4 = new javax.swing.JTable();
@@ -69,9 +150,8 @@ public class frmPatient extends javax.swing.JDialog {
         jTable5 = new javax.swing.JTable();
         jPanel7 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tblDocument = new javax.swing.JTable();
         jButton9 = new javax.swing.JButton();
-        jButton10 = new javax.swing.JButton();
         jButton11 = new javax.swing.JButton();
         jPanel8 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
@@ -81,14 +161,19 @@ public class frmPatient extends javax.swing.JDialog {
         jLabel11 = new javax.swing.JLabel();
         jScrollPane6 = new javax.swing.JScrollPane();
         jTable6 = new javax.swing.JTable();
-        jTextField7 = new javax.swing.JTextField();
-        jTextField8 = new javax.swing.JTextField();
-        jTextField9 = new javax.swing.JTextField();
-        jTextField10 = new javax.swing.JTextField();
-        jTextField11 = new javax.swing.JTextField();
+        tftAccount = new javax.swing.JTextField();
+        tftFinancial = new javax.swing.JTextField();
+        tftGuardian = new javax.swing.JTextField();
+        tftPhysician = new javax.swing.JTextField();
+        tftRegDate = new javax.swing.JTextField();
+        jPanel4 = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tblPrescription = new javax.swing.JTable();
+        btnDeletePrescrption = new javax.swing.JButton();
+        btnAddPrescription = new javax.swing.JButton();
+        btnEditPrescription = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
 
@@ -163,6 +248,8 @@ public class frmPatient extends javax.swing.JDialog {
         gridBagConstraints.weightx = 0.2;
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
         jPanel1.add(jLabel6, gridBagConstraints);
+
+        tftToken.setEditable(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -170,7 +257,9 @@ public class frmPatient extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 0.8;
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel1.add(jTextField1, gridBagConstraints);
+        jPanel1.add(tftToken, gridBagConstraints);
+
+        tftPName.setEditable(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
@@ -178,7 +267,9 @@ public class frmPatient extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 0.8;
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel1.add(jTextField2, gridBagConstraints);
+        jPanel1.add(tftPName, gridBagConstraints);
+
+        tftAge.setEditable(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 4;
@@ -186,7 +277,9 @@ public class frmPatient extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 0.8;
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel1.add(jTextField3, gridBagConstraints);
+        jPanel1.add(tftAge, gridBagConstraints);
+
+        tftContact.setEditable(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 6;
@@ -194,7 +287,9 @@ public class frmPatient extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 0.8;
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel1.add(jTextField4, gridBagConstraints);
+        jPanel1.add(tftContact, gridBagConstraints);
+
+        tftMarried.setEditable(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 8;
@@ -202,7 +297,9 @@ public class frmPatient extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 0.8;
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel1.add(jTextField5, gridBagConstraints);
+        jPanel1.add(tftMarried, gridBagConstraints);
+
+        tftBlood.setEditable(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 10;
@@ -210,12 +307,12 @@ public class frmPatient extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 0.8;
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel1.add(jTextField6, gridBagConstraints);
+        jPanel1.add(tftBlood, gridBagConstraints);
 
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblDiagnosys.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -223,14 +320,17 @@ public class frmPatient extends javax.swing.JDialog {
                 "ID", "Date & time", "Diagnosis", "Code", "Short Name", "Physician", "Status"
             }
         ));
-        jTable1.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
-        jScrollPane1.setViewportView(jTable1);
+        tblDiagnosys.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        jScrollPane1.setViewportView(tblDiagnosys);
 
-        jButton6.setText("Delete");
-
-        jButton7.setText("Edit");
+        jButton6.setText("Detail");
 
         jButton8.setText("Add");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
@@ -239,8 +339,6 @@ public class frmPatient extends javax.swing.JDialog {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton8)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton6)
                 .addContainerGap())
@@ -251,7 +349,6 @@ public class frmPatient extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton6)
-                    .addComponent(jButton7)
                     .addComponent(jButton8))
                 .addContainerGap(12, Short.MAX_VALUE))
         );
@@ -278,66 +375,6 @@ public class frmPatient extends javax.swing.JDialog {
         );
 
         jTabbedPane1.addTab("Diagnosis", jPanel3);
-
-        jScrollPane3.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-        jScrollPane3.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "ID", "Date and time", "Ordering physician", "Details"
-            }
-        ));
-        jScrollPane3.setViewportView(jTable3);
-
-        jButton3.setText("Delete");
-
-        jButton12.setText("Edit");
-
-        jButton13.setText("Add");
-
-        jButton15.setText("Add Prescription Detail");
-        jButton15.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton15ActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 573, Short.MAX_VALUE)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jButton15, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton13)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton12)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton3)))
-                .addContainerGap())
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton3)
-                    .addComponent(jButton12)
-                    .addComponent(jButton13)
-                    .addComponent(jButton15))
-                .addContainerGap(27, Short.MAX_VALUE))
-        );
-
-        jTabbedPane1.addTab("Prescriptions", jPanel4);
 
         jScrollPane4.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         jScrollPane4.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -414,7 +451,7 @@ public class frmPatient extends javax.swing.JDialog {
         jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         jScrollPane2.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tblDocument.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -422,13 +459,22 @@ public class frmPatient extends javax.swing.JDialog {
                 "Document no", "Date and time", "Type", "View"
             }
         ));
-        jScrollPane2.setViewportView(jTable2);
+        tblDocument.setShowVerticalLines(false);
+        jScrollPane2.setViewportView(tblDocument);
 
-        jButton9.setText("Delete");
-
-        jButton10.setText("Edit");
+        jButton9.setText("View");
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
 
         jButton11.setText("Add");
+        jButton11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton11ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -442,8 +488,6 @@ public class frmPatient extends javax.swing.JDialog {
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jButton11)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton10)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton9)))
                 .addContainerGap())
         );
@@ -455,7 +499,6 @@ public class frmPatient extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton9)
-                    .addComponent(jButton10)
                     .addComponent(jButton11))
                 .addContainerGap(29, Short.MAX_VALUE))
         );
@@ -486,6 +529,16 @@ public class frmPatient extends javax.swing.JDialog {
         jTable6.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         jScrollPane6.setViewportView(jTable6);
 
+        tftAccount.setEditable(false);
+
+        tftFinancial.setEditable(false);
+
+        tftGuardian.setEditable(false);
+
+        tftPhysician.setEditable(false);
+
+        tftRegDate.setEditable(false);
+
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
@@ -502,11 +555,11 @@ public class frmPatient extends javax.swing.JDialog {
                             .addComponent(jLabel7))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField11)
-                            .addComponent(jTextField10)
-                            .addComponent(jTextField9)
-                            .addComponent(jTextField8)
-                            .addComponent(jTextField7)))
+                            .addComponent(tftRegDate)
+                            .addComponent(tftPhysician)
+                            .addComponent(tftGuardian)
+                            .addComponent(tftFinancial)
+                            .addComponent(tftAccount)))
                     .addGroup(jPanel8Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 573, Short.MAX_VALUE)))
@@ -518,23 +571,23 @@ public class frmPatient extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tftAccount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
-                    .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tftFinancial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
-                    .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tftGuardian, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
-                    .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tftPhysician, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
-                    .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tftRegDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 132, Short.MAX_VALUE)
                 .addContainerGap())
@@ -542,9 +595,72 @@ public class frmPatient extends javax.swing.JDialog {
 
         jTabbedPane1.addTab("Office", jPanel8);
 
-        jButton1.setText("Close");
+        jScrollPane3.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+        jScrollPane3.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
-        jButton2.setText("Print");
+        tblPrescription.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Date and time", "Ordering physician", "Details"
+            }
+        ));
+        jScrollPane3.setViewportView(tblPrescription);
+
+        btnDeletePrescrption.setText("Delete");
+
+        btnAddPrescription.setText("Add");
+        btnAddPrescription.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddPrescriptionActionPerformed(evt);
+            }
+        });
+
+        btnEditPrescription.setText("Fill/Edit Prescription Detail");
+        btnEditPrescription.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditPrescriptionActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 573, Short.MAX_VALUE)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(btnEditPrescription, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnAddPrescription)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnDeletePrescrption)))
+                .addContainerGap())
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnDeletePrescrption)
+                    .addComponent(btnAddPrescription)
+                    .addComponent(btnEditPrescription))
+                .addContainerGap(27, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Prescriptions", jPanel4);
+
+        jButton1.setText("Close");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("End Session");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -565,8 +681,6 @@ public class frmPatient extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1)
                 .addContainerGap())
         );
@@ -576,7 +690,6 @@ public class frmPatient extends javax.swing.JDialog {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
-                    .addComponent(jButton2)
                     .addComponent(jButton4)
                     .addComponent(jButton5))
                 .addContainerGap())
@@ -597,11 +710,11 @@ public class frmPatient extends javax.swing.JDialog {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(0, 0, 0)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(1, 1, 1)
                 .addComponent(jTabbedPane1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -612,25 +725,69 @@ public class frmPatient extends javax.swing.JDialog {
         JOptionPane.showConfirmDialog(frmPatient.this, "Do you want to add pharmacy queue?");
     }//GEN-LAST:event_jButton4ActionPerformed
 
-    private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
-       new PrescriptionDetail((Frame) getParent(), true).setVisible(true);
-    }//GEN-LAST:event_jButton15ActionPerformed
+    private void btnEditPrescriptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditPrescriptionActionPerformed
 
-    
+        int i=tblPrescription.getSelectedRow();
+        if(i<0){
+            return;
+        }
+        int pid=Integer.parseInt(tblPrescription.getValueAt(i, 0).toString());
+        Prescription p=new DBConfig().getPrescriptionByID(pid);
+        new PrescriptionDetail((Frame) getParent(), true,p).setVisible(true);
+    }//GEN-LAST:event_btnEditPrescriptionActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
+        new DocumentDialog(parent, true, patient.getId()).setVisible(true);
+        loadDocuments();
+    }//GEN-LAST:event_jButton11ActionPerformed
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+
+        int i = tblDocument.getSelectedRow();
+        if (i >= 0) {
+            int docid = Integer.parseInt(tblDocument.getValueAt(i, 0).toString());
+            Document doc = new DBConfig().getDocumentByDID(docid);
+            new DocumentViewer(parent, true, doc.getB()).setVisible(true);
+        }
+
+
+    }//GEN-LAST:event_jButton9ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+
+        new Diagnosis(parent, true, patient, token.getDid()).setVisible(true);
+        loadDiagnosys();
+
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void btnAddPrescriptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddPrescriptionActionPerformed
+        try {
+            Prescription p = new Prescription();
+            p.setPhysicianid(token.getDid());
+            p.setTokennno(token.getId());
+            p.setStatus("Active");
+            int i = new DBConfig().addPrescription(p, false);           
+            loadPrescriptions();
+        } catch (Exception ex) {
+
+        }
+    }//GEN-LAST:event_btnAddPrescriptionActionPerformed
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAddPrescription;
+    private javax.swing.JButton btnDeletePrescrption;
+    private javax.swing.JButton btnEditPrescription;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
-    private javax.swing.JButton jButton12;
-    private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton14;
-    private javax.swing.JButton jButton15;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
@@ -660,22 +817,23 @@ public class frmPatient extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTable jTable3;
     private javax.swing.JTable jTable4;
     private javax.swing.JTable jTable5;
     private javax.swing.JTable jTable6;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField10;
-    private javax.swing.JTextField jTextField11;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
-    private javax.swing.JTextField jTextField7;
-    private javax.swing.JTextField jTextField8;
-    private javax.swing.JTextField jTextField9;
+    private javax.swing.JTable tblDiagnosys;
+    private javax.swing.JTable tblDocument;
+    private javax.swing.JTable tblPrescription;
+    private javax.swing.JTextField tftAccount;
+    private javax.swing.JTextField tftAge;
+    private javax.swing.JTextField tftBlood;
+    private javax.swing.JTextField tftContact;
+    private javax.swing.JTextField tftFinancial;
+    private javax.swing.JTextField tftGuardian;
+    private javax.swing.JTextField tftMarried;
+    private javax.swing.JTextField tftPName;
+    private javax.swing.JTextField tftPhysician;
+    private javax.swing.JTextField tftRegDate;
+    private javax.swing.JTextField tftToken;
     // End of variables declaration//GEN-END:variables
+
 }

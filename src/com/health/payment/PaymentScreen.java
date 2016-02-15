@@ -5,7 +5,16 @@
  */
 package com.health.payment;
 
+import com.database.DBConfig;
+import com.database.DiagnosysData;
+import com.database.Payment;
+import java.awt.print.PrinterException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -16,9 +25,12 @@ public class PaymentScreen extends javax.swing.JInternalFrame {
     /**
      * Creates new form PaymentScreen
      */
+    private JFrame parent;
+
     public PaymentScreen(JFrame parent) {
-        
+        this.parent = parent;
         initComponents();
+        loadDiagnosys();
         setVisible(true);
     }
 
@@ -33,12 +45,12 @@ public class PaymentScreen extends javax.swing.JInternalFrame {
 
         jTextField1 = new javax.swing.JTextField();
         jToolBar1 = new javax.swing.JToolBar();
+        jButton4 = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JToolBar.Separator();
-        jLabel1 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblPaymentQueue = new javax.swing.JTable();
 
         jTextField1.setText("jTextField1");
 
@@ -48,56 +60,111 @@ public class PaymentScreen extends javax.swing.JInternalFrame {
         setResizable(true);
         setTitle("Payment");
 
-        jToolBar1.setRollover(true);
+        jToolBar1.setOpaque(false);
+
+        jButton4.setText("Refresh");
+        jButton4.setFocusable(false);
+        jButton4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton4.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(jButton4);
         jToolBar1.add(jSeparator1);
 
-        jLabel1.setText("Enter ID : ");
-        jToolBar1.add(jLabel1);
+        jButton2.setText("Print");
+        jButton2.setFocusable(false);
+        jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(jButton2);
 
-        jTextField2.setMaximumSize(new java.awt.Dimension(100, 22));
-        jTextField2.setMinimumSize(new java.awt.Dimension(100, 22));
-        jTextField2.setPreferredSize(new java.awt.Dimension(100, 22));
-        jToolBar1.add(jTextField2);
-
-        jButton1.setText("Search");
-        jButton1.setFocusable(false);
-        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar1.add(jButton1);
+        jButton3.setText("Recieve Payment");
+        jButton3.setFocusable(false);
+        jButton3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton3.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(jButton3);
 
         getContentPane().add(jToolBar1, java.awt.BorderLayout.PAGE_START);
 
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblPaymentQueue.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null}
+
             },
             new String [] {
-                "Booking ID", "Clinic ID", "Physician ID", "Physician Name", "Patient ID", "Patient Name", "Time", "Total", "Recieved", "Status"
+                "Queue ID", "Patient ID", "Patient Name", "Payment Type", "TOKEN/PRESCRIPTION", "Amount", "Recieved", "Status"
             }
         ));
-        jTable1.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblPaymentQueue);
 
         getContentPane().add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        loadDiagnosys();
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+
+        Payment p = new DBConfig().getPaymentQueueByID(Integer.parseInt(tblPaymentQueue.getValueAt(tblPaymentQueue.getSelectedRow(), 0).toString()));
+        new RecievePayment(parent, true, p).setVisible(true);
+        loadDiagnosys();
+
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        try {
+            tblPaymentQueue.print();
+        } catch (PrinterException ex) {
+            Logger.getLogger(PaymentScreen.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void loadDiagnosys() {
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("Queue ID");
+        model.addColumn("Patient ID");
+        model.addColumn("Patient Name");
+        model.addColumn("Payment Type");
+        model.addColumn("Token/Prescripton");
+        model.addColumn("Amount");
+        model.addColumn("Recieved");
+        model.addColumn("Status");
+
+        ArrayList<Payment> dList = new DBConfig().getPaymentQueue();
+
+        for (Payment d : dList) {
+            model.insertRow(model.getRowCount(), new Object[]{d.getId(),
+                d.getPid(), d.getPname(), d.getPtype(), d.getTorp(), d.getAmount(), d.getRecieved(), d.getStatus()});
+        }
+
+        tblPaymentQueue.setModel(model);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JToolBar.Separator jSeparator1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JToolBar jToolBar1;
+    private javax.swing.JTable tblPaymentQueue;
     // End of variables declaration//GEN-END:variables
 }

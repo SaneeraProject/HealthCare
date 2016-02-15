@@ -5,6 +5,15 @@
  */
 package com.health.diagnosis;
 
+import com.database.DBConfig;
+import com.database.Diagnosys;
+import com.database.DiagnosysData;
+import com.database.Patient;
+import java.util.ArrayList;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Ajeet
@@ -14,9 +23,18 @@ public class Diagnosis extends javax.swing.JDialog {
     /**
      * Creates new form diagnosis
      */
-    public Diagnosis(java.awt.Frame parent, boolean modal) {
+    private JFrame parent;
+    private int pid;
+
+    public Diagnosis(JFrame parent, boolean modal, Patient patient,int did) {
         super(parent, modal);
+        this.parent = parent;
+        this.pid=patient.getId();
         initComponents();
+        tftpid.setText(String.valueOf(did));
+        btnUpdate.setEnabled(false);
+        loadAll();
+        btnUpdate.setEnabled(false);
     }
 
     /**
@@ -34,20 +52,18 @@ public class Diagnosis extends javax.swing.JDialog {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox();
-        jComboBox2 = new javax.swing.JComboBox();
-        jButton4 = new javax.swing.JButton();
+        tftid = new javax.swing.JTextField();
+        tftpid = new javax.swing.JTextField();
+        cmbDiagnosys = new javax.swing.JComboBox();
+        cmbstatus = new javax.swing.JComboBox();
         jLabel6 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        tadetail = new javax.swing.JTextArea();
         jPanel2 = new javax.swing.JPanel();
-        jButton5 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        btnNew = new javax.swing.JButton();
+        btnSave = new javax.swing.JButton();
+        btnUpdate = new javax.swing.JButton();
+        btnClose = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -79,7 +95,7 @@ public class Diagnosis extends javax.swing.JDialog {
         jPanel1.add(jLabel2, gridBagConstraints);
 
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel3.setText("Physician Name : ");
+        jLabel3.setText("Physician ID : ");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -100,16 +116,8 @@ public class Diagnosis extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
         jPanel1.add(jLabel4, gridBagConstraints);
 
-        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel5.setText("Browse scaned report : ");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 0.2;
-        gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel1.add(jLabel5, gridBagConstraints);
+        tftid.setEditable(false);
+        tftid.setText("#");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -117,7 +125,9 @@ public class Diagnosis extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 0.8;
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel1.add(jTextField1, gridBagConstraints);
+        jPanel1.add(tftid, gridBagConstraints);
+
+        tftpid.setEditable(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
@@ -125,9 +135,8 @@ public class Diagnosis extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 0.8;
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel1.add(jTextField3, gridBagConstraints);
+        jPanel1.add(tftpid, gridBagConstraints);
 
-        jComboBox1.setEditable(true);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
@@ -135,10 +144,9 @@ public class Diagnosis extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 0.8;
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel1.add(jComboBox1, gridBagConstraints);
+        jPanel1.add(cmbDiagnosys, gridBagConstraints);
 
-        jComboBox2.setEditable(true);
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Field active", "Active-improving", "Active-stable", "Active-worsening", "Inactive", "Resolved" }));
+        cmbstatus.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Field active", "Active-improving", "Active-stable", "Active-worsening", "Inactive", "Resolved" }));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 3;
@@ -146,22 +154,7 @@ public class Diagnosis extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 0.8;
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel1.add(jComboBox2, gridBagConstraints);
-
-        jButton4.setText("...");
-        jButton4.setContentAreaFilled(false);
-        jButton4.setMargin(new java.awt.Insets(1, 1, 1, 1));
-        jButton4.setMaximumSize(new java.awt.Dimension(85, 85));
-        jButton4.setMinimumSize(new java.awt.Dimension(85, 85));
-        jButton4.setOpaque(false);
-        jButton4.setPreferredSize(new java.awt.Dimension(85, 85));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.gridheight = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel1.add(jButton4, gridBagConstraints);
+        jPanel1.add(cmbstatus, gridBagConstraints);
 
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel6.setText("Detailed status : ");
@@ -174,9 +167,9 @@ public class Diagnosis extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
         jPanel1.add(jLabel6, gridBagConstraints);
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(2);
-        jScrollPane1.setViewportView(jTextArea1);
+        tadetail.setColumns(20);
+        tadetail.setRows(2);
+        jScrollPane1.setViewportView(tadetail);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -192,33 +185,48 @@ public class Diagnosis extends javax.swing.JDialog {
 
         jPanel2.setLayout(new java.awt.GridBagLayout());
 
-        jButton5.setText("New Diagnosis");
+        btnNew.setText("New Diagnosis");
+        btnNew.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNewActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
-        jPanel2.add(jButton5, gridBagConstraints);
+        jPanel2.add(btnNew, gridBagConstraints);
 
-        jButton3.setText("Save");
+        btnSave.setText("Save");
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
-        jPanel2.add(jButton3, gridBagConstraints);
+        jPanel2.add(btnSave, gridBagConstraints);
 
-        jButton2.setText("Update");
+        btnUpdate.setText("Update");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
-        jPanel2.add(jButton2, gridBagConstraints);
+        jPanel2.add(btnUpdate, gridBagConstraints);
 
-        jButton1.setText("Close");
+        btnClose.setText("Close");
+        btnClose.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCloseActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
-        jPanel2.add(jButton1, gridBagConstraints);
+        jPanel2.add(btnClose, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -251,28 +259,76 @@ public class Diagnosis extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    
+    private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
+        dispose();
+    }//GEN-LAST:event_btnCloseActionPerformed
+
+    private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
+        new NewDiagnosis(parent, true).setVisible(true);
+        loadAll();
+    }//GEN-LAST:event_btnNewActionPerformed
+
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+        
+        try{
+            int diagnosysid=((Diagnosys)cmbDiagnosys.getSelectedItem()).getId();
+            int physicianid=Integer.parseInt(tftpid.getText());
+            String status=cmbstatus.getSelectedItem().toString();
+            String detail=tadetail.getText();
+            
+            DiagnosysData data=new DiagnosysData();
+            data.setDid(diagnosysid);
+            data.setPhysician(physicianid);
+            data.setPid(pid);
+            data.setStatus(status);
+            data.setDetail(detail);
+            int i=new DBConfig().savePDiagnosys(data, false);
+            if(i>0){
+                JOptionPane.showMessageDialog(Diagnosis.this, "Diagnnosys detail has been added successfully!");
+                dispose();
+            }else{
+               JOptionPane.showMessageDialog(Diagnosis.this, "Please correct all fields first!", "Error", JOptionPane.ERROR_MESSAGE);
+         }
+                    
+            
+        }catch(Exception ex){
+            
+        }
+        
+        
+    }//GEN-LAST:event_btnSaveActionPerformed
+
+    public void loadAll() {
+        DefaultComboBoxModel model = new DefaultComboBoxModel();
+
+        ArrayList<Diagnosys> dList = new DBConfig().getDiagnosys();
+        for (Diagnosys d : dList) {
+            model.addElement(d);
+        }
+
+        cmbDiagnosys.setModel(model);
+
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JComboBox jComboBox1;
-    private javax.swing.JComboBox jComboBox2;
+    private javax.swing.JButton btnClose;
+    private javax.swing.JButton btnNew;
+    private javax.swing.JButton btnSave;
+    private javax.swing.JButton btnUpdate;
+    private javax.swing.JComboBox cmbDiagnosys;
+    private javax.swing.JComboBox cmbstatus;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextArea tadetail;
+    private javax.swing.JTextField tftid;
+    private javax.swing.JTextField tftpid;
     // End of variables declaration//GEN-END:variables
 }
