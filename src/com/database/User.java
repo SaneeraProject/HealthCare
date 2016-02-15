@@ -18,6 +18,7 @@ public class User {
     String fullName;
     String question;
     String answer;
+    String type;
     Date dated;
     Date lastLogin;
     Date lastLogout;
@@ -85,5 +86,15 @@ public class User {
     public void setLastLogout(Date lastLogout) {
         this.lastLogout = lastLogout;
     }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+    
+    
 
 }

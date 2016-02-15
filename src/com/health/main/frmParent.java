@@ -33,10 +33,19 @@ public class frmParent extends javax.swing.JFrame {
     public frmParent(User user) {
         this.user = user;
         initComponents();
+        btnPatient.setVisible(false);
+        btnClinic.setVisible(false);
+        btnApointment.setVisible(false);
+        btnFarmacy.setVisible(false);
+        btnPhyision.setVisible(false);
+        btnSetting.setVisible(false);
+        btnToken.setVisible(false);
+        btnPayment.setVisible(false);
         lblUser.setText(user.getUserName());
         chatForm1.setVisible(false);
         setMinimumSize(new Dimension(600, 600));
         setExtendedState(JFrame.MAXIMIZED_BOTH);
+        loadbuttons();
         setIconImage(new javax.swing.ImageIcon(getClass().getResource("/icons/logo.png")).getImage());
     }
 
@@ -68,15 +77,15 @@ public class frmParent extends javax.swing.JFrame {
         jButton5 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jToolBar1 = new javax.swing.JToolBar();
-        jButton1 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
-        jButton9 = new javax.swing.JButton();
-        jButton10 = new javax.swing.JButton();
-        jButton11 = new javax.swing.JButton();
-        jButton12 = new javax.swing.JButton();
+        btnPatient = new javax.swing.JButton();
+        btnClinic = new javax.swing.JButton();
+        btnApointment = new javax.swing.JButton();
+        btnFarmacy = new javax.swing.JButton();
+        btnPhyision = new javax.swing.JButton();
+        btnToken = new javax.swing.JButton();
+        btnPayment = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JToolBar.Separator();
-        jButton13 = new javax.swing.JButton();
+        btnSetting = new javax.swing.JButton();
         jDesktopPane1 = new javax.swing.JDesktopPane();
         chatForm1 = new com.health.chat.ChatForm();
 
@@ -218,118 +227,118 @@ public class frmParent extends javax.swing.JFrame {
 
         jToolBar1.setBackground(new java.awt.Color(204, 204, 255));
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/small/Picture2.png"))); // NOI18N
-        jButton1.setToolTipText("Patients");
-        jButton1.setBorderPainted(false);
-        jButton1.setContentAreaFilled(false);
-        jButton1.setFocusable(false);
-        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnPatient.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/small/Picture2.png"))); // NOI18N
+        btnPatient.setToolTipText("Patients");
+        btnPatient.setBorderPainted(false);
+        btnPatient.setContentAreaFilled(false);
+        btnPatient.setFocusable(false);
+        btnPatient.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnPatient.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnPatient.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnPatientActionPerformed(evt);
             }
         });
-        jToolBar1.add(jButton1);
+        jToolBar1.add(btnPatient);
 
-        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/small/Picture3.png"))); // NOI18N
-        jButton7.setToolTipText("Clinics");
-        jButton7.setBorderPainted(false);
-        jButton7.setContentAreaFilled(false);
-        jButton7.setFocusable(false);
-        jButton7.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton7.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton7.addActionListener(new java.awt.event.ActionListener() {
+        btnClinic.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/small/Picture3.png"))); // NOI18N
+        btnClinic.setToolTipText("Clinics");
+        btnClinic.setBorderPainted(false);
+        btnClinic.setContentAreaFilled(false);
+        btnClinic.setFocusable(false);
+        btnClinic.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnClinic.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnClinic.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton7ActionPerformed(evt);
+                btnClinicActionPerformed(evt);
             }
         });
-        jToolBar1.add(jButton7);
+        jToolBar1.add(btnClinic);
 
-        jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/small/Picture4.png"))); // NOI18N
-        jButton8.setToolTipText("Appointments");
-        jButton8.setBorderPainted(false);
-        jButton8.setContentAreaFilled(false);
-        jButton8.setFocusable(false);
-        jButton8.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton8.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton8.addActionListener(new java.awt.event.ActionListener() {
+        btnApointment.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/small/Picture4.png"))); // NOI18N
+        btnApointment.setToolTipText("Appointments");
+        btnApointment.setBorderPainted(false);
+        btnApointment.setContentAreaFilled(false);
+        btnApointment.setFocusable(false);
+        btnApointment.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnApointment.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnApointment.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton8ActionPerformed(evt);
+                btnApointmentActionPerformed(evt);
             }
         });
-        jToolBar1.add(jButton8);
+        jToolBar1.add(btnApointment);
 
-        jButton9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/small/Picture5.png"))); // NOI18N
-        jButton9.setToolTipText("Pharmacy");
-        jButton9.setBorderPainted(false);
-        jButton9.setContentAreaFilled(false);
-        jButton9.setFocusable(false);
-        jButton9.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton9.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton9.addActionListener(new java.awt.event.ActionListener() {
+        btnFarmacy.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/small/Picture5.png"))); // NOI18N
+        btnFarmacy.setToolTipText("Pharmacy");
+        btnFarmacy.setBorderPainted(false);
+        btnFarmacy.setContentAreaFilled(false);
+        btnFarmacy.setFocusable(false);
+        btnFarmacy.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnFarmacy.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnFarmacy.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton9ActionPerformed(evt);
+                btnFarmacyActionPerformed(evt);
             }
         });
-        jToolBar1.add(jButton9);
+        jToolBar1.add(btnFarmacy);
 
-        jButton10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/small/Picture6.png"))); // NOI18N
-        jButton10.setToolTipText("Physicians");
-        jButton10.setBorderPainted(false);
-        jButton10.setContentAreaFilled(false);
-        jButton10.setFocusable(false);
-        jButton10.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton10.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton10.addActionListener(new java.awt.event.ActionListener() {
+        btnPhyision.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/small/Picture6.png"))); // NOI18N
+        btnPhyision.setToolTipText("Physicians");
+        btnPhyision.setBorderPainted(false);
+        btnPhyision.setContentAreaFilled(false);
+        btnPhyision.setFocusable(false);
+        btnPhyision.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnPhyision.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnPhyision.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton10ActionPerformed(evt);
+                btnPhyisionActionPerformed(evt);
             }
         });
-        jToolBar1.add(jButton10);
+        jToolBar1.add(btnPhyision);
 
-        jButton11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/small/Picture7.png"))); // NOI18N
-        jButton11.setToolTipText("Token Manager ");
-        jButton11.setBorderPainted(false);
-        jButton11.setContentAreaFilled(false);
-        jButton11.setFocusable(false);
-        jButton11.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton11.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton11.addActionListener(new java.awt.event.ActionListener() {
+        btnToken.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/small/Picture7.png"))); // NOI18N
+        btnToken.setToolTipText("Token Manager ");
+        btnToken.setBorderPainted(false);
+        btnToken.setContentAreaFilled(false);
+        btnToken.setFocusable(false);
+        btnToken.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnToken.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnToken.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton11ActionPerformed(evt);
+                btnTokenActionPerformed(evt);
             }
         });
-        jToolBar1.add(jButton11);
+        jToolBar1.add(btnToken);
 
-        jButton12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/small/Picture8.png"))); // NOI18N
-        jButton12.setToolTipText("Payments");
-        jButton12.setBorderPainted(false);
-        jButton12.setContentAreaFilled(false);
-        jButton12.setFocusable(false);
-        jButton12.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton12.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton12.addActionListener(new java.awt.event.ActionListener() {
+        btnPayment.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/small/Picture8.png"))); // NOI18N
+        btnPayment.setToolTipText("Payments");
+        btnPayment.setBorderPainted(false);
+        btnPayment.setContentAreaFilled(false);
+        btnPayment.setFocusable(false);
+        btnPayment.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnPayment.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnPayment.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton12ActionPerformed(evt);
+                btnPaymentActionPerformed(evt);
             }
         });
-        jToolBar1.add(jButton12);
+        jToolBar1.add(btnPayment);
         jToolBar1.add(jSeparator1);
 
-        jButton13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/small/Picture9.png"))); // NOI18N
-        jButton13.setToolTipText("Settings");
-        jButton13.setBorderPainted(false);
-        jButton13.setContentAreaFilled(false);
-        jButton13.setFocusable(false);
-        jButton13.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton13.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton13.addActionListener(new java.awt.event.ActionListener() {
+        btnSetting.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/small/Picture9.png"))); // NOI18N
+        btnSetting.setToolTipText("Settings");
+        btnSetting.setBorderPainted(false);
+        btnSetting.setContentAreaFilled(false);
+        btnSetting.setFocusable(false);
+        btnSetting.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnSetting.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnSetting.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton13ActionPerformed(evt);
+                btnSettingActionPerformed(evt);
             }
         });
-        jToolBar1.add(jButton13);
+        jToolBar1.add(btnSetting);
 
         jPanel3.add(jToolBar1, java.awt.BorderLayout.PAGE_START);
 
@@ -348,55 +357,58 @@ public class frmParent extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_jButton5ActionPerformed
 
-    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+    private void btnApointmentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApointmentActionPerformed
         for (JInternalFrame frame : jDesktopPane1.getAllFrames()) {
             frame.dispose();
         }
         jDesktopPane1.add(new ClinicList(this, true));        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton8ActionPerformed
+    }//GEN-LAST:event_btnApointmentActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnPatientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPatientActionPerformed
         for (JInternalFrame frame : jDesktopPane1.getAllFrames()) {
             frame.dispose();
         }
         jDesktopPane1.add(new PatientScreen(this));
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnPatientActionPerformed
 
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+    private void btnClinicActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClinicActionPerformed
         for (JInternalFrame frame : jDesktopPane1.getAllFrames()) {
             frame.dispose();
         }
         jDesktopPane1.add(new ClinicScreen(this));
-    }//GEN-LAST:event_jButton7ActionPerformed
+    }//GEN-LAST:event_btnClinicActionPerformed
 
-    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
+    private void btnPaymentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPaymentActionPerformed
         for (JInternalFrame frame : jDesktopPane1.getAllFrames()) {
             frame.dispose();
         }
         jDesktopPane1.add(new PaymentScreen(this));
-    }//GEN-LAST:event_jButton12ActionPerformed
+    }//GEN-LAST:event_btnPaymentActionPerformed
 
-    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-        new frmPhysician(this, true).setVisible(true);
-    }//GEN-LAST:event_jButton10ActionPerformed
+    private void btnPhyisionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPhyisionActionPerformed
+        for (JInternalFrame frame : jDesktopPane1.getAllFrames()) {
+            frame.dispose();
+        }
+        jDesktopPane1.add(new frmPhysician(this, true));
+    }//GEN-LAST:event_btnPhyisionActionPerformed
 
-    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+    private void btnFarmacyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFarmacyActionPerformed
         for (JInternalFrame frame : jDesktopPane1.getAllFrames()) {
             frame.dispose();
         }
         jDesktopPane1.add(new PharmacyScreen(this));
-    }//GEN-LAST:event_jButton9ActionPerformed
+    }//GEN-LAST:event_btnFarmacyActionPerformed
 
-    private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
+    private void btnSettingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSettingActionPerformed
         for (JInternalFrame frame : jDesktopPane1.getAllFrames()) {
             frame.dispose();
         }
         jDesktopPane1.add(new SettingScreen(this));
-    }//GEN-LAST:event_jButton13ActionPerformed
+    }//GEN-LAST:event_btnSettingActionPerformed
 
-    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
+    private void btnTokenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTokenActionPerformed
         new TokenScreen(getIconImage()).setVisible(true);        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton11ActionPerformed
+    }//GEN-LAST:event_btnTokenActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         chatForm1.setVisible(!chatForm1.isVisible());        // TODO add your handling code here:
@@ -412,20 +424,20 @@ public class frmParent extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnApointment;
+    private javax.swing.JButton btnClinic;
+    private javax.swing.JButton btnFarmacy;
+    private javax.swing.JButton btnPatient;
+    private javax.swing.JButton btnPayment;
+    private javax.swing.JButton btnPhyision;
+    private javax.swing.JButton btnSetting;
+    private javax.swing.JButton btnToken;
     private javax.swing.ButtonGroup buttonGroup1;
     private com.health.chat.ChatForm chatForm1;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton11;
-    private javax.swing.JButton jButton12;
-    private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -442,4 +454,72 @@ public class frmParent extends javax.swing.JFrame {
     private javax.swing.JToolBar jToolBar2;
     private javax.swing.JLabel lblUser;
     // End of variables declaration//GEN-END:variables
+
+    private void loadbuttons() {
+        if (user.getType().equals("Admin")) {
+            btnPatient.setVisible(true);
+            btnClinic.setVisible(true);
+            btnApointment.setVisible(true);
+            btnFarmacy.setVisible(false);
+            btnPhyision.setVisible(true);
+            btnSetting.setVisible(true);
+            btnToken.setVisible(false);
+            btnPayment.setVisible(true);
+        }else if(user.getType().equals("Receptionist")) {
+            btnPatient.setVisible(true);
+            btnClinic.setVisible(false);
+            btnApointment.setVisible(true);
+            btnFarmacy.setVisible(false);
+            btnPhyision.setVisible(false);
+            btnSetting.setVisible(true);
+            btnToken.setVisible(false);
+            btnPayment.setVisible(false);
+        }else if(user.getType().equals("Physician")) {
+            btnPatient.setVisible(true);
+            btnClinic.setVisible(false);
+            btnApointment.setVisible(true);
+            btnFarmacy.setVisible(false);
+            btnPhyision.setVisible(false);
+            btnSetting.setVisible(true);
+            btnToken.setVisible(false);
+            btnPayment.setVisible(false);
+        }else if(user.getType().equals("Cashier")) {
+            btnPatient.setVisible(false);
+            btnClinic.setVisible(false);
+            btnApointment.setVisible(false);
+            btnFarmacy.setVisible(false);
+            btnPhyision.setVisible(false);
+            btnSetting.setVisible(true);
+            btnToken.setVisible(false);
+            btnPayment.setVisible(true);
+        }else if(user.getType().equals("Pharmacist")) {
+            btnPatient.setVisible(false);
+            btnClinic.setVisible(false);
+            btnApointment.setVisible(false);
+            btnFarmacy.setVisible(true);
+            btnPhyision.setVisible(false);
+            btnSetting.setVisible(true);
+            btnToken.setVisible(false);
+            btnPayment.setVisible(false);
+        }else if(user.getType().equals("Super User") || user.getType().equals("Accountant")) {
+            btnPatient.setVisible(true);
+            btnClinic.setVisible(true);
+            btnApointment.setVisible(true);
+            btnFarmacy.setVisible(true);
+            btnPhyision.setVisible(true);
+            btnSetting.setVisible(true);
+            btnToken.setVisible(true);
+            btnPayment.setVisible(true);
+        }else if(user.getType().equals("Token manager")) {
+            btnPatient.setVisible(false);
+            btnClinic.setVisible(false);
+            btnApointment.setVisible(false);
+            btnFarmacy.setVisible(false);
+            btnPhyision.setVisible(false);
+            btnSetting.setVisible(true);
+            btnToken.setVisible(true);
+            btnPayment.setVisible(false);
+        }
+
+    }
 }

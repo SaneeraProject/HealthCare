@@ -90,6 +90,7 @@ public class DBConfig {
                     user.setId(rst.getInt("id"));
                     user.setUserName(rst.getString("username"));
                     user.setFullName(rst.getString("fullname"));
+                    user.setType(rst.getString("type"));
                     user.setDated(rst.getDate("dated"));
                 }
             } else {
@@ -1425,6 +1426,102 @@ public class DBConfig {
             }
         }
         return c;
+    }
+
+    public int saveMedicine(Medicine m) {
+        int i = 0;
+        Connection con = null;
+        PreparedStatement pst = null;
+        try {
+            con = getCon();
+            pst = con.prepareStatement("insert into tblmedicine(id,name,brand,dated) values(NULL,?,?,NOW())");
+            pst.setString(1, m.getName());
+            pst.setString(2, m.getBrand());
+            i = pst.executeUpdate();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+                if (pst != null) {
+                    pst.close();
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+        return i;
+    }
+
+    public ArrayList<Medicine> getMedicine() {
+        ArrayList<Medicine> qList = new ArrayList<Medicine>();
+        Connection con = null;
+        PreparedStatement pst = null;
+        ResultSet rst = null;
+        try {
+            con = getCon();
+            pst = con.prepareStatement("select id,name,brand from tblmedicine");
+            rst = pst.executeQuery();
+            while (rst.next()) {
+                Medicine medicine = new Medicine();
+                medicine.setId(rst.getInt("id"));
+                medicine.setName(rst.getString("name"));
+                medicine.setBrand(rst.getString("brand"));
+                qList.add(medicine);
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+                if (pst != null) {
+                    pst.close();
+                }
+                if (rst != null) {
+                    rst.close();
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+        return qList;
+    }
+    
+    public int saveMedicineStock(MedicineData m) {
+        int i = 0;
+        Connection con = null;
+        PreparedStatement pst = null;
+        try {
+            con = getCon();
+            pst = con.prepareStatement("insert into tblmedicinestock(id,mid,quantity,sellrate,unit,shelf,rack,box) values(NULL,?,?,?,?,?,?,?)");
+            pst.setInt(1, m.getMid());
+            pst.setInt(2, m.getQuantity());
+            pst.setDouble(3, m.getSellrate());
+            pst.setString(4, m.getUnit());
+            pst.setInt(5, m.getShelf());
+            pst.setInt(6, m.getRack());
+            pst.setInt(7, m.getBox());
+            i = pst.executeUpdate();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+                if (pst != null) {
+                    pst.close();
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+        return i;
     }
 
 }
