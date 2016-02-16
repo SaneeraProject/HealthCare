@@ -5,17 +5,46 @@
  */
 package com.health.chat;
 
+import com.database.DBConfig;
+import com.database.Message;
+import com.database.User;
+import com.health.main.frmParent;
+import static java.lang.Thread.sleep;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Ajeet
  */
-public class ChatForm extends javax.swing.JPanel {
+public class ChatForm extends javax.swing.JPanel implements Runnable{
 
     /**
      * Creates new form ChatForm
      */
     public ChatForm() {
         initComponents();
+        loadUsers();
+        Thread t=new Thread(this);
+        t.start();
+    }
+
+    public void loadUsers() {
+        DefaultComboBoxModel<User> model = new DefaultComboBoxModel<User>();
+        ArrayList<User> users = new DBConfig().getUsers();
+
+        for (User user : users) {
+
+            model.addElement(user);
+        }
+
+        cmbUsers.setModel(model);
+        loadMessages();
+
     }
 
     /**
@@ -32,12 +61,12 @@ public class ChatForm extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jComboBox1 = new javax.swing.JComboBox();
+        tftMessage = new javax.swing.JTextArea();
+        btnSend = new javax.swing.JButton();
+        btnClear = new javax.swing.JButton();
+        cmbUsers = new javax.swing.JComboBox();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList();
+        chatWindow = new javax.swing.JTextArea();
 
         setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 0, 0, new java.awt.Color(204, 204, 204)));
         setLayout(new java.awt.BorderLayout());
@@ -63,9 +92,9 @@ public class ChatForm extends javax.swing.JPanel {
         jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane2.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(2);
-        jScrollPane2.setViewportView(jTextArea1);
+        tftMessage.setColumns(20);
+        tftMessage.setRows(2);
+        jScrollPane2.setViewportView(tftMessage);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -78,54 +107,114 @@ public class ChatForm extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
         jPanel2.add(jScrollPane2, gridBagConstraints);
 
-        jButton1.setText("Send");
+        btnSend.setText("Send");
+        btnSend.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSendActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel2.add(jButton1, gridBagConstraints);
+        jPanel2.add(btnSend, gridBagConstraints);
 
-        jButton2.setText("Clear");
+        btnClear.setText("Clear");
+        btnClear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClearActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel2.add(jButton2, gridBagConstraints);
+        jPanel2.add(btnClear, gridBagConstraints);
 
-        jComboBox1.setEditable(true);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        jPanel2.add(jComboBox1, gridBagConstraints);
+        jPanel2.add(cmbUsers, gridBagConstraints);
 
         add(jPanel2, java.awt.BorderLayout.PAGE_END);
 
         jScrollPane1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
-        jList1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jScrollPane1.setViewportView(jList1);
+        chatWindow.setEditable(false);
+        chatWindow.setColumns(20);
+        chatWindow.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
+        chatWindow.setRows(5);
+        jScrollPane1.setViewportView(chatWindow);
 
         add(jScrollPane1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSendActionPerformed
+
+        String to = cmbUsers.getSelectedItem().toString();
+        String from = frmParent.user.getUserName();
+        if (to.equalsIgnoreCase(from)) {
+            JOptionPane.showMessageDialog(this, "You can not send message to yourself!", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        String message = tftMessage.getText().trim();
+        if (message.length() > 0) {
+            int i = new DBConfig().saveMessage(from, to, message);
+            loadMessages();
+        }
+        tftMessage.setText("");
+    }//GEN-LAST:event_btnSendActionPerformed
+    public void loadMessages() {
+        SimpleDateFormat fmt=new SimpleDateFormat("dd/MM/yyyy HH:MM");
+        String from = frmParent.user.getUserName();
+        ArrayList<Message> messages = new DBConfig().getMessage(from);
+        chatWindow.setText("");
+        for(Message m:messages){
+            chatWindow.append(m.getMessage()+"\n");
+            if(!m.getFrom().equals(from)){
+                chatWindow.append("From : "+m.getFrom()+" "+fmt.format(m.getDate())+"\n");
+            }else{
+                chatWindow.append("To : "+m.getTo()+" "+fmt.format(m.getDate())+"\n");
+            }
+            
+        }
+       
+        
+    }
+    private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
+        tftMessage.setText("");        // TODO add your handling code here:
+    }//GEN-LAST:event_btnClearActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JComboBox jComboBox1;
+    private javax.swing.JButton btnClear;
+    private javax.swing.JButton btnSend;
+    private javax.swing.JTextArea chatWindow;
+    private javax.swing.JComboBox cmbUsers;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JList jList1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextArea tftMessage;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void run() {
+        while (true) {            
+            loadMessages();
+            try {
+                sleep(60*1000);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(ChatForm.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
 }

@@ -16,11 +16,11 @@ import java.util.ArrayList;
  * @author Ajeet
  */
 public class DBConfig {
-
+    
     private final String database = "health_care";
     private final String user = "root";
     private final String pass = "";
-
+    
     public Connection getCon() {
         Connection con = null;
         try {
@@ -31,7 +31,7 @@ public class DBConfig {
         }
         return con;
     }
-
+    
     public boolean isUser(String logUser, String logPass, String logType) {
         boolean isUser = false;
         Connection con = null;
@@ -49,7 +49,7 @@ public class DBConfig {
                     isUser = true;
                 }
             } else {
-
+                
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -68,21 +68,20 @@ public class DBConfig {
                 ex.printStackTrace();
             }
         }
-
+        
         return isUser;
     }
-
-    public User getUser(String logUser, String logPass, String logType) {
+    
+    public User getUser(String logUser, String logPass) {
         User user = null;
         Connection con = null;
         PreparedStatement pst = null;
         ResultSet rst = null;
         try {
             con = getCon();
-            pst = con.prepareStatement("select * from tbluser where username=? and password=? and type=?");
+            pst = con.prepareStatement("select * from tbluser where username=? and password=?");
             pst.setString(1, logUser);
             pst.setString(2, logPass);
-            pst.setString(3, logType);
             rst = pst.executeQuery();
             if (rst != null) {
                 while (rst.next()) {
@@ -94,7 +93,7 @@ public class DBConfig {
                     user.setDated(rst.getDate("dated"));
                 }
             } else {
-
+                
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -113,10 +112,53 @@ public class DBConfig {
                 ex.printStackTrace();
             }
         }
-
+        
         return user;
     }
-
+    
+    public ArrayList<User> getUsers() {
+        ArrayList<User> uList = new ArrayList<User>();
+        Connection con = null;
+        PreparedStatement pst = null;
+        ResultSet rst = null;
+        try {
+            con = getCon();
+            pst = con.prepareStatement("select * from tbluser");
+            rst = pst.executeQuery();
+            if (rst != null) {
+                while (rst.next()) {
+                    User user = new User();
+                    user.setId(rst.getInt("id"));
+                    user.setUserName(rst.getString("username"));
+                    user.setFullName(rst.getString("fullname"));
+                    user.setType(rst.getString("type"));
+                    user.setDated(rst.getDate("dated"));
+                    uList.add(user);
+                }
+            } else {
+                
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+                if (pst != null) {
+                    pst.close();
+                }
+                if (rst != null) {
+                    rst.close();
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+        
+        return uList;
+    }
+    
     public int saveSpeciality(String speciality) {
         int i = 0;
         Connection con = null;
@@ -142,7 +184,7 @@ public class DBConfig {
         }
         return i;
     }
-
+    
     public ArrayList<Speciality> getSpeciality() {
         ArrayList<Speciality> qList = new ArrayList<Speciality>();
         Connection con = null;
@@ -158,7 +200,7 @@ public class DBConfig {
                 quali.setName(rst.getString("sname"));
                 qList.add(quali);
             }
-
+            
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
@@ -178,7 +220,7 @@ public class DBConfig {
         }
         return qList;
     }
-
+    
     public int saveQualification(String qualification) {
         int i = 0;
         Connection con = null;
@@ -204,7 +246,7 @@ public class DBConfig {
         }
         return i;
     }
-
+    
     public ArrayList<Qualification> getQualifications() {
         ArrayList<Qualification> qList = new ArrayList<Qualification>();
         Connection con = null;
@@ -220,7 +262,7 @@ public class DBConfig {
                 quali.setName(rst.getString("qname"));
                 qList.add(quali);
             }
-
+            
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
@@ -240,7 +282,7 @@ public class DBConfig {
         }
         return qList;
     }
-
+    
     public int saveDoctor(Doctor doctor, boolean isUpdate) {
         int i = 0;
         Connection con = null;
@@ -272,7 +314,7 @@ public class DBConfig {
                 pst.setString(20, doctor.getPass());
                 pst.setString(21, "....");
                 pst.setString(22, "....");
-
+                
             } else {
                 pst = con.prepareStatement("update tblphysician set fullname=?,dob=?,address=?,email=?,gender=?,married=?,qualification=?,councilreg=?,"
                         + "employer=?,fees=?,speciality=?,bank=?,branch=?,account=?,c1=?,c2=?,c3=?,c4=?,username=?,password=? where id=?");
@@ -316,7 +358,7 @@ public class DBConfig {
         }
         return i;
     }
-
+    
     public Doctor getDoctorByID(int parseInt) {
         Doctor doc = null;
         Connection con = null;
@@ -376,10 +418,10 @@ public class DBConfig {
                 ex.printStackTrace();
             }
         }
-
+        
         return doc;
     }
-
+    
     public ArrayList<Doctor> getDoctors() {
         ArrayList<Doctor> dList = new ArrayList<Doctor>();
         Connection con = null;
@@ -390,7 +432,7 @@ public class DBConfig {
             pst = con.prepareStatement("select a.id,a.fullname,a.dob,a.email,a.address,a.gender,a.married,a.qualification,"
                     + "a.councilreg,a.employer,a.fees,a.speciality,a.bank,a.branch,a.account,a.c1,a.c2,a.c3,a.c4,a.username,"
                     + "a.password,b.qname,c.sname from tblphysician a,tblqualification b, tblspeciality c  where a.qualification=b.id and a.speciality=c.id");
-
+            
             rst = pst.executeQuery();
             while (rst.next()) {
                 Doctor doc = new Doctor();
@@ -440,10 +482,10 @@ public class DBConfig {
                 ex.printStackTrace();
             }
         }
-
+        
         return dList;
     }
-
+    
     public int saveClinic(Clinic c, boolean b) {
         int i = 0;
         Connection con = null;
@@ -481,7 +523,7 @@ public class DBConfig {
         }
         return i;
     }
-
+    
     public Clinic getClinicById(int id) {
         Clinic c = null;
         Connection con = null;
@@ -507,7 +549,7 @@ public class DBConfig {
                 c.setSname(rst.getString("sname"));
                 c.setToken(0);
             }
-
+            
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
@@ -525,10 +567,10 @@ public class DBConfig {
                 ex.printStackTrace();
             }
         }
-
+        
         return c;
     }
-
+    
     public ArrayList<Clinic> getClinics() {
         ArrayList<Clinic> cList = new ArrayList<Clinic>();
         Connection con = null;
@@ -540,7 +582,7 @@ public class DBConfig {
                     + "FROM tblclinic a, tblphysician b, tblspeciality c\n"
                     + "WHERE b.id = a.docid\n"
                     + "AND b.speciality = c.id");
-
+            
             rst = pst.executeQuery();
             while (rst.next()) {
                 Clinic c = new Clinic();
@@ -554,7 +596,7 @@ public class DBConfig {
                 c.setToken(0);
                 cList.add(c);
             }
-
+            
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
@@ -572,10 +614,10 @@ public class DBConfig {
                 ex.printStackTrace();
             }
         }
-
+        
         return cList;
     }
-
+    
     public int savePatient(Patient p, boolean b) {
         int i = 0;
         Connection con = null;
@@ -615,7 +657,7 @@ public class DBConfig {
                 }
                 rs.close();
             }
-
+            
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
@@ -632,7 +674,7 @@ public class DBConfig {
         }
         return i;
     }
-
+    
     public Patient getPatientById(int id) {
         Patient p = null;
         Connection con = null;
@@ -656,7 +698,7 @@ public class DBConfig {
                 p.setFinancial(rst.getString("financialstatus"));
                 p.setAccount(rst.getString("account"));
             }
-
+            
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
@@ -674,10 +716,10 @@ public class DBConfig {
                 ex.printStackTrace();
             }
         }
-
+        
         return p;
     }
-
+    
     public int saveToken(Token p, boolean b) {
         int i = 0;
         Connection con = null;
@@ -708,7 +750,7 @@ public class DBConfig {
                 }
                 rs.close();
             }
-
+            
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
@@ -725,7 +767,7 @@ public class DBConfig {
         }
         return i;
     }
-
+    
     public ArrayList<Token> getTokenByCID(int id) {
         ArrayList<Token> cList = new ArrayList<Token>();
         Connection con = null;
@@ -748,7 +790,7 @@ public class DBConfig {
                 c.setTiming(rst.getDate("dated"));
                 cList.add(c);
             }
-
+            
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
@@ -766,10 +808,10 @@ public class DBConfig {
                 ex.printStackTrace();
             }
         }
-
+        
         return cList;
     }
-
+    
     public Token getTokenByID(int id) {
         Token c = null;
         Connection con = null;
@@ -792,7 +834,7 @@ public class DBConfig {
                 c.setBtoken(rst.getString("btoken"));
                 c.setTiming(rst.getDate("dated"));
             }
-
+            
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
@@ -810,10 +852,10 @@ public class DBConfig {
                 ex.printStackTrace();
             }
         }
-
+        
         return c;
     }
-
+    
     public ArrayList<Token> getTokens() {
         ArrayList<Token> cList = new ArrayList<Token>();
         Connection con = null;
@@ -823,7 +865,7 @@ public class DBConfig {
             con = getCon();
             pst = con.prepareStatement("SELECT a.tid, a.did, a.pid, a.ctoken, a.ptoken, a.btoken,a.dated,"
                     + "b.name, c.roomno,d.fullname from tbltoken a,tblpatient b,tblclinic c,tblphysician d where a.pid = b.id and a.cid=c.id and a.did=d.id");
-
+            
             rst = pst.executeQuery();
             while (rst.next()) {
                 Token c = new Token();
@@ -838,7 +880,7 @@ public class DBConfig {
                 c.setTiming(rst.getDate("dated"));
                 cList.add(c);
             }
-
+            
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
@@ -856,10 +898,10 @@ public class DBConfig {
                 ex.printStackTrace();
             }
         }
-
+        
         return cList;
     }
-
+    
     public int saveDocument(Document p, boolean b) {
         int i = 0;
         Connection con = null;
@@ -887,7 +929,7 @@ public class DBConfig {
                 }
                 rs.close();
             }
-
+            
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
@@ -904,7 +946,7 @@ public class DBConfig {
         }
         return i;
     }
-
+    
     public ArrayList<Document> getDocumentByPID(int pid) {
         ArrayList<Document> cList = new ArrayList<Document>();
         Connection con = null;
@@ -922,7 +964,7 @@ public class DBConfig {
                 c.setDate(rst.getDate("dated"));
                 cList.add(c);
             }
-
+            
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
@@ -940,10 +982,10 @@ public class DBConfig {
                 ex.printStackTrace();
             }
         }
-
+        
         return cList;
     }
-
+    
     public Document getDocumentByDID(int did) {
         Document c = null;
         Connection con = null;
@@ -961,7 +1003,7 @@ public class DBConfig {
                 c.setB(rst.getBytes("docdata"));
                 c.setDate(rst.getDate("dated"));
             }
-
+            
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
@@ -979,10 +1021,10 @@ public class DBConfig {
                 ex.printStackTrace();
             }
         }
-
+        
         return c;
     }
-
+    
     public int saveDiagnosys(Diagnosys p, boolean b) {
         int i = 0;
         Connection con = null;
@@ -1009,7 +1051,7 @@ public class DBConfig {
                 }
                 rs.close();
             }
-
+            
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
@@ -1026,7 +1068,7 @@ public class DBConfig {
         }
         return i;
     }
-
+    
     public ArrayList<Diagnosys> getDiagnosys() {
         ArrayList<Diagnosys> dList = new ArrayList<Diagnosys>();
         Connection con = null;
@@ -1045,7 +1087,7 @@ public class DBConfig {
                 c.setDated(rst.getDate("dated"));
                 dList.add(c);
             }
-
+            
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
@@ -1063,10 +1105,10 @@ public class DBConfig {
                 ex.printStackTrace();
             }
         }
-
+        
         return dList;
     }
-
+    
     public int savePDiagnosys(DiagnosysData p, boolean b) {
         int i = 0;
         Connection con = null;
@@ -1080,7 +1122,7 @@ public class DBConfig {
                 pst.setInt(3, p.getPhysician());
                 pst.setString(4, p.getStatus());
                 pst.setString(5, p.getDetail());
-
+                
             } else {
                 pst = con.prepareStatement("update tblpatientdiagnosis set patientid=?,diagnosisid=?,physicianid=?,status=?,detail=? where id=?");
                 pst.setInt(1, p.getPid());
@@ -1098,7 +1140,7 @@ public class DBConfig {
                 }
                 rs.close();
             }
-
+            
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
@@ -1115,7 +1157,7 @@ public class DBConfig {
         }
         return i;
     }
-
+    
     public ArrayList<DiagnosysData> getDiagnosysData(int pid) {
         ArrayList<DiagnosysData> dList = new ArrayList<DiagnosysData>();
         Connection con = null;
@@ -1125,7 +1167,7 @@ public class DBConfig {
             con = getCon();
             pst = con.prepareStatement("SELECT a.id,a.dated,a.status,a.detail,b.name,b.id,b.shortcode,c.fullname from tblpatientdiagnosis a,tbldiagnosis b,tblphysician c where  a.patientid=? and a.diagnosisid=b.id and a.physicianid=c.id");
             pst.setInt(1, pid);
-
+            
             rst = pst.executeQuery();
             while (rst.next()) {
                 DiagnosysData c = new DiagnosysData();
@@ -1139,7 +1181,7 @@ public class DBConfig {
                 c.setDetail(rst.getString("a.detail"));
                 dList.add(c);
             }
-
+            
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
@@ -1157,10 +1199,10 @@ public class DBConfig {
                 ex.printStackTrace();
             }
         }
-
+        
         return dList;
     }
-
+    
     public int addPrescription(Prescription p, boolean b) {
         int i = 0;
         Connection con = null;
@@ -1187,7 +1229,7 @@ public class DBConfig {
                 }
                 rs.close();
             }
-
+            
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
@@ -1204,7 +1246,7 @@ public class DBConfig {
         }
         return i;
     }
-
+    
     public ArrayList<Prescription> getPrescription(int token) {
         ArrayList<Prescription> dList = new ArrayList<Prescription>();
         Connection con = null;
@@ -1214,7 +1256,7 @@ public class DBConfig {
             con = getCon();
             pst = con.prepareStatement("SELECT a.id,a.dated,a.detail,a.physicianid,b.fullname,a.detail from tblprescription a,tblphysician b where  a.physicianid=b.id and a.tokenno=?");
             pst.setInt(1, token);
-
+            
             rst = pst.executeQuery();
             while (rst.next()) {
                 Prescription c = new Prescription();
@@ -1225,7 +1267,7 @@ public class DBConfig {
                 c.setDated(rst.getDate("a.dated"));
                 dList.add(c);
             }
-
+            
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
@@ -1243,10 +1285,10 @@ public class DBConfig {
                 ex.printStackTrace();
             }
         }
-
+        
         return dList;
     }
-
+    
     public Prescription getPrescriptionByID(int pid) {
         Prescription c = null;
         Connection con = null;
@@ -1256,7 +1298,7 @@ public class DBConfig {
             con = getCon();
             pst = con.prepareStatement("SELECT a.id,a.dated,a.detail,a.physicianid,b.fullname,a.detail from tblprescription a,tblphysician b where  a.physicianid=b.id and a.id=?");
             pst.setInt(1, pid);
-
+            
             rst = pst.executeQuery();
             while (rst.next()) {
                 c = new Prescription();
@@ -1266,7 +1308,7 @@ public class DBConfig {
                 c.setStatus(rst.getString("a.detail"));
                 c.setDated(rst.getDate("a.dated"));
             }
-
+            
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
@@ -1284,10 +1326,10 @@ public class DBConfig {
                 ex.printStackTrace();
             }
         }
-
+        
         return c;
     }
-
+    
     public int savePaymentQueue(Payment p, boolean b) {
         int i = 0;
         Connection con = null;
@@ -1323,7 +1365,7 @@ public class DBConfig {
                 }
                 rs.close();
             }
-
+            
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
@@ -1340,7 +1382,7 @@ public class DBConfig {
         }
         return i;
     }
-
+    
     public ArrayList<Payment> getPaymentQueue() {
         ArrayList<Payment> dList = new ArrayList<Payment>();
         Connection con = null;
@@ -1363,7 +1405,7 @@ public class DBConfig {
                 c.setDated(rst.getDate("dated"));
                 dList.add(c);
             }
-
+            
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
@@ -1381,10 +1423,10 @@ public class DBConfig {
                 ex.printStackTrace();
             }
         }
-
+        
         return dList;
     }
-
+    
     public Payment getPaymentQueueByID(int parseInt) {
         Payment c = null;
         Connection con = null;
@@ -1407,7 +1449,7 @@ public class DBConfig {
                 c.setStatus(rst.getString("status"));
                 c.setDated(rst.getDate("dated"));
             }
-
+            
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
@@ -1427,7 +1469,7 @@ public class DBConfig {
         }
         return c;
     }
-
+    
     public int saveMedicine(Medicine m) {
         int i = 0;
         Connection con = null;
@@ -1454,7 +1496,7 @@ public class DBConfig {
         }
         return i;
     }
-
+    
     public ArrayList<Medicine> getMedicine() {
         ArrayList<Medicine> qList = new ArrayList<Medicine>();
         Connection con = null;
@@ -1471,7 +1513,7 @@ public class DBConfig {
                 medicine.setBrand(rst.getString("brand"));
                 qList.add(medicine);
             }
-
+            
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
@@ -1523,5 +1565,132 @@ public class DBConfig {
         }
         return i;
     }
-
+    
+    public int removeUser(String user) {
+        int i = 0;
+        Connection con = null;
+        PreparedStatement pst = null;
+        try {
+            con = getCon();
+            pst = con.prepareStatement("delete from tbluser where username=?");
+            pst.setString(1, user);
+            
+            i = pst.executeUpdate();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+                if (pst != null) {
+                    pst.close();
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+        return i;
+    }
+    
+    public int saveUser(User user) {
+        int i = 0;
+        Connection con = null;
+        PreparedStatement pst = null;
+        try {
+            con = getCon();
+            pst = con.prepareStatement("insert into  tbluser values(NULL,?,?,?,?,'','',NOW(),NOW(),NOW())");
+            pst.setString(1, user.getUserName());
+            pst.setString(2, user.getPassword());
+            pst.setString(3, user.getType());
+            pst.setString(4, user.getUserName());
+            
+            i = pst.executeUpdate();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+                if (pst != null) {
+                    pst.close();
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+        return i;
+    }
+    
+    public int saveMessage(String from, String to, String message) {
+        int i = 0;
+        Connection con = null;
+        PreparedStatement pst = null;
+        try {
+            con = getCon();
+            pst = con.prepareStatement("insert into  tblchat values(?,?,?,NOW())");
+            pst.setString(1, from);
+            pst.setString(2, to);
+            pst.setString(3, message);
+            
+            i = pst.executeUpdate();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+                if (pst != null) {
+                    pst.close();
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+        return i;
+    }
+    
+    public ArrayList<Message> getMessage(String username) {
+        ArrayList<Message> qList = new ArrayList<Message>();
+        Connection con = null;
+        PreparedStatement pst = null;
+        ResultSet rst = null;
+        try {
+            con = getCon();
+            pst = con.prepareStatement("select * from tblchat where fromuser=? or touser=?");
+            pst.setString(1, username);
+            pst.setString(2, username);
+            
+            rst = pst.executeQuery();
+            while (rst.next()) {
+                Message medicine = new Message();
+                medicine.setFrom(rst.getString("fromuser"));
+                medicine.setTo(rst.getString("touser"));
+                medicine.setMessage(rst.getString("message"));
+                medicine.setDate(rst.getDate("dated"));
+                qList.add(medicine);
+            }
+            
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+                if (pst != null) {
+                    pst.close();
+                }
+                if (rst != null) {
+                    rst.close();
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+        return qList;
+    }
+    
 }

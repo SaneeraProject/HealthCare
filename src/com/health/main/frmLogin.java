@@ -39,10 +39,8 @@ public class frmLogin extends javax.swing.JDialog {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
         tftUserName = new javax.swing.JTextField();
         tftPassword = new javax.swing.JPasswordField();
-        cmbType = new javax.swing.JComboBox();
         jPanel3 = new CustomHeader();
         jLabel5 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
@@ -83,17 +81,6 @@ public class frmLogin extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
         jPanel1.add(jLabel2, gridBagConstraints);
 
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel3.setText("User type: ");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 0.2;
-        gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel1.add(jLabel3, gridBagConstraints);
-
         tftUserName.setText("superuser");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -115,17 +102,6 @@ public class frmLogin extends javax.swing.JDialog {
         gridBagConstraints.weightx = 0.8;
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 100);
         jPanel1.add(tftPassword, gridBagConstraints);
-
-        cmbType.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Super User", "Admin", "Receptionist", "Physician", "Accountant", "Pharmacist", "Token manager", "Cashier" }));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.gridwidth = 5;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 0.8;
-        gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 100);
-        jPanel1.add(cmbType, gridBagConstraints);
 
         jTabbedPane1.addTab("Login Setting", jPanel1);
 
@@ -185,11 +161,10 @@ public class frmLogin extends javax.swing.JDialog {
 
         String userName = tftUserName.getText();
         String userPass = tftPassword.getText();
-        String userType = cmbType.getSelectedItem().toString();
 
         DBConfig config = new DBConfig();
 
-        User user = config.getUser(userName, userPass, userType);
+        User user = config.getUser(userName, userPass);
         if (user != null) {
             JOptionPane.showMessageDialog(rootPane, "Welcome to health care app.", "Health care login", JOptionPane.INFORMATION_MESSAGE);
             dispose();
@@ -208,10 +183,8 @@ public class frmLogin extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnExit;
     private javax.swing.JButton btnLogin;
-    private javax.swing.JComboBox cmbType;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;

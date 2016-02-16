@@ -13,9 +13,7 @@ import com.health.patient.PatientScreen;
 import com.health.payment.PaymentScreen;
 import com.health.pharmacy.PharmacyScreen;
 import com.health.token.TokenScreen;
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 
@@ -28,7 +26,7 @@ public class frmParent extends javax.swing.JFrame {
     /**
      * Creates new form frmParent
      */
-    private User user = null;
+    public static User user = null;
 
     public frmParent(User user) {
         this.user = user;
@@ -354,7 +352,8 @@ public class frmParent extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        System.exit(0);
+        dispose();
+        new frmLogin(null, true).setVisible(true);
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void btnApointmentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApointmentActionPerformed

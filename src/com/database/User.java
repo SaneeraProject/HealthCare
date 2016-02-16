@@ -15,6 +15,7 @@ public class User {
 
     int id;
     String userName;
+    String password;
     String fullName;
     String question;
     String answer;
@@ -29,6 +30,14 @@ public class User {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getUserName() {
@@ -94,7 +103,10 @@ public class User {
     public void setType(String type) {
         this.type = type;
     }
-    
-    
+
+    @Override
+    public String toString() {
+        return userName;
+    }
 
 }
