@@ -8,10 +8,12 @@ package com.health.pharmacy;
 import com.database.DBConfig;
 import com.database.Medicine;
 import com.database.MedicineData;
+import com.database.MedicineStock;
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -23,11 +25,35 @@ public class PharmacyScreen extends javax.swing.JInternalFrame {
      * Creates new form PharmacyScreen
      */
     private JFrame parent;
+
     public PharmacyScreen(JFrame parent) {
         initComponents();
         loadMedicine();
-        this.parent=parent;
+        loadStocks();
+        this.parent = parent;
         setVisible(true);
+    }
+
+    public void loadStocks() {
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("ID");
+        model.addColumn("NAME");
+        model.addColumn("BRAND");
+        model.addColumn("UNIT");
+        model.addColumn("PURCHASE");
+        model.addColumn("SELL");
+        model.addColumn("BALANCE");
+        model.addColumn("RATE");
+        model.addColumn("SHELF");
+        model.addColumn("RACK");
+        model.addColumn("BOX");
+
+        ArrayList<MedicineStock> stocks = new DBConfig().getMedicineData();
+        for (MedicineStock s : stocks) {
+            model.insertRow(model.getRowCount(), new Object[]{s.getId(), s.getName(), s.getBrand(), s.getUnit(), s.getPurchase(), s.getSell(), s.getBalance(), s.getRate(), s.getShelf(), s.getRack(), s.getBox()});
+        }
+        tblStock.setModel(model);
+
     }
 
     /**
@@ -51,7 +77,7 @@ public class PharmacyScreen extends javax.swing.JInternalFrame {
         jTable1 = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tblStock = new javax.swing.JTable();
         jPanel4 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         tftId = new javax.swing.JTextField();
@@ -60,18 +86,8 @@ public class PharmacyScreen extends javax.swing.JInternalFrame {
         jButton3 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         tftQuantity = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
-        tftSalesRate = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        cmbUnit = new javax.swing.JComboBox();
         btnAddStock = new javax.swing.JButton();
         btnRefresh = new javax.swing.JButton();
-        jLabel6 = new javax.swing.JLabel();
-        tftShelf = new javax.swing.JTextField();
-        jLabel7 = new javax.swing.JLabel();
-        tftRackNo = new javax.swing.JTextField();
-        jLabel8 = new javax.swing.JLabel();
-        tftBoxNo = new javax.swing.JTextField();
 
         jTextField5.setText("jTextField5");
 
@@ -123,7 +139,7 @@ public class PharmacyScreen extends javax.swing.JInternalFrame {
 
         jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tblStock.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -139,7 +155,7 @@ public class PharmacyScreen extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane2.setViewportView(jTable2);
+        jScrollPane2.setViewportView(tblStock);
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Add Stock"));
         jPanel4.setLayout(new java.awt.GridBagLayout());
@@ -218,44 +234,6 @@ public class PharmacyScreen extends javax.swing.JInternalFrame {
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
         jPanel4.add(tftQuantity, gridBagConstraints);
 
-        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel4.setText("Standard sales price inclusive of taxes : ");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel4.add(jLabel4, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel4.add(tftSalesRate, gridBagConstraints);
-
-        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel5.setText("Unit : ");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel4.add(jLabel5, gridBagConstraints);
-
-        cmbUnit.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "PC" }));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel4.add(cmbUnit, gridBagConstraints);
-
         btnAddStock.setText("Add Stock");
         btnAddStock.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -283,54 +261,6 @@ public class PharmacyScreen extends javax.swing.JInternalFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
         jPanel4.add(btnRefresh, gridBagConstraints);
-
-        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel6.setText("Shelf no : ");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel4.add(jLabel6, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel4.add(tftShelf, gridBagConstraints);
-
-        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel7.setText("Rack no : ");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel4.add(jLabel7, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel4.add(tftRackNo, gridBagConstraints);
-
-        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel8.setText("Box no : ");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 7;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel4.add(jLabel8, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 7;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
-        jPanel4.add(tftBoxNo, gridBagConstraints);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -361,82 +291,58 @@ public class PharmacyScreen extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        
-        new NewMedicine(parent,true).setVisible(true);        
-        
+
+        new NewMedicine(parent, true).setVisible(true);
+
         loadMedicine();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void btnAddStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddStockActionPerformed
 
-        try{
-            int mid=((Medicine)cmbMedicine.getSelectedItem()).getId();
-            int quantity=Integer.parseInt(tftQuantity.getText());
-            double price=Double.parseDouble(tftSalesRate.getText());
-            String unit=cmbUnit.getSelectedItem().toString();
-            int shelf=Integer.parseInt(tftShelf.getText());
-            int rack=Integer.parseInt(tftRackNo.getText());
-            int box=Integer.parseInt(tftBoxNo.getText());   
-            
-            
-            MedicineData d=new MedicineData();
+        try {
+            int mid = ((Medicine) cmbMedicine.getSelectedItem()).getId();
+            int quantity = Integer.parseInt(tftQuantity.getText());
+
+            MedicineData d = new MedicineData();
             d.setMid(mid);
             d.setQuantity(quantity);
-            d.setSellrate(price);
-            d.setUnit(unit);
-            d.setShelf(shelf);
-            d.setRack(rack);
-            d.setBox(box);
-            
-            int i=new DBConfig().saveMedicineStock(d);
-            if(i>0){
+
+            int i = new DBConfig().saveMedicineStock(d);
+            if (i > 0) {
                 JOptionPane.showMessageDialog(parent, "Medicine stock has been added successfully!");
                 refresh();
             }
-            
-            
-            
-            
-        }catch(Exception ex){
-            
+
+        } catch (Exception ex) {
+
         }
-        
-        
+
+        loadStocks();
+
     }//GEN-LAST:event_btnAddStockActionPerformed
 
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
-        
-        refresh();   
-        
+
+        refresh();
+
     }//GEN-LAST:event_btnRefreshActionPerformed
 
-    public void refresh(){
+    public void refresh() {
         tftId.setText("#");
         cmbMedicine.setSelectedIndex(0);
         tftQuantity.setText("");
-        tftSalesRate.setText("");
-        cmbUnit.setSelectedIndex(0);
-        tftShelf.setText("");
-        tftRackNo.setText("");
-        tftBoxNo.setText("");     
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddStock;
     private javax.swing.JButton btnRefresh;
     private javax.swing.JComboBox cmbMedicine;
-    private javax.swing.JComboBox cmbUnit;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -445,21 +351,17 @@ public class PharmacyScreen extends javax.swing.JInternalFrame {
     private javax.swing.JToolBar.Separator jSeparator1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JToolBar jToolBar1;
-    private javax.swing.JTextField tftBoxNo;
+    private javax.swing.JTable tblStock;
     private javax.swing.JTextField tftId;
     private javax.swing.JTextField tftQuantity;
-    private javax.swing.JTextField tftRackNo;
-    private javax.swing.JTextField tftSalesRate;
-    private javax.swing.JTextField tftShelf;
     // End of variables declaration//GEN-END:variables
 
     private void loadMedicine() {
-        DefaultComboBoxModel<Medicine> model=new DefaultComboBoxModel<Medicine>();
-        ArrayList<Medicine> mList=new DBConfig().getMedicine();
-        for(Medicine m:mList){
+        DefaultComboBoxModel<Medicine> model = new DefaultComboBoxModel<Medicine>();
+        ArrayList<Medicine> mList = new DBConfig().getMedicine();
+        for (Medicine m : mList) {
             model.addElement(m);
         }
         cmbMedicine.setModel(model);

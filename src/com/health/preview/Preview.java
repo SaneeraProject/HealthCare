@@ -148,9 +148,9 @@ class PreviewPane extends JPanel implements Printable {
 		y = y + 30;
 
 		if (data.getModel() != null) {
-			for (int i = 1; i < data.getModel().getColumnCount(); i++) {
+			for (int i = 0; i < data.getModel().getColumnCount(); i++) {
 				g.drawString(data.getModel().getColumnName(i),
-						10 + (i - 1) * 170, y);
+						10 + (i - 1) * 100, y);
 			}
 		}
 		y = y + 10;
@@ -159,9 +159,9 @@ class PreviewPane extends JPanel implements Printable {
 
 		if (data.getModel() != null) {
 			for (int i = 0; i < data.getModel().getRowCount(); i++) {
-				for (int j = 1; j < data.getModel().getColumnCount(); j++) {
+				for (int j = 0; j < data.getModel().getColumnCount(); j++) {
 					String str1 = data.getModel().getValueAt(i, j).toString();
-					g.drawString(str1, 10 + (j - 1) * 170, y);
+					g.drawString(str1, 10 + (j - 1) * 100, y);
 				}
 				y = y + 10;
 				g.drawLine(0, y - 5, getWidth(), y - 5);

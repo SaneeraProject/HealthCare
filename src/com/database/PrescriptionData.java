@@ -9,12 +9,14 @@ package com.database;
  *
  * @author Ajeet
  */
-public class PrescriptionDetail {
+public class PrescriptionData {
+
     int pid;
+    int mid;
     String medication;
     String frequency;
-    int take;
-    int duration;
+    String take;
+    String duration;
     double rate;
     double quantity;
 
@@ -24,6 +26,14 @@ public class PrescriptionDetail {
 
     public void setPid(int pid) {
         this.pid = pid;
+    }
+
+    public int getMid() {
+        return mid;
+    }
+
+    public void setMid(int mid) {
+        this.mid = mid;
     }
 
     public String getMedication() {
@@ -58,22 +68,21 @@ public class PrescriptionDetail {
         this.frequency = frequency;
     }
 
-    public int getTake() {
+    public String getTake() {
         return take;
     }
 
-    public void setTake(int take) {
+    public void setTake(String take) {
         this.take = take;
     }
 
-    public int getDuration() {
+    public String getDuration() {
         return duration;
     }
 
-    public void setDuration(int duration) {
+    public void setDuration(String duration) {
         this.duration = duration;
     }
 
-    
-    
+
 }

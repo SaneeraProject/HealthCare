@@ -9,13 +9,16 @@ package com.database;
  *
  * @author Ajeet
  */
-public class Medicine {
-
+public class MedicineStock {
+   
     private int id;
     private String name;
     private String brand;
     private String unit;    
     private double rate;
+    private int purchase;
+    private int sell;;
+    private int balance;
     private int shelf;
     private int rack;
     private int box;
@@ -45,20 +48,44 @@ public class Medicine {
         this.brand = brand;
     }
 
-    public String getUnit() {
-        return unit;
-    }
-
-    public void setUnit(String unit) {
-        this.unit = unit;
-    }
-
     public double getRate() {
         return rate;
     }
 
     public void setRate(double rate) {
         this.rate = rate;
+    }
+
+    public int getPurchase() {
+        return purchase;
+    }
+
+    public void setPurchase(int purchase) {
+        this.purchase = purchase;
+    }
+
+    public int getSell() {
+        return sell;
+    }
+
+    public void setSell(int sell) {
+        this.sell = sell;
+    }
+
+    public int getBalance() {
+        return balance;
+    }
+
+    public void setBalance(int balance) {
+        this.balance = balance;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
     }
 
     public int getShelf() {
@@ -84,14 +111,12 @@ public class Medicine {
     public void setBox(int box) {
         this.box = box;
     }
-    
-    
 
     @Override
     public String toString() {
-        return name;
+        return name; //To change body of generated methods, choose Tools | Templates.
     }
     
     
-
+    
 }

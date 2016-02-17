@@ -9,6 +9,7 @@ import com.database.DBConfig;
 import com.database.DiagnosysData;
 import com.database.Document;
 import com.database.Patient;
+import com.database.Payment;
 import com.database.Prescription;
 import com.database.Token;
 import com.health.diagnosis.Diagnosis;
@@ -71,6 +72,7 @@ public class frmPatient extends javax.swing.JDialog {
 
         for (Prescription d : dList) {
             model.insertRow(model.getRowCount(), new Object[]{d.getPrescriptionid(), fmt.format(d.getDated()), d.getPhysicianname(), d.getStatus()});
+            btnAddPrescription.setEnabled(false);
         }
 
         tblPrescription.setModel(model);
@@ -175,7 +177,6 @@ public class frmPatient extends javax.swing.JDialog {
         jPanel2 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Patient Detail");
@@ -669,8 +670,6 @@ public class frmPatient extends javax.swing.JDialog {
             }
         });
 
-        jButton5.setText("Generate Bill");
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -678,8 +677,6 @@ public class frmPatient extends javax.swing.JDialog {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jButton4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton1)
                 .addContainerGap())
@@ -690,8 +687,7 @@ public class frmPatient extends javax.swing.JDialog {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
-                    .addComponent(jButton4)
-                    .addComponent(jButton5))
+                    .addComponent(jButton4))
                 .addContainerGap())
         );
 
@@ -722,18 +718,29 @@ public class frmPatient extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        JOptionPane.showConfirmDialog(frmPatient.this, "Do you want to add pharmacy queue?");
+        int i = JOptionPane.showConfirmDialog(frmPatient.this, "Do you want to add pharmacy queue?");
+        if (i == JOptionPane.OK_OPTION) {
+            Payment payment = new Payment();
+            payment.setPid(patient.getId());
+            payment.setPname(patient.getName());
+            payment.setPtype("Prescription");
+            payment.setTorp(token.getId());
+            payment.setAmount(token.getPfee() + token.getHfee());
+            payment.setStatus("Active");
+            int paymentQueue = new DBConfig().savePaymentQueue(payment, false);
+        }
+
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void btnEditPrescriptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditPrescriptionActionPerformed
 
-        int i=tblPrescription.getSelectedRow();
-        if(i<0){
+        int i = tblPrescription.getSelectedRow();
+        if (i < 0) {
             return;
         }
-        int pid=Integer.parseInt(tblPrescription.getValueAt(i, 0).toString());
-        Prescription p=new DBConfig().getPrescriptionByID(pid);
-        new PrescriptionDetail((Frame) getParent(), true,p).setVisible(true);
+        int pid = Integer.parseInt(tblPrescription.getValueAt(i, 0).toString());
+        Prescription p = new DBConfig().getPrescriptionByID(pid);
+        new PrescriptionDetail((Frame) getParent(), true, p).setVisible(true);
     }//GEN-LAST:event_btnEditPrescriptionActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -770,8 +777,9 @@ public class frmPatient extends javax.swing.JDialog {
             p.setPhysicianid(token.getDid());
             p.setTokennno(token.getId());
             p.setStatus("Active");
-            int i = new DBConfig().addPrescription(p, false);           
+            int i = new DBConfig().addPrescription(p, false);
             loadPrescriptions();
+            
         } catch (Exception ex) {
 
         }
@@ -786,7 +794,6 @@ public class frmPatient extends javax.swing.JDialog {
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton14;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;

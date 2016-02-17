@@ -7,6 +7,7 @@ package com.health.pharmacy;
 
 import com.database.DBConfig;
 import com.database.Medicine;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
@@ -18,9 +19,10 @@ public class NewMedicine extends javax.swing.JDialog {
     /**
      * Creates new form NewMedicine
      */
-    public NewMedicine(java.awt.Frame parent, boolean modal) {
+    public NewMedicine(JFrame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(parent);
     }
 
     /**
@@ -31,6 +33,7 @@ public class NewMedicine extends javax.swing.JDialog {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -40,18 +43,97 @@ public class NewMedicine extends javax.swing.JDialog {
         tftBrand = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        tftBoxNo = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        tftRackNo = new javax.swing.JTextField();
+        tftShelf = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        cmbUnit = new javax.swing.JComboBox();
+        jLabel4 = new javax.swing.JLabel();
+        tftSalesRate = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("New medicine");
+        getContentPane().setLayout(new java.awt.GridBagLayout());
 
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel1.setText("ID : ");
+        jLabel1.setMaximumSize(new java.awt.Dimension(150, 20));
+        jLabel1.setMinimumSize(new java.awt.Dimension(150, 20));
+        jLabel1.setPreferredSize(new java.awt.Dimension(150, 20));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(50, 1, 1, 1);
+        getContentPane().add(jLabel1, gridBagConstraints);
 
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel2.setText("Name : ");
+        jLabel2.setMaximumSize(new java.awt.Dimension(150, 20));
+        jLabel2.setMinimumSize(new java.awt.Dimension(150, 20));
+        jLabel2.setPreferredSize(new java.awt.Dimension(150, 20));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
+        getContentPane().add(jLabel2, gridBagConstraints);
 
         tftId.setEditable(false);
         tftId.setText("#");
+        tftId.setMaximumSize(new java.awt.Dimension(150, 20));
+        tftId.setMinimumSize(new java.awt.Dimension(150, 20));
+        tftId.setPreferredSize(new java.awt.Dimension(150, 20));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(50, 1, 1, 50);
+        getContentPane().add(tftId, gridBagConstraints);
 
+        tftName.setMaximumSize(new java.awt.Dimension(150, 20));
+        tftName.setMinimumSize(new java.awt.Dimension(150, 20));
+        tftName.setPreferredSize(new java.awt.Dimension(150, 20));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 50);
+        getContentPane().add(tftName, gridBagConstraints);
+
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel3.setText("Brand Name : ");
+        jLabel3.setMaximumSize(new java.awt.Dimension(150, 20));
+        jLabel3.setMinimumSize(new java.awt.Dimension(150, 20));
+        jLabel3.setPreferredSize(new java.awt.Dimension(150, 20));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
+        getContentPane().add(jLabel3, gridBagConstraints);
+
+        tftBrand.setMaximumSize(new java.awt.Dimension(150, 20));
+        tftBrand.setMinimumSize(new java.awt.Dimension(150, 20));
+        tftBrand.setPreferredSize(new java.awt.Dimension(150, 20));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 50);
+        getContentPane().add(tftBrand, gridBagConstraints);
 
         jButton1.setText("Save");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -59,6 +141,12 @@ public class NewMedicine extends javax.swing.JDialog {
                 jButton1ActionPerformed(evt);
             }
         });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 11;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(1, 1, 50, 1);
+        getContentPane().add(jButton1, gridBagConstraints);
 
         jButton2.setText("Close");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -66,52 +154,138 @@ public class NewMedicine extends javax.swing.JDialog {
                 jButton2ActionPerformed(evt);
             }
         });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 11;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(1, 1, 50, 1);
+        getContentPane().add(jButton2, gridBagConstraints);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(26, 26, 26)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel1))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(tftBrand)
-                            .addComponent(tftName)
-                            .addComponent(tftId, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(73, 73, 73)
-                        .addComponent(jButton2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1)))
-                .addContainerGap(30, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(tftId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(tftName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(tftBrand, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
-                .addContainerGap())
-        );
+        tftBoxNo.setMaximumSize(new java.awt.Dimension(150, 20));
+        tftBoxNo.setMinimumSize(new java.awt.Dimension(150, 20));
+        tftBoxNo.setPreferredSize(new java.awt.Dimension(150, 20));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 50);
+        getContentPane().add(tftBoxNo, gridBagConstraints);
+
+        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel8.setText("Box no : ");
+        jLabel8.setMaximumSize(new java.awt.Dimension(150, 20));
+        jLabel8.setMinimumSize(new java.awt.Dimension(150, 20));
+        jLabel8.setPreferredSize(new java.awt.Dimension(150, 20));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
+        getContentPane().add(jLabel8, gridBagConstraints);
+
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel7.setText("Rack no : ");
+        jLabel7.setMaximumSize(new java.awt.Dimension(150, 20));
+        jLabel7.setMinimumSize(new java.awt.Dimension(150, 20));
+        jLabel7.setPreferredSize(new java.awt.Dimension(150, 20));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 9;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
+        getContentPane().add(jLabel7, gridBagConstraints);
+
+        tftRackNo.setMaximumSize(new java.awt.Dimension(150, 20));
+        tftRackNo.setMinimumSize(new java.awt.Dimension(150, 20));
+        tftRackNo.setPreferredSize(new java.awt.Dimension(150, 20));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 9;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 50);
+        getContentPane().add(tftRackNo, gridBagConstraints);
+
+        tftShelf.setMaximumSize(new java.awt.Dimension(150, 20));
+        tftShelf.setMinimumSize(new java.awt.Dimension(150, 20));
+        tftShelf.setPreferredSize(new java.awt.Dimension(150, 20));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 50);
+        getContentPane().add(tftShelf, gridBagConstraints);
+
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel6.setText("Shelf no : ");
+        jLabel6.setMaximumSize(new java.awt.Dimension(150, 20));
+        jLabel6.setMinimumSize(new java.awt.Dimension(150, 20));
+        jLabel6.setPreferredSize(new java.awt.Dimension(150, 20));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
+        getContentPane().add(jLabel6, gridBagConstraints);
+
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel5.setText("Unit : ");
+        jLabel5.setMaximumSize(new java.awt.Dimension(150, 20));
+        jLabel5.setMinimumSize(new java.awt.Dimension(150, 20));
+        jLabel5.setPreferredSize(new java.awt.Dimension(150, 20));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
+        getContentPane().add(jLabel5, gridBagConstraints);
+
+        cmbUnit.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "PC" }));
+        cmbUnit.setMaximumSize(new java.awt.Dimension(150, 20));
+        cmbUnit.setMinimumSize(new java.awt.Dimension(150, 20));
+        cmbUnit.setPreferredSize(new java.awt.Dimension(150, 20));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 50);
+        getContentPane().add(cmbUnit, gridBagConstraints);
+
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel4.setText("Sales  price : ");
+        jLabel4.setMaximumSize(new java.awt.Dimension(150, 20));
+        jLabel4.setMinimumSize(new java.awt.Dimension(150, 20));
+        jLabel4.setPreferredSize(new java.awt.Dimension(150, 20));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
+        getContentPane().add(jLabel4, gridBagConstraints);
+
+        tftSalesRate.setMaximumSize(new java.awt.Dimension(150, 20));
+        tftSalesRate.setMinimumSize(new java.awt.Dimension(150, 20));
+        tftSalesRate.setPreferredSize(new java.awt.Dimension(150, 20));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 50);
+        getContentPane().add(tftSalesRate, gridBagConstraints);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -124,12 +298,24 @@ public class NewMedicine extends javax.swing.JDialog {
         try {
             String name = tftName.getText().trim();
             String brand = tftBrand.getText().trim();
+            double price = Double.parseDouble(tftSalesRate.getText());
+            String unit = cmbUnit.getSelectedItem().toString();
+            int shelf = Integer.parseInt(tftShelf.getText());
+            int rack = Integer.parseInt(tftRackNo.getText());
+            int box = Integer.parseInt(tftBoxNo.getText());
+
             if (name.length() < 1) {
                 return;
             }
             Medicine m = new Medicine();
             m.setName(name);
             m.setBrand(brand);
+            m.setUnit(unit);
+            m.setRate(price);
+            m.setShelf(shelf);
+            m.setRack(rack);
+            m.setBox(box);
+            
 
             int i = new DBConfig().saveMedicine(m);
             if (i > 0) {
@@ -162,13 +348,23 @@ public class NewMedicine extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox cmbUnit;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JTextField tftBoxNo;
     private javax.swing.JTextField tftBrand;
     private javax.swing.JTextField tftId;
     private javax.swing.JTextField tftName;
+    private javax.swing.JTextField tftRackNo;
+    private javax.swing.JTextField tftSalesRate;
+    private javax.swing.JTextField tftShelf;
     // End of variables declaration//GEN-END:variables
 }
