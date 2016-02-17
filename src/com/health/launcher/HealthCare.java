@@ -6,7 +6,17 @@
 package com.health.launcher;
 
 import com.health.main.frmLogin;
-import javax.swing.plaf.metal.MetalLookAndFeel;
+import com.jtattoo.plaf.acryl.AcrylLookAndFeel;
+import com.jtattoo.plaf.aero.AeroLookAndFeel;
+import com.jtattoo.plaf.bernstein.BernsteinLookAndFeel;
+import com.jtattoo.plaf.fast.FastLookAndFeel;
+import com.jtattoo.plaf.luna.LunaLookAndFeel;
+import com.jtattoo.plaf.mcwin.McWinLookAndFeel;
+import com.jtattoo.plaf.mint.MintLookAndFeel;
+import com.jtattoo.plaf.noire.NoireLookAndFeel;
+import com.jtattoo.plaf.smart.SmartLookAndFeel;
+import com.jtattoo.plaf.texture.TextureLookAndFeel;
+import javax.swing.UIManager;
 
 /**
  *
@@ -18,10 +28,14 @@ public class HealthCare {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        MetalLookAndFeel lf=new MetalLookAndFeel();
+//        MetalLookAndFeel lf=new MetalLookAndFeel();
 //        lf.setCurrentTheme(new CMOSTheme());
-        lf.initialize();
-        
+//        lf.initialize();
+        try {
+            UIManager.setLookAndFeel(new AcrylLookAndFeel());
+        } catch (Exception ex) {
+        }
+
         new frmLogin(null, true).setVisible(true);
     }
 

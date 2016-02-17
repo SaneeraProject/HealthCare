@@ -68,7 +68,7 @@ public class ChatForm extends javax.swing.JPanel implements Runnable{
         jScrollPane1 = new javax.swing.JScrollPane();
         chatWindow = new javax.swing.JTextArea();
 
-        setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 0, 0, new java.awt.Color(204, 204, 204)));
+        setPreferredSize(new java.awt.Dimension(350, 185));
         setLayout(new java.awt.BorderLayout());
 
         jPanel1.setLayout(new java.awt.GridBagLayout());

@@ -41,7 +41,7 @@ public class PrescriptionDetail extends javax.swing.JDialog {
         super(parent, modal);
         this.p = p;
         initComponents();
-        setMinimumSize(new Dimension(1000, 700));
+        setMinimumSize(new Dimension(900, 500));
         setLocationRelativeTo(parent);
 
         load();
@@ -66,8 +66,6 @@ public class PrescriptionDetail extends javax.swing.JDialog {
                     int row = jTable1.getSelectedRow();
                     jTable1.setValueAt(m.getId(), row, 0);
                     jTable1.setValueAt(m.getRate(), row, 6);
-                    jTable1.setValueAt(m.getBalance(), row, 8);
-
                 }
             }
         });
@@ -85,9 +83,19 @@ public class PrescriptionDetail extends javax.swing.JDialog {
         tftDate.setText(fmt.format(p.getDated()));
         tftPhysician.setText(p.getPhysicianname());
         tftPrescriptionID.setText(p.getPrescriptionid() + "");
-
         btnSave.setEnabled(true);
         btnPrint.setEnabled(false);
+        ArrayList<PrescriptionData> pList = new DBConfig().getPrescriptionData(p.getPrescriptionid());
+        if (pList.size() > 0) {
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            model.removeRow(0);
+            for (PrescriptionData p : pList) {
+                model.insertRow(model.getRowCount(), new Object[]{p.getMid(), p.getMedication(), p.getQuantity(), p.getTake(), p.getFrequency(), p.getDuration(), p.getRate(), p.getRate() * p.getQuantity()});
+            }
+
+            btnSave.setEnabled(true);
+            btnPrint.setEnabled(true);
+        }
     }
 
     /**
@@ -199,14 +207,14 @@ public class PrescriptionDetail extends javax.swing.JDialog {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "Medications", "Quantity", "Take", "Frequency", "Duration", "Rate", "Amount", "Available"
+                "ID", "Medications", "Quantity", "Take", "Frequency", "Duration", "Rate", "Amount"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, true, true, true, true, true, false, false, false
+                false, true, true, true, true, true, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -371,8 +379,7 @@ public class PrescriptionDetail extends javax.swing.JDialog {
     }//GEN-LAST:event_jTable1KeyReleased
 
     private void btnPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrintActionPerformed
-        
-        
+
         PreviewData data = new PreviewData();
         data.setTitle("Prescription Invoice");
         LinkedHashMap<String, String> myMap = new LinkedHashMap<String, String>();
@@ -381,23 +388,24 @@ public class PrescriptionDetail extends javax.swing.JDialog {
         myMap.put("Date and Time", tftDate.getText());
 //        myMap.put("Tax Amount", t.getId()+"");
 
-        double total=0;
-        try{
-        for(int i=0;i<jTable1.getRowCount();i++){
-            total=total+Double.parseDouble(jTable1.getValueAt(i, 7).toString());
-        }}catch(Exception ex){}
+        double total = 0;
+        try {
+            for (int i = 0; i < jTable1.getRowCount(); i++) {
+                total = total + Double.parseDouble(jTable1.getValueAt(i, 7).toString());
+            }
+        } catch (Exception ex) {
+        }
         LinkedHashMap<String, String> footerMap = new LinkedHashMap<String, String>();
-        footerMap.put("Total Amount",  total+ "");
+        footerMap.put("Total Amount", total + "");
 
         data.setHeaderMap(myMap);
+
         data.setModel((DefaultTableModel) jTable1.getModel());
+
         data.setFooterMap(footerMap);
 
         Preview p = new Preview(this, "Invoice", data);
 
-
-       
-        
 // TODO add your handling code here:
     }//GEN-LAST:event_btnPrintActionPerformed
 

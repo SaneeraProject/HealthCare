@@ -6,6 +6,7 @@
 package com.health.main;
 
 import com.database.User;
+import com.health.chat.ChatForm;
 import com.health.clinic.ClinicList;
 import com.health.clinic.ClinicScreen;
 import com.health.doctor.frmPhysician;
@@ -13,6 +14,7 @@ import com.health.patient.PatientScreen;
 import com.health.payment.PaymentScreen;
 import com.health.pharmacy.PharmacyScreen;
 import com.health.token.TokenScreen;
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
@@ -27,6 +29,7 @@ public class frmParent extends javax.swing.JFrame {
      * Creates new form frmParent
      */
     public static User user = null;
+    private ChatForm chatForm1;
 
     public frmParent(User user) {
         this.user = user;
@@ -40,9 +43,10 @@ public class frmParent extends javax.swing.JFrame {
         btnToken.setVisible(false);
         btnPayment.setVisible(false);
         lblUser.setText(user.getUserName());
-        chatForm1.setVisible(false);
         setMinimumSize(new Dimension(600, 600));
         setExtendedState(JFrame.MAXIMIZED_BOTH);
+        chatForm1=new ChatForm();
+        jPanel3.add(chatForm1,BorderLayout.EAST);
         loadbuttons();
         setIconImage(new javax.swing.ImageIcon(getClass().getResource("/icons/logo.png")).getImage());
     }
@@ -85,7 +89,6 @@ public class frmParent extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JToolBar.Separator();
         btnSetting = new javax.swing.JButton();
         jDesktopPane1 = new javax.swing.JDesktopPane();
-        chatForm1 = new com.health.chat.ChatForm();
 
         jMenuItem16.setText("jMenuItem16");
 
@@ -199,7 +202,6 @@ public class frmParent extends javax.swing.JFrame {
         jButton5.setForeground(new java.awt.Color(255, 255, 255));
         jButton5.setText("Logout");
         jButton5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jButton5.setBorderPainted(false);
         jButton5.setFocusable(false);
         jButton5.setMaximumSize(new java.awt.Dimension(100, 23));
         jButton5.setMinimumSize(new java.awt.Dimension(100, 23));
@@ -220,7 +222,6 @@ public class frmParent extends javax.swing.JFrame {
         getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_START);
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel3.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 0, 2, 0, new java.awt.Color(204, 204, 204)));
         jPanel3.setLayout(new java.awt.BorderLayout());
 
         jToolBar1.setBackground(new java.awt.Color(204, 204, 255));
@@ -341,10 +342,8 @@ public class frmParent extends javax.swing.JFrame {
         jPanel3.add(jToolBar1, java.awt.BorderLayout.PAGE_START);
 
         jDesktopPane1.setBackground(new java.awt.Color(255, 255, 255));
-        jDesktopPane1.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 0, 0, 0, new java.awt.Color(204, 204, 204)));
         jDesktopPane1.setLayout(new java.awt.BorderLayout());
         jPanel3.add(jDesktopPane1, java.awt.BorderLayout.CENTER);
-        jPanel3.add(chatForm1, java.awt.BorderLayout.LINE_END);
 
         getContentPane().add(jPanel3, java.awt.BorderLayout.CENTER);
 
@@ -432,7 +431,6 @@ public class frmParent extends javax.swing.JFrame {
     private javax.swing.JButton btnSetting;
     private javax.swing.JButton btnToken;
     private javax.swing.ButtonGroup buttonGroup1;
-    private com.health.chat.ChatForm chatForm1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;

@@ -1791,4 +1791,42 @@ public class DBConfig {
         return i;
     }
 
+    public ArrayList<PrescriptionData> getPrescriptionData(int pid) {
+        ArrayList<PrescriptionData> pList = new ArrayList<PrescriptionData>();
+        Connection con = null;
+        PreparedStatement pst = null;
+        ResultSet rst = null;
+        try {
+            con = getCon();
+            pst = con.prepareStatement("select p.mid,m.name,p.quantity,p.rate,p.take,p.frequency,p.duration from  tblprescriptiondetail p, tblmedicine m where p.prescriptionid=? and p.mid=m.id");
+            pst.setInt(1, pid);
+            rst = pst.executeQuery();
+            while (rst.next()) {
+                PrescriptionData p=new PrescriptionData();
+                p.setMid(rst.getInt("p.mid"));
+                p.setMedication(rst.getString("m.name"));
+                p.setQuantity(rst.getDouble("p.quantity"));
+                p.setRate(rst.getDouble("p.rate"));
+                p.setTake(rst.getString("p.take"));
+                p.setFrequency(rst.getString("p.frequency"));
+                p.setDuration(rst.getString("p.duration"));
+                pList.add(p);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+                if (pst != null) {
+                    pst.close();
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+        return pList;
+    }
+
 }
