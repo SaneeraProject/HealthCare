@@ -30,6 +30,8 @@ public class NewBooking extends javax.swing.JDialog {
     /**
      * Creates new form NewBooking
      */
+    private double[] rate;
+
     public NewBooking(JFrame parent, String b) {
         super(parent, true);
         setModal(true);
@@ -37,6 +39,13 @@ public class NewBooking extends javax.swing.JDialog {
         loadClinics();
         btnSave.setEnabled(false);
         btnPrint.setEnabled(false);
+
+        rate = new DBConfig().getRate();
+        try {
+            tftHfee.setText(String.valueOf(rate[1]));
+        } catch (Exception e) {
+
+        }
 
         if (b != null) {
             tftPid.setText(b);
@@ -203,6 +212,7 @@ public class NewBooking extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
         jPanel1.add(jLabel8, gridBagConstraints);
 
+        tftHfee.setEditable(false);
         tftHfee.setText("0.0");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -214,6 +224,7 @@ public class NewBooking extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
         jPanel1.add(tftHfee, gridBagConstraints);
 
+        tftPFee.setEditable(false);
         tftPFee.setText("0.0");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -344,7 +355,7 @@ public class NewBooking extends javax.swing.JDialog {
                     payment.setPname(p.getName());
                     payment.setPtype("Appointment");
                     payment.setTorp(i);
-                    payment.setAmount(token.getPfee() + token.getHfee());
+                    payment.setAmount(token.getPfee() + token.getHfee() + (token.getPfee() + token.getHfee()) * rate[0] / 100);
                     payment.setStatus("Active");
 
                     int paymentQueue = new DBConfig().savePaymentQueue(payment, false);
@@ -415,7 +426,7 @@ public class NewBooking extends javax.swing.JDialog {
 //        myMap.put("Tax Amount", t.getId()+"");
 
         LinkedHashMap<String, String> footerMap = new LinkedHashMap<String, String>();
-        footerMap.put("Total Amount", payment.getAmount() + "");
+        footerMap.put("Total Amount+Tax " + rate[0], payment.getAmount() + "");
 
         data.setHeaderMap(myMap);
         data.setFooterMap(footerMap);

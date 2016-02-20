@@ -10,6 +10,7 @@ package com.database;
  * @author Ajeet
  */
 public class Patient {
+
     private int id;
     private String name;
     private String age;
@@ -20,6 +21,15 @@ public class Patient {
     private String weight;
     private String financial;
     private String account;
+    private byte[] image;
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
+
+    public byte[] getImage() {
+        return image;
+    }
 
     public int getId() {
         return id;
@@ -100,6 +110,5 @@ public class Patient {
     public void setAccount(String account) {
         this.account = account;
     }
-    
-    
+
 }

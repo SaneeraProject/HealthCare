@@ -82,7 +82,7 @@ public class CMOSTheme extends MetalTheme {
 
 	@Override
 	public FontUIResource getMenuTextFont() {
-		return new FontUIResource(Font.SANS_SERIF, Font.BOLD, 12);
+		return new FontUIResource(Font.SANS_SERIF, Font.PLAIN, 14);
 	}
 
 	@Override

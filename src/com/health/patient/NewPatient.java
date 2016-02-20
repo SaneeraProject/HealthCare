@@ -8,8 +8,14 @@ package com.health.patient;
 import com.database.DBConfig;
 import com.database.Patient;
 import com.health.booking.NewBooking;
+import java.awt.Toolkit;
+import java.io.File;
+import java.io.FileInputStream;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -21,18 +27,19 @@ public class NewPatient extends javax.swing.JDialog {
      * Creates new form NewPatient
      */
     private JFrame parent;
+    private String filePath;
+
     public NewPatient(JFrame parent, boolean modal) {
         super(parent, modal);
-        this.parent=parent;
+        this.parent = parent;
         initComponents();
         btnUpdate.setEnabled(false);
         btnDelete.setEnabled(false);
         btnGenerateToken.setEnabled(false);
         setLocationRelativeTo(parent);
     }
-    
-    
-        public NewPatient(java.awt.Frame parent, boolean modal,Patient p) {
+
+    public NewPatient(java.awt.Frame parent, boolean modal, Patient p) {
         super(parent, modal);
         initComponents();
         btnSave.setEnabled(false);
@@ -74,6 +81,9 @@ public class NewPatient extends javax.swing.JDialog {
         tftHeight = new javax.swing.JTextField();
         cmbFinancial = new javax.swing.JComboBox();
         tftWeight = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
+        tftPath = new javax.swing.JTextField();
+        lblDoc = new javax.swing.JLabel();
         btnSave = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
@@ -101,7 +111,7 @@ public class NewPatient extends javax.swing.JDialog {
         jLabel2.setText("Patient Name : ");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 0.2;
@@ -112,7 +122,7 @@ public class NewPatient extends javax.swing.JDialog {
         jLabel3.setText("Age : ");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 0.2;
@@ -163,7 +173,7 @@ public class NewPatient extends javax.swing.JDialog {
         jPanel1.add(tftId, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 0.8;
@@ -171,7 +181,7 @@ public class NewPatient extends javax.swing.JDialog {
         jPanel1.add(tftName, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 0.8;
@@ -265,6 +275,42 @@ public class NewPatient extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
         jPanel1.add(tftWeight, gridBagConstraints);
 
+        jButton1.setText("Browse Photo");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 15;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
+        jPanel1.add(jButton1, gridBagConstraints);
+
+        tftPath.setEditable(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 15;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
+        jPanel1.add(tftPath, gridBagConstraints);
+
+        lblDoc.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblDoc.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        lblDoc.setMaximumSize(new java.awt.Dimension(50, 50));
+        lblDoc.setMinimumSize(new java.awt.Dimension(50, 50));
+        lblDoc.setPreferredSize(new java.awt.Dimension(50, 50));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridheight = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.ipadx = 10;
+        gridBagConstraints.ipady = 10;
+        gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
+        jPanel1.add(lblDoc, gridBagConstraints);
+
         btnSave.setText("Save");
         btnSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -340,7 +386,13 @@ public class NewPatient extends javax.swing.JDialog {
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
 
         try {
-
+            byte b[] = null;
+            if (filePath != null) {
+                FileInputStream fileInputStream = new FileInputStream(filePath);
+                b = new byte[fileInputStream.available()];
+                fileInputStream.read(b);
+                fileInputStream.close();
+            }
             String pid = tftId.getText();
             String name = tftName.getText();
             String age = tftAge.getText();
@@ -361,6 +413,7 @@ public class NewPatient extends javax.swing.JDialog {
             p.setWeight(weight);
             p.setFinancial(financial);
             p.setAccount(account);
+            p.setImage(b);
 
             int i = new DBConfig().savePatient(p, false);
             if (i > 0) {
@@ -384,6 +437,13 @@ public class NewPatient extends javax.swing.JDialog {
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         try {
+            byte b[] = null;
+            if (filePath != null) {
+                FileInputStream fileInputStream = new FileInputStream(filePath);
+                b = new byte[fileInputStream.available()];
+                fileInputStream.read(b);
+                fileInputStream.close();
+            }
             String pid = tftId.getText();
             String name = tftName.getText();
             String age = tftAge.getText();
@@ -405,7 +465,7 @@ public class NewPatient extends javax.swing.JDialog {
             p.setWeight(weight);
             p.setFinancial(financial);
             p.setAccount(account);
-
+            p.setImage(b);
             int i = new DBConfig().savePatient(p, true);
             if (i > 0) {
                 btnSave.setEnabled(false);
@@ -425,11 +485,34 @@ public class NewPatient extends javax.swing.JDialog {
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnGenerateTokenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerateTokenActionPerformed
-        
-        String pid=tftId.getText();
-        NewBooking b=new NewBooking(parent,pid);
-        
+
+        String pid = tftId.getText();
+        NewBooking b = new NewBooking(parent, pid);
+
     }//GEN-LAST:event_btnGenerateTokenActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        JFileChooser chooser = new JFileChooser();
+
+        chooser.setFileFilter(new FileNameExtensionFilter("Image file", new String[]{"PNG", "JPG", "JPEG", "BMP"}));
+        chooser.setMultiSelectionEnabled(false);
+        chooser.setVisible(true);
+
+        chooser.showOpenDialog(this);
+
+        File file = chooser.getSelectedFile();
+        try {
+            if (file != null) {
+                filePath = file.getPath();
+            }
+            if (filePath != null) {
+                tftPath.setText("File:" + " " + filePath);
+                lblDoc.setIcon(new ImageIcon(filePath));
+            }
+        } catch (Exception ex) {
+
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -440,6 +523,7 @@ public class NewPatient extends javax.swing.JDialog {
     private javax.swing.JButton btnUpdate;
     private javax.swing.JComboBox cmbFinancial;
     private javax.swing.JComboBox cmbMarried;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
@@ -451,6 +535,7 @@ public class NewPatient extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel lblDoc;
     private javax.swing.JTextField tftAccount;
     private javax.swing.JTextField tftAge;
     private javax.swing.JTextField tftBlood;
@@ -458,6 +543,7 @@ public class NewPatient extends javax.swing.JDialog {
     private javax.swing.JTextField tftHeight;
     private javax.swing.JTextField tftId;
     private javax.swing.JTextField tftName;
+    private javax.swing.JTextField tftPath;
     private javax.swing.JTextField tftWeight;
     // End of variables declaration//GEN-END:variables
 
@@ -467,6 +553,9 @@ public class NewPatient extends javax.swing.JDialog {
         tftAge.setText(p.getAge());
         tftContact.setText(p.getContact());
         cmbMarried.setSelectedItem(p.getMarried());
+        if(p.getImage()!=null){
+            lblDoc.setIcon(new ImageIcon (Toolkit.getDefaultToolkit().createImage(p.getImage())));
+        }
         tftBlood.setText(p.getBlood());
         tftHeight.setText(p.getHeight());
         tftWeight.setText(p.getWeight());

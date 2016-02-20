@@ -79,7 +79,7 @@ public class PrescriptionDetail extends javax.swing.JDialog {
     }
 
     public void load() {
-        SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy HH:MM:SS");
+        SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss a");
         tftDate.setText(fmt.format(p.getDated()));
         tftPhysician.setText(p.getPhysicianname());
         tftPrescriptionID.setText(p.getPrescriptionid() + "");

@@ -134,6 +134,11 @@ public class frmLogin extends javax.swing.JDialog {
         lblForget.setForeground(new java.awt.Color(51, 51, 255));
         lblForget.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblForget.setText("Forget password? ");
+        lblForget.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblForgetMouseClicked(evt);
+            }
+        });
         jPanel4.add(lblForget);
 
         btnLogin.setText("Login");
@@ -178,6 +183,12 @@ public class frmLogin extends javax.swing.JDialog {
     private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
         System.exit(0);        // TODO add your handling code here:
     }//GEN-LAST:event_btnExitActionPerformed
+
+    private void lblForgetMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblForgetMouseClicked
+        
+        new ForgetPassword(null, true).setVisible(true);
+        
+    }//GEN-LAST:event_lblForgetMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -121,13 +121,10 @@ public class PharmacyScreen extends javax.swing.JInternalFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
+
             },
             new String [] {
-                "Queue no", "Patient ID", "Patient Name", "Prescription Id", "Doc Id", "Doc Name", "Token No", "Link"
+                "Queue no", "Patient ID", "Patient Name", "Prescription Id", "Doc Id", "Doc Name", "Token No"
             }
         ));
         jTable1.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);

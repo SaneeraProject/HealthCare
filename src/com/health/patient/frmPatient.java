@@ -67,11 +67,14 @@ public class frmPatient extends javax.swing.JDialog {
         model.addColumn("Date & Time");
         model.addColumn("Ordering Physician");
         model.addColumn("Details");
+        model.addColumn("Total");
         SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy HH:MM");
-        ArrayList<Prescription> dList = new DBConfig().getPrescription(token.getId());
+        DBConfig db = new DBConfig();
+        ArrayList<Prescription> dList = db.getPrescription(token.getId());
 
         for (Prescription d : dList) {
-            model.insertRow(model.getRowCount(), new Object[]{d.getPrescriptionid(), fmt.format(d.getDated()), d.getPhysicianname(), d.getStatus()});
+            double amount=db.getPrescriptionAmount(d.getPrescriptionid());
+            model.insertRow(model.getRowCount(), new Object[]{d.getPrescriptionid(), fmt.format(d.getDated()), d.getPhysicianname(), d.getStatus(),amount});
             btnAddPrescription.setEnabled(false);
         }
 
@@ -604,7 +607,7 @@ public class frmPatient extends javax.swing.JDialog {
 
             },
             new String [] {
-                "ID", "Date and time", "Ordering physician", "Details"
+                "ID", "Date and time", "Ordering physician", "Details", "Total"
             }
         ));
         jScrollPane3.setViewportView(tblPrescription);
@@ -725,7 +728,11 @@ public class frmPatient extends javax.swing.JDialog {
             payment.setPname(patient.getName());
             payment.setPtype("Prescription");
             payment.setTorp(token.getId());
-            payment.setAmount(token.getPfee() + token.getHfee());
+            double amount=0;
+            if(tblPrescription.getRowCount()>0){
+                amount=Double.parseDouble(tblPrescription.getValueAt(0, 4).toString());
+            }
+            payment.setAmount(amount);
             payment.setStatus("Active");
             int paymentQueue = new DBConfig().savePaymentQueue(payment, false);
         }
@@ -741,6 +748,7 @@ public class frmPatient extends javax.swing.JDialog {
         int pid = Integer.parseInt(tblPrescription.getValueAt(i, 0).toString());
         Prescription p = new DBConfig().getPrescriptionByID(pid);
         new PrescriptionDetail((Frame) getParent(), true, p).setVisible(true);
+        loadPrescriptions();
     }//GEN-LAST:event_btnEditPrescriptionActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed

@@ -89,6 +89,57 @@ public class DBConfig {
                     user.setId(rst.getInt("id"));
                     user.setUserName(rst.getString("username"));
                     user.setFullName(rst.getString("fullname"));
+                    user.setQuestion(rst.getString("question"));
+                    user.setAnswer(rst.getString("answer"));
+                    user.setType(rst.getString("type"));
+                    user.setDated(rst.getDate("dated"));
+                }
+            } else {
+
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+                if (pst != null) {
+                    pst.close();
+                }
+                if (rst != null) {
+                    rst.close();
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+
+        return user;
+    }
+
+    public User getUserByQA(String u, String q, String a) {
+        User user = null;
+        Connection con = null;
+        PreparedStatement pst = null;
+        ResultSet rst = null;
+        try {
+            con = getCon();
+            pst = con.prepareStatement("select * from tbluser where username=? and question=? and answer=?");
+            pst.setString(1, u);
+            pst.setString(2, q);
+            pst.setString(3, a);
+
+            rst = pst.executeQuery();
+            if (rst != null) {
+                while (rst.next()) {
+                    user = new User();
+                    user.setId(rst.getInt("id"));
+                    user.setUserName(rst.getString("username"));
+                    user.setFullName(rst.getString("fullname"));
+                    user.setPassword(rst.getString("password"));
+                    user.setQuestion(rst.getString("question"));
+                    user.setAnswer(rst.getString("answer"));
                     user.setType(rst.getString("type"));
                     user.setDated(rst.getDate("dated"));
                 }
@@ -183,6 +234,69 @@ public class DBConfig {
             }
         }
         return i;
+    }
+
+    public int saveRate(double rate, double fees) {
+        int i = 0;
+        Connection con = null;
+        PreparedStatement pst = null;
+        try {
+            con = getCon();
+            pst = con.prepareStatement("update tblrate set rate=?, fees=?");
+            pst.setDouble(1, rate);
+            pst.setDouble(2, fees);
+
+            i = pst.executeUpdate();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+                if (pst != null) {
+                    pst.close();
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+        return i;
+    }
+
+    public double[] getRate() {
+        double d[] = new double[2];
+        Connection con = null;
+        PreparedStatement pst = null;
+        ResultSet rst = null;
+        try {
+            con = getCon();
+            pst = con.prepareStatement("SELECT rate,fees from tblrate");
+            rst = pst.executeQuery();
+            while (rst.next()) {
+                d[0] = rst.getDouble("rate");
+                d[1] = rst.getDouble("fees");
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+                if (pst != null) {
+                    pst.close();
+                }
+                if (rst != null) {
+                    rst.close();
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+
+        return d;
     }
 
     public ArrayList<Speciality> getSpeciality() {
@@ -625,7 +739,7 @@ public class DBConfig {
         try {
             con = getCon();
             if (!b) {
-                pst = con.prepareStatement("insert into tblpatient(id,name,age,contact,married,bloodgroup,height,weight,financialstatus,account,dated) values(NULL,?,?,?,?,?,?,?,?,?,NOW())", PreparedStatement.RETURN_GENERATED_KEYS);
+                pst = con.prepareStatement("insert into tblpatient(id,name,age,contact,married,bloodgroup,height,weight,financialstatus,account,image,dated) values(NULL,?,?,?,?,?,?,?,?,?,?,NOW())", PreparedStatement.RETURN_GENERATED_KEYS);
                 pst.setString(1, p.getName());
                 pst.setString(2, p.getAge());
                 pst.setString(3, p.getContact());
@@ -635,9 +749,10 @@ public class DBConfig {
                 pst.setString(7, p.getWeight());
                 pst.setString(8, p.getFinancial());
                 pst.setString(9, p.getAccount());
+                pst.setBytes(10, p.getImage());
             } else {
                 pst = con.prepareStatement("update tblpatient set name=?,age=?,contact=?,married=?,bloodgroup=?,height=?,weight=?,financialstatus=?,"
-                        + "account=? where id=?");
+                        + "account=?,image=? where id=?");
                 pst.setString(1, p.getName());
                 pst.setString(2, p.getAge());
                 pst.setString(3, p.getContact());
@@ -647,7 +762,8 @@ public class DBConfig {
                 pst.setString(7, p.getWeight());
                 pst.setString(8, p.getFinancial());
                 pst.setString(9, p.getAccount());
-                pst.setInt(10, p.getId());
+                pst.setBytes(10, p.getImage());
+                pst.setInt(11, p.getId());
             }
             i = pst.executeUpdate();
             if (!b) {
@@ -691,6 +807,7 @@ public class DBConfig {
                 p.setName(rst.getString("name"));
                 p.setContact(rst.getString("contact"));
                 p.setAge(rst.getString("age"));
+                p.setImage(rst.getBytes("image"));
                 p.setMarried(rst.getString("married"));
                 p.setBlood(rst.getString("bloodgroup"));
                 p.setHeight(rst.getString("height"));
@@ -1802,7 +1919,7 @@ public class DBConfig {
             pst.setInt(1, pid);
             rst = pst.executeQuery();
             while (rst.next()) {
-                PrescriptionData p=new PrescriptionData();
+                PrescriptionData p = new PrescriptionData();
                 p.setMid(rst.getInt("p.mid"));
                 p.setMedication(rst.getString("m.name"));
                 p.setQuantity(rst.getDouble("p.quantity"));
@@ -1827,6 +1944,73 @@ public class DBConfig {
             }
         }
         return pList;
+    }
+
+    public double getPrescriptionAmount(int pid) {
+        double amount = 0;
+
+        Connection con = null;
+        PreparedStatement pst = null;
+        ResultSet rst = null;
+        try {
+            con = getCon();
+            pst = con.prepareStatement("select quantity, rate from  tblprescriptiondetail where prescriptionid=?");
+            pst.setInt(1, pid);
+            rst = pst.executeQuery();
+            while (rst.next()) {
+                double q = rst.getDouble("quantity");
+                double r = rst.getDouble("rate");
+                amount = amount + (q * r);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+                if (pst != null) {
+                    pst.close();
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+
+        return amount;
+    }
+
+    public int updateUser(String u, String n, String q, String a) {
+
+        int i = 0;
+        Connection con = null;
+        PreparedStatement pst = null;
+        try {
+            con = getCon();
+
+            pst = con.prepareStatement("update tbluser set password=?,question=?,answer=? where username=?");
+            pst.setString(1, n);
+            pst.setString(2, q);
+            pst.setString(3, a);
+            pst.setString(4, u);
+
+            i = pst.executeUpdate();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+                if (pst != null) {
+                    pst.close();
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+        return i;
+
     }
 
 }

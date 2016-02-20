@@ -18,6 +18,8 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
+import javax.swing.JRootPane;
+import javax.swing.plaf.basic.BasicInternalFrameUI;
 
 /**
  *
@@ -68,8 +70,6 @@ public class frmParent extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jProgressBar1 = new javax.swing.JProgressBar();
         jSeparator2 = new javax.swing.JToolBar.Separator();
-        jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
         jPanel1 = new CustomHeader();
         jLabel3 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
@@ -106,15 +106,6 @@ public class frmParent extends javax.swing.JFrame {
         jProgressBar1.setMinimumSize(new java.awt.Dimension(146, 14));
         jToolBar2.add(jProgressBar1);
         jToolBar2.add(jSeparator2);
-
-        jLabel2.setText("Tax Rate : ");
-        jToolBar2.add(jLabel2);
-
-        jTextField1.setText("0.0");
-        jTextField1.setMaximumSize(new java.awt.Dimension(100, 20));
-        jTextField1.setMinimumSize(new java.awt.Dimension(100, 20));
-        jTextField1.setPreferredSize(new java.awt.Dimension(100, 20));
-        jToolBar2.add(jTextField1);
 
         getContentPane().add(jToolBar2, java.awt.BorderLayout.PAGE_END);
 
@@ -223,8 +214,6 @@ public class frmParent extends javax.swing.JFrame {
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setLayout(new java.awt.BorderLayout());
-
-        jToolBar1.setBackground(new java.awt.Color(204, 204, 255));
 
         btnPatient.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/small/Picture2.png"))); // NOI18N
         btnPatient.setToolTipText("Patients");
@@ -437,7 +426,6 @@ public class frmParent extends javax.swing.JFrame {
     private javax.swing.JButton jButton5;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JMenu jMenu6;
     private javax.swing.JMenuItem jMenuItem16;
@@ -446,7 +434,6 @@ public class frmParent extends javax.swing.JFrame {
     private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JToolBar.Separator jSeparator1;
     private javax.swing.JToolBar.Separator jSeparator2;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JToolBar jToolBar2;
     private javax.swing.JLabel lblUser;
