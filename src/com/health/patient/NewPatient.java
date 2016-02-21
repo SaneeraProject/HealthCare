@@ -39,13 +39,13 @@ public class NewPatient extends javax.swing.JDialog {
         setLocationRelativeTo(parent);
     }
 
-    public NewPatient(java.awt.Frame parent, boolean modal, Patient p) {
+    public NewPatient(java.awt.Frame parent, boolean modal, Patient p,boolean edit) {
         super(parent, modal);
         initComponents();
         btnSave.setEnabled(false);
-        btnUpdate.setEnabled(true);
-        btnDelete.setEnabled(true);
-        btnGenerateToken.setEnabled(true);
+        btnUpdate.setEnabled(edit);
+        btnDelete.setEnabled(edit);
+        btnGenerateToken.setEnabled(edit);
         loadPatint(p);
         setLocationRelativeTo(parent);
     }

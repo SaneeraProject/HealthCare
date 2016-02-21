@@ -7,6 +7,7 @@ package com.health.token;
 
 import com.database.DBConfig;
 import com.database.Payment;
+import com.database.PharmacyQueue;
 import com.database.Token;
 import java.awt.Dimension;
 import java.awt.Image;
@@ -211,19 +212,26 @@ public class TokenScreen extends javax.swing.JFrame implements Runnable, WindowL
             }
         }
         jTable2.setModel(model);
-//
-//        model = new DefaultTableModel();
-//        model.addColumn("Token No");
-//        model.addColumn("Patient ID");
-//        model.addColumn("Patient Name");
-//        for (Token t : tList) {
-//            if (t.getBtoken().equals("Active")) {
-//                model.insertRow(model.getRowCount(), new Object[]{t.getId(), t.getPid(), t.getPname()});
-//            }
-//        }
-//        jTable3.setModel(model);
+
+        model = new DefaultTableModel();
+        model.addColumn("Queue ID");
+        model.addColumn("Patient ID");
+        model.addColumn("Prescription ID");
+        model.addColumn("Status");
+        model.addColumn("Dated");
+
+        ArrayList<PharmacyQueue> dList = new DBConfig().getPharmacyQueue();
+
+        for (PharmacyQueue d : dList) {
+            model.insertRow(model.getRowCount(), new Object[]{
+                d.getId(), d.getPatientid(), d.getPrescriptionid(), d.getStatus(), d.getDated()});
+        }
+
+        jTable3.setModel(model);
     }
 
+    
+    
     @Override
     public void run() {
         while (true) {

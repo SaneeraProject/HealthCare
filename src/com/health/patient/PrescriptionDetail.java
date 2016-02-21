@@ -5,12 +5,10 @@
  */
 package com.health.patient;
 
-import com.database.Clinic;
 import com.database.DBConfig;
 import com.database.MedicineStock;
 import com.database.Prescription;
 import com.database.PrescriptionData;
-import com.database.Token;
 import com.health.preview.Preview;
 import com.health.preview.PreviewData;
 import java.awt.Dimension;
@@ -37,7 +35,7 @@ public class PrescriptionDetail extends javax.swing.JDialog {
      */
     private Prescription p;
 
-    public PrescriptionDetail(java.awt.Frame parent, boolean modal, Prescription p) {
+    public PrescriptionDetail(java.awt.Frame parent, boolean modal, Prescription p,boolean edit) {
         super(parent, modal);
         this.p = p;
         initComponents();
@@ -76,6 +74,9 @@ public class PrescriptionDetail extends javax.swing.JDialog {
         col1.setMinWidth(200);
         col1.setCellEditor(new DefaultCellEditor(cmbFrequency));
 
+//        if(edit){
+            btnSave.setEnabled(edit);
+//        }
     }
 
     public void load() {

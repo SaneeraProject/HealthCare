@@ -928,6 +928,51 @@ public class DBConfig {
 
         return cList;
     }
+    
+    public ArrayList<Token> getTokenByPID(int id) {
+        ArrayList<Token> cList = new ArrayList<Token>();
+        Connection con = null;
+        PreparedStatement pst = null;
+        ResultSet rst = null;
+        try {
+            con = getCon();
+            pst = con.prepareStatement("SELECT a.tid, a.did, a.pid, a.ctoken, a.ptoken, a.btoken,a.dated,"
+                    + "b.name, c.fullname from tbltoken a,tblpatient b,tblphysician c where a.pid = b.id AND a.did=c.id and a.cid=?");
+            pst.setInt(1, id);
+            rst = pst.executeQuery();
+            while (rst.next()) {
+                Token c = new Token();
+                c.setId(rst.getInt("tid"));
+                c.setPid(rst.getInt("pid"));
+                c.setPname(rst.getString("name"));
+                c.setDocname(rst.getString("fullname"));
+                c.setCtoken(rst.getString("ctoken"));
+                c.setPtoken(rst.getString("ptoken"));
+                c.setBtoken(rst.getString("btoken"));
+                c.setTiming(rst.getDate("dated"));
+                cList.add(c);
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+                if (pst != null) {
+                    pst.close();
+                }
+                if (rst != null) {
+                    rst.close();
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+
+        return cList;
+    }
 
     public Token getTokenByID(int id) {
         Token c = null;
@@ -1500,6 +1545,91 @@ public class DBConfig {
         return i;
     }
 
+    public int savePharmacyQueue(PharmacyQueue p, boolean b) {
+        int i = 0;
+        Connection con = null;
+        PreparedStatement pst = null;
+        try {
+            con = getCon();
+            if (!b) {
+                pst = con.prepareStatement("insert into tblpharmacyqueue(id,pid,prescriptionid,status,dated)"
+                        + " values(NULL,?,?,?,NOW())", PreparedStatement.RETURN_GENERATED_KEYS);
+                pst.setInt(1, p.getPatientid());
+                pst.setInt(2, p.getPrescriptionid());
+                pst.setString(3, p.getStatus());
+            } else {
+                pst = con.prepareStatement("update tblpharmacyqueue set pid=?,prescriptionid=?,status=? where id=?");
+                pst.setInt(1, p.getPatientid());
+                pst.setInt(2, p.getPrescriptionid());
+                pst.setString(3, p.getStatus());
+                pst.setInt(4, p.getId());
+            }
+            i = pst.executeUpdate();
+            if (!b) {
+                ResultSet rs = pst.getGeneratedKeys();
+                while (rs.next()) {
+                    i = rs.getInt(1);
+                }
+                rs.close();
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+                if (pst != null) {
+                    pst.close();
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+        return i;
+    }
+
+    public ArrayList<PharmacyQueue> getPharmacyQueue() {
+        ArrayList<PharmacyQueue> dList = new ArrayList<PharmacyQueue>();
+        Connection con = null;
+        PreparedStatement pst = null;
+        ResultSet rst = null;
+        try {
+            con = getCon();
+            pst = con.prepareStatement("select * from tblpharmacyqueue where status='Active'");
+            rst = pst.executeQuery();
+            while (rst.next()) {
+                PharmacyQueue c = new PharmacyQueue();
+                c.setId(rst.getInt("id"));
+                c.setPatientid(rst.getInt("pid"));
+                c.setPrescriptionid(rst.getInt("prescriptionid"));
+                c.setStatus(rst.getString("status"));
+                c.setDated(rst.getDate("dated"));
+                dList.add(c);
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+                if (pst != null) {
+                    pst.close();
+                }
+                if (rst != null) {
+                    rst.close();
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+
+        return dList;
+    }
+
     public ArrayList<Payment> getPaymentQueue() {
         ArrayList<Payment> dList = new ArrayList<Payment>();
         Connection con = null;
@@ -1543,6 +1673,54 @@ public class DBConfig {
 
         return dList;
     }
+    
+    
+    public ArrayList<Payment> getPaymentQueue(int pid) {
+        ArrayList<Payment> dList = new ArrayList<Payment>();
+        Connection con = null;
+        PreparedStatement pst = null;
+        ResultSet rst = null;
+        try {
+            con = getCon();
+            pst = con.prepareStatement("select * from tblpayment where pid=?");
+            pst.setInt(1, pid);
+            rst = pst.executeQuery();
+            while (rst.next()) {
+                Payment c = new Payment();
+                c.setId(rst.getInt("id"));
+                c.setPid(rst.getInt("pid"));
+                c.setPname(rst.getString("pname"));
+                c.setPtype(rst.getString("ptype"));
+                c.setTorp(rst.getInt("torp"));
+                c.setAmount(rst.getDouble("amount"));
+                c.setRecieved(rst.getDouble("recieved"));
+                c.setStatus(rst.getString("status"));
+                c.setDated(rst.getDate("dated"));
+                dList.add(c);
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+                if (pst != null) {
+                    pst.close();
+                }
+                if (rst != null) {
+                    rst.close();
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+
+        return dList;
+    }
+    
+    
 
     public Payment getPaymentQueueByID(int parseInt) {
         Payment c = null;

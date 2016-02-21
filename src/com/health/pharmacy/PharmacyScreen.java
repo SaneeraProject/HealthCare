@@ -9,6 +9,14 @@ import com.database.DBConfig;
 import com.database.Medicine;
 import com.database.MedicineData;
 import com.database.MedicineStock;
+import com.database.Patient;
+import com.database.Payment;
+import com.database.PharmacyQueue;
+import com.database.Prescription;
+import com.health.patient.NewPatient;
+import com.health.patient.PatientScreen;
+import com.health.patient.PrescriptionDetail;
+import java.awt.Frame;
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
@@ -31,7 +39,26 @@ public class PharmacyScreen extends javax.swing.JInternalFrame {
         loadMedicine();
         loadStocks();
         this.parent = parent;
+        loadDiagnosys();
         setVisible(true);
+    }
+
+    private void loadDiagnosys() {
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("Queue ID");
+        model.addColumn("Patient ID");
+        model.addColumn("Prescription ID");
+        model.addColumn("Status");
+        model.addColumn("Dated");
+
+        ArrayList<PharmacyQueue> dList = new DBConfig().getPharmacyQueue();
+
+        for (PharmacyQueue d : dList) {
+            model.insertRow(model.getRowCount(), new Object[]{
+                d.getId(), d.getPatientid(), d.getPrescriptionid(), d.getStatus(), d.getDated()});
+        }
+
+        tblPharmacyQueue.setModel(model);
     }
 
     public void loadStocks() {
@@ -74,7 +101,7 @@ public class PharmacyScreen extends javax.swing.JInternalFrame {
         jSeparator1 = new javax.swing.JToolBar.Separator();
         jButton7 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblPharmacyQueue = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblStock = new javax.swing.JTable();
@@ -105,6 +132,11 @@ public class PharmacyScreen extends javax.swing.JInternalFrame {
         jButton6.setFocusable(false);
         jButton6.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton6.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
         jToolBar1.add(jButton6);
         jToolBar1.add(jSeparator1);
 
@@ -112,6 +144,11 @@ public class PharmacyScreen extends javax.swing.JInternalFrame {
         jButton7.setFocusable(false);
         jButton7.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton7.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
         jToolBar1.add(jButton7);
 
         jPanel2.add(jToolBar1, java.awt.BorderLayout.PAGE_START);
@@ -119,7 +156,7 @@ public class PharmacyScreen extends javax.swing.JInternalFrame {
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblPharmacyQueue.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -127,8 +164,8 @@ public class PharmacyScreen extends javax.swing.JInternalFrame {
                 "Queue no", "Patient ID", "Patient Name", "Prescription Id", "Doc Id", "Doc Name", "Token No"
             }
         ));
-        jTable1.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
-        jScrollPane1.setViewportView(jTable1);
+        tblPharmacyQueue.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        jScrollPane1.setViewportView(tblPharmacyQueue);
 
         jPanel2.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
@@ -324,6 +361,38 @@ public class PharmacyScreen extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_btnRefreshActionPerformed
 
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+
+        int i = tblPharmacyQueue.getSelectedRow();
+        if (i < 0) {
+            return;
+        }
+        int pid = Integer.parseInt(tblPharmacyQueue.getValueAt(i, 2).toString());
+        Prescription p = new DBConfig().getPrescriptionByID(pid);
+        new PrescriptionDetail(parent, true, p, false).setVisible(true);
+// TODO add your handling code here:
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        try {
+            int i = tblPharmacyQueue.getSelectedRow();
+            if (i < 0) {
+                return;
+            }
+            int pid = Integer.parseInt(tblPharmacyQueue.getValueAt(i, 1).toString());
+            Patient c = new DBConfig().getPatientById(pid);
+            if (c != null) {
+                new NewPatient(parent, true, c,false).setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(this, "Patient not exists!", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Wrong patient id!", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+// TODO add your handling code here:
+    }//GEN-LAST:event_jButton6ActionPerformed
+
     public void refresh() {
         tftId.setText("#");
         cmbMedicine.setSelectedIndex(0);
@@ -347,9 +416,9 @@ public class PharmacyScreen extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JToolBar.Separator jSeparator1;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JToolBar jToolBar1;
+    private javax.swing.JTable tblPharmacyQueue;
     private javax.swing.JTable tblStock;
     private javax.swing.JTextField tftId;
     private javax.swing.JTextField tftQuantity;

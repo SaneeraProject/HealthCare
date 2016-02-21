@@ -21,12 +21,7 @@ public class HealthCare {
         MetalLookAndFeel lf = new MetalLookAndFeel();
         lf.setCurrentTheme(Theme.AQUA);
         lf.initialize();
-//        try {
-//            UIManager.setLookAndFeel(new AcrylLookAndFeel());
-//        } catch (Exception ex) {
-//        }
-//
-//        new MainPanel().createAndShowGUI();
+        
         new com.health.main.frmLogin(null, true).setVisible(true);
     }
 

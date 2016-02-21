@@ -6,10 +6,8 @@
 package com.health.payment;
 
 import com.database.DBConfig;
-import com.database.DiagnosysData;
 import com.database.Payment;
 import java.awt.print.PrinterException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;

@@ -10,6 +10,7 @@ import com.database.DiagnosysData;
 import com.database.Document;
 import com.database.Patient;
 import com.database.Payment;
+import com.database.PharmacyQueue;
 import com.database.Prescription;
 import com.database.Token;
 import com.health.diagnosis.Diagnosis;
@@ -73,8 +74,8 @@ public class frmPatient extends javax.swing.JDialog {
         ArrayList<Prescription> dList = db.getPrescription(token.getId());
 
         for (Prescription d : dList) {
-            double amount=db.getPrescriptionAmount(d.getPrescriptionid());
-            model.insertRow(model.getRowCount(), new Object[]{d.getPrescriptionid(), fmt.format(d.getDated()), d.getPhysicianname(), d.getStatus(),amount});
+            double amount = db.getPrescriptionAmount(d.getPrescriptionid());
+            model.insertRow(model.getRowCount(), new Object[]{d.getPrescriptionid(), fmt.format(d.getDated()), d.getPhysicianname(), d.getStatus(), amount});
             btnAddPrescription.setEnabled(false);
         }
 
@@ -727,14 +728,20 @@ public class frmPatient extends javax.swing.JDialog {
             payment.setPid(patient.getId());
             payment.setPname(patient.getName());
             payment.setPtype("Prescription");
-            payment.setTorp(token.getId());
-            double amount=0;
-            if(tblPrescription.getRowCount()>0){
-                amount=Double.parseDouble(tblPrescription.getValueAt(0, 4).toString());
+            payment.setTorp(Integer.parseInt(tblPrescription.getValueAt(0, 0).toString()));
+            double amount = 0;
+            if (tblPrescription.getRowCount() > 0) {
+                amount = Double.parseDouble(tblPrescription.getValueAt(0, 4).toString());
             }
             payment.setAmount(amount);
             payment.setStatus("Active");
             int paymentQueue = new DBConfig().savePaymentQueue(payment, false);
+            PharmacyQueue queue = new PharmacyQueue();
+            queue.setPatientid(patient.getId());
+            queue.setPrescriptionid(Integer.parseInt(tblPrescription.getValueAt(0, 0).toString()));
+            queue.setStatus("Active");
+            int pharmacyQueue = new DBConfig().savePharmacyQueue(queue, false);
+            dispose();
         }
 
     }//GEN-LAST:event_jButton4ActionPerformed
@@ -747,7 +754,7 @@ public class frmPatient extends javax.swing.JDialog {
         }
         int pid = Integer.parseInt(tblPrescription.getValueAt(i, 0).toString());
         Prescription p = new DBConfig().getPrescriptionByID(pid);
-        new PrescriptionDetail((Frame) getParent(), true, p).setVisible(true);
+        new PrescriptionDetail((Frame) getParent(), true, p,true).setVisible(true);
         loadPrescriptions();
     }//GEN-LAST:event_btnEditPrescriptionActionPerformed
 
@@ -787,7 +794,7 @@ public class frmPatient extends javax.swing.JDialog {
             p.setStatus("Active");
             int i = new DBConfig().addPrescription(p, false);
             loadPrescriptions();
-            
+
         } catch (Exception ex) {
 
         }

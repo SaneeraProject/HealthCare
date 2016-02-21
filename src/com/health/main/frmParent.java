@@ -19,6 +19,7 @@ import java.awt.Dimension;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JRootPane;
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 
 /**
@@ -88,7 +89,13 @@ public class frmParent extends javax.swing.JFrame {
         btnPayment = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JToolBar.Separator();
         btnSetting = new javax.swing.JButton();
-        jDesktopPane1 = new javax.swing.JDesktopPane();
+        jDesktopPane1 = new javax.swing.JDesktopPane(){
+            public void add(JInternalFrame frame){
+                BasicInternalFrameTitlePane pane=(BasicInternalFrameTitlePane)((BasicInternalFrameUI)frame.getUI()).getNorthPane();
+                frame.remove(pane);
+                super.add(frame);
+            }
+        };
 
         jMenuItem16.setText("jMenuItem16");
 

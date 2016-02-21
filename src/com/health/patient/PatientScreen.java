@@ -120,7 +120,7 @@ public class PatientScreen extends javax.swing.JInternalFrame {
             int cid = Integer.parseInt(tftId.getText());
             Patient c = new DBConfig().getPatientById(cid);
             if (c != null) {
-                new NewPatient(parent, true, c).setVisible(true);
+                new NewPatient(parent, true, c,true).setVisible(true);
             } else {
                 JOptionPane.showMessageDialog(PatientScreen.this, "Patient not exists!", "Error", JOptionPane.ERROR_MESSAGE);
             }
